@@ -4,6 +4,16 @@
 /// - Automatic encoding detection and conversion
 /// - AI-powered subtitle synchronization
 /// - Hash-based matching for perfect alignment
+/// 
+//! Supported subtitle sources:
+/// - NapiProjekt (Polish)
+/// - Napisy24 (Polish)
+/// - OpenSubtitles (International)
+/// - Subscene (International)
+/// - Addic7ed (TV shows)
+/// - Podnapisi (European)
+/// - YIFY Subtitles (Movies)
+/// - Subtitulos (Spanish)
 
 use anyhow::Result;
 use std::collections::HashMap;
@@ -17,6 +27,19 @@ pub mod encoding;
 
 use aggregator::SubtitleAggregator;
 use parser::{SubtitleFormat, SubtitleTrack};
+
+// Re-export subtitle sources for convenience
+pub use sources::{
+    NapiProjekt,
+    Napisy24,
+    OpenSubtitles,
+    Subscene,
+    Addic7ed,
+    Podnapisi,
+    YifySubtitles,
+    Subtitulos,
+    SubtitleSource,
+};
 
 /// Vantis Babel - Subtitle Engine
 pub struct VantisBabel {

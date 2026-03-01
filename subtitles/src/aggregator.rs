@@ -4,12 +4,17 @@
 /// - NapiProjekt
 /// - Napisy24
 /// - OpenSubtitles
+/// - Subscene
+/// - Addic7ed
+/// - Podnapisi
+/// - YIFY Subtitles
+/// - Subtitulos
 
 use anyhow::{Result, anyhow};
 use std::collections::HashMap;
 use tokio::task::JoinSet;
 
-use crate::sources::{NapiProjekt, Napisy24, OpenSubtitles, SubtitleSource};
+use crate::sources::{NapiProjekt, Napisy24, OpenSubtitles, Subscene, Addic7ed, Podnapisi, YifySubtitles, Subtitulos, SubtitleSource};
 use crate::parser::SubtitleTrack;
 
 /// Subtitle aggregator
@@ -25,6 +30,11 @@ impl SubtitleAggregator {
             Box::new(NapiProjekt::new()?),
             Box::new(Napisy24::new()?),
             Box::new(OpenSubtitles::new()?),
+            Box::new(Subscene::new()?),
+            Box::new(Addic7ed::new()?),
+            Box::new(Podnapisi::new()?),
+            Box::new(YifySubtitles::new()?),
+            Box::new(Subtitulos::new()?),
         ];
         
         Ok(Self { sources })
