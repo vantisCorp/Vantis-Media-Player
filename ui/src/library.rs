@@ -145,3 +145,47 @@ impl Default for LibraryState {
         Self::new()
     }
 }
+use iced::widget::{button, column, container, row, text, text_input, Space};
+use iced::{Element, Length};
+
+/// View the library
+pub fn view_library(state: &LibraryState) -> Element<Message> {
+    let content = column![
+        // Header
+        row![
+            text("Media Library")
+                .size(32)
+                .width(Length::Fill),
+            button("Refresh"),
+        ]
+        .spacing(10),
+        Space::with_height(Length::Fixed(20.0)),
+        
+        // Search and filters
+        row![
+            text_input("Search...", &state.search_query)
+                .on_input(Message::Search)
+                .width(Length::Fill),
+            Space::with_width(Length::Fixed(10.0)),
+            button("All")
+                .on_press(Message::FilterBy(MediaType::All)),
+            button("Video")
+                .on_press(Message::FilterBy(MediaType::Video)),
+            button("Audio")
+                .on_press(Message::FilterBy(MediaType::Audio)),
+        ]
+        .spacing(10),
+        Space::with_height(Length::Fixed(20.0)),
+        
+        // Media items
+        text(format!("{} items", state.get_filtered_items().len()))
+            .size(18),
+    ]
+    .padding(20)
+    .spacing(10);
+    
+    container(content)
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .into()
+}
