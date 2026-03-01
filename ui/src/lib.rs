@@ -4,12 +4,14 @@
 /// Omnibar command system, and smart controls.
 
 use anyhow::Result;
-use iced::{Application, Settings, Command, Element, Subscription};
+use iced::{widget::column, Application, Settings, Command, Element, Length, Subscription};
 use tracing::info;
 
 pub mod omnibar;
 pub mod controls;
 pub mod library;
+pub mod marketplace;
+pub mod navigation;
 pub mod theme;
 
 /// Vantis UI Application
@@ -22,6 +24,12 @@ pub struct VantisUI {
     
     /// Library state
     library: library::LibraryState,
+    
+    /// Marketplace state
+    marketplace: marketplace::MarketplaceState,
+    
+    /// Navigation state
+    navigation: navigation::NavigationState,
     
     /// Theme
     theme: theme::Theme,
@@ -38,6 +46,12 @@ pub enum Message {
     /// Library message
     Library(library::Message),
     
+    /// Marketplace message
+    Marketplace(marketplace::Message),
+    
+    /// Navigation message
+    Navigation(navigation::Message),
+    
     /// Theme changed
     ThemeChanged(theme::Theme),
 }
@@ -51,6 +65,8 @@ impl VantisUI {
             omnibar: omnibar::OmnibarState::new(),
             controls: controls::ControlsState::new(),
             library: library::LibraryState::new(),
+            marketplace: marketplace::MarketplaceState::new(),
+            navigation: navigation::NavigationState::new(),
             theme: theme::Theme::Dark,
         })
     }
@@ -69,6 +85,8 @@ impl Application for VantisUI {
             omnibar: omnibar::OmnibarState::new(),
             controls: controls::ControlsState::new(),
             library: library::LibraryState::new(),
+            marketplace: marketplace::MarketplaceState::new(),
+            navigation: navigation::NavigationState::new(),
             theme: theme::Theme::Dark,
         };
         
@@ -90,6 +108,16 @@ impl Application for VantisUI {
             Message::Library(msg) => {
                 self.library.update(msg);
             }
+            Message::Marketplace(msg) => {
+                self.marketplace.update(msg);
+            }
+            Message::Navigation(msg) => {
+                match msg {
+                    navigation::Message::NavigateTo(view) => {
+                        self.navigation.set_view(view);
+                    }
+                }
+            }
             Message::ThemeChanged(theme) => {
                 self.theme = theme;
             }
@@ -98,7 +126,32 @@ impl Application for VantisUI {
     }
     
     fn view(&self) -> Element<Self::Message> {
-        iced::container(iced::text("Vantis Player UI"))
+        let content = column![
+            // Navigation bar
+            navigation::view_navigation(&self.navigation)
+                .map(Message::Navigation),
+            
+            // Current view
+            match self.navigation.current_view() {
+                navigation::NavView::Library => {
+                    library::view_library(&self.library)
+                        .map(Message::Library)
+                }
+                navigation::NavView::Marketplace => {
+                    marketplace::view_marketplace(&self.marketplace)
+                        .map(Message::Marketplace)
+                }
+                navigation::NavView::Settings => {
+                    iced::container(iced::text("Settings View"))
+                        .into()
+                }
+            },
+        ]
+        .spacing(10);
+        
+        iced::container(content)
+            .width(Length::Fill)
+            .height(Length::Fill)
             .into()
     }
     
