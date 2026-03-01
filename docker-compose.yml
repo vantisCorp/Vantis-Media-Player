@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  vantis-player:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vantismedia/vantis-player:latest
+    container_name: vantis-player
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - VANTIS_CONFIG_DIR=/config
+      - VANTIS_CACHE_DIR=/cache
+      - VANTIS_PLUGIN_DIR=/plugins
+      - RUST_LOG=info
+    
+    # Volumes for persistent data
+    volumes:
+      - vantis-config:/config
+      - vantis-cache:/cache
+      - vantis-plugins:/plugins
+      - ./media:/media:ro  # Mount media directory (read-only)
+    
+    # Port for potential web interface
+    ports:
+      - "8080:8080"
+    
+    # Device access for hardware acceleration
+    devices:
+      - /dev/dri:/dev/dri  # GPU access for video decoding
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    
+    # Network
+    networks:
+      - vantis-network
+    
+    # Command to run
+    command: ["play", "/media"]
+
+  # Optional: Web UI service (if implemented)
+  vantis-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vantismedia/vantis-player:latest
+    container_name: vantis-web
+    restart: unless-stopped
+    
+    environment:
+      - VANTIS_CONFIG_DIR=/config
+      - VANTIS_CACHE_DIR=/cache
+      - VANTIS_PLUGIN_DIR=/plugins
+      - RUST_LOG=info
+    
+    volumes:
+      - vantis-config:/config
+      - vantis-cache:/cache
+      - vantis-plugins:/plugins
+      - ./media:/media:ro
+    
+    ports:
+      - "3000:3000"
+    
+    devices:
+      - /dev/dri:/dev/dri
+    
+    networks:
+      - vantis-network
+    
+    # This would run the web interface when implemented
+    command: ["web", "--port", "3000"]
+    profiles:
+      - web
+
+volumes:
+  vantis-config:
+    driver: local
+  vantis-cache:
+    driver: local
+  vantis-plugins:
+    driver: local
+
+networks:
+  vantis-network:
+    driver: bridge
