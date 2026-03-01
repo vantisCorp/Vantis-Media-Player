@@ -1,0 +1,39 @@
+[package]
+name = "vantis-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Command-line interface for Vantis Media Player"
+
+[[bin]]
+name = "vantis"
+path = "src/main.rs"
+
+[dependencies]
+# Core dependencies
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+# CLI framework
+clap = { version = "4.4", features = ["derive"] }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Workspace crates
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+vantis-ui = { path = "../ui" }
+vantis-subtitles = { path = "../subtitles" }
+vantis-plugins = { path = "../plugins" }
+vantis-integrations = { path = "../integrations" }
+vantis-ai = { path = "../ai" }
+vantis-streaming = { path = "../streaming" }
+vantis-advanced-audio = { path = "../advanced_audio" }
+vantis-advanced-video = { path = "../advanced_video" }
+vantis-advanced-ui = { path = "../advanced_ui" }

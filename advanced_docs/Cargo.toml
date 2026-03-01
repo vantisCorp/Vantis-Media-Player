@@ -1,0 +1,45 @@
+[package]
+name = "vantis-advanced-docs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# Core dependencies
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+vantis-ui = { path = "../ui" }
+vantis-subtitles = { path = "../subtitles" }
+vantis-plugins = { path = "../plugins" }
+vantis-integrations = { path = "../integrations" }
+vantis-ai = { path = "../ai" }
+vantis-streaming = { path = "../streaming" }
+
+# Async runtime
+tokio = { workspace = true }
+
+# Error handling
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Web framework
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "trace", "cors"] }
+
+# Templates
+askama = "0.12"
+
+# Static files
+mime_guess = "2.0"
+
+# Documentation generation
+rustdoc-json = "0.8"

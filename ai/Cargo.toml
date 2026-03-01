@@ -1,0 +1,38 @@
+[package]
+name = "vantis-ai"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "AI-powered features for Vantis Media Player"
+license = "MIT"
+
+[dependencies]
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+vantis-subtitles = { path = "../subtitles" }
+
+# AI/ML frameworks
+burn = { workspace = true }
+ndarray = { workspace = true }
+tch = { workspace = true }
+
+# Image processing
+image = { workspace = true }
+imageproc = { workspace = true }
+
+# Audio processing
+rustfft = { workspace = true }
+dasp = { workspace = true }
+
+# Utilities
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+rayon = { workspace = true }
+num-traits = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }

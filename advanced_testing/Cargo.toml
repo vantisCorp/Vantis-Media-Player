@@ -1,0 +1,63 @@
+[package]
+name = "vantis-advanced-testing"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# Core dependencies
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+vantis-ui = { path = "../ui" }
+vantis-subtitles = { path = "../subtitles" }
+vantis-plugins = { path = "../plugins" }
+vantis-integrations = { path = "../integrations" }
+vantis-ai = { path = "../ai" }
+vantis-streaming = { path = "../streaming" }
+vantis-advanced-audio = { path = "../advanced_audio" }
+vantis-advanced-video = { path = "../advanced_video" }
+vantis-advanced-ui = { path = "../advanced_ui" }
+vantis-advanced-plugins = { path = "../advanced_plugins" }
+
+# Async runtime
+tokio = { workspace = true }
+
+# Error handling
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Concurrency
+parking_lot = { workspace = true }
+
+# Property-based testing
+proptest = "1.4"
+
+# Fuzzing
+libfuzzer-sys = "0.4"
+
+# Performance testing
+criterion = { workspace = true }
+
+# Memory profiling
+dhat = "0.3"
+
+# Concurrency testing
+loom = "0.7"
+
+# Test utilities
+mockall = "0.12"
+tempfile = "3.8"
+
+# Code coverage
+tarpaulin = "0.27"
+
+[dev-dependencies]
+tokio-test = "0.4"

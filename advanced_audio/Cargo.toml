@@ -1,0 +1,43 @@
+[package]
+name = "vantis-advanced-audio"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+vantis-core = { path = "../core" }
+vantis-audio = { path = "../audio" }
+
+# Audio processing
+symphonia = { workspace = true }
+rubato = { workspace = true }
+dasp = { workspace = true }
+
+# FFT and signal processing
+rustfft = { workspace = true }
+realfft = { workspace = true }
+
+# Machine learning for audio
+burn = { workspace = true }
+ndarray = { workspace = true }
+
+# Audio analysis
+aubio-rs = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Async runtime
+tokio = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Utilities
+num-complex = { workspace = true }
+itertools = { workspace = true }

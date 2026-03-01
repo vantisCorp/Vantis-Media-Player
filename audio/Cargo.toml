@@ -1,0 +1,13 @@
+[package]
+name = "vantis-audio"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+symphonia = { workspace = true }
+cpal = { workspace = true }
+parking_lot = { workspace = true }

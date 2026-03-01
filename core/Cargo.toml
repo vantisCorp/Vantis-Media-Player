@@ -1,0 +1,18 @@
+[package]
+name = "vantis-core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+wgpu = { workspace = true }
+parking_lot = { workspace = true }
+dashmap = { workspace = true }
+bytes = { workspace = true }
+uuid = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+num_cpus = { workspace = true }

@@ -1,0 +1,27 @@
+[package]
+name = "vantis-advanced-analytics"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+async-trait = "0.1"
+thiserror = "1.0"
+reqwest = { workspace = true, features = ["json"] }
+prometheus = "0.13"
+metrics = "0.21"
+metrics-exporter-prometheus = "0.12"
+sentry = "0.32"
+backtrace = "0.3"
+parking_lot = "0.12"
+dashmap = { workspace = true }
+rand = "0.8"
+regex = "1.10"

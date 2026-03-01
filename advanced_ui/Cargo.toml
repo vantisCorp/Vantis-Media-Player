@@ -1,0 +1,44 @@
+[package]
+name = "vantis-advanced-ui"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+vantis-core = { path = "../core" }
+vantis-ui = { path = "../ui" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+
+# UI framework
+iced = { workspace = true }
+
+# Graphics and rendering
+wgpu = { workspace = true }
+image = { workspace = true }
+
+# Async runtime
+tokio = { workspace = true }
+futures = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Utilities
+crossbeam = { workspace = true }
+parking_lot = { workspace = true }
+dashmap = { workspace = true }
+
+# Input handling
+winit = { workspace = true }
+
+# Window management
+raw-window-handle = { workspace = true }

@@ -1,0 +1,48 @@
+[package]
+name = "vantis-advanced-video"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-ai = { path = "../ai" }
+
+# Video processing
+ffmpeg-next = { workspace = true }
+image = { workspace = true }
+
+# GPU acceleration
+wgpu = { workspace = true }
+
+# Machine learning
+burn = { workspace = true }
+candle-core = { workspace = true }
+
+# Mathematics
+nalgebra = { workspace = true }
+num-complex = { workspace = true }
+
+# Async runtime
+tokio = { workspace = true }
+futures = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Utilities
+crossbeam = { workspace = true }
+parking_lot = { workspace = true }
+dashmap = { workspace = true }
+
+# Optical flow
+rust-optical-flow = "0.1"

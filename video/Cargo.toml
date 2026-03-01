@@ -1,0 +1,15 @@
+[package]
+name = "vantis-video"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+wgpu = { workspace = true }
+ffmpeg-next = { workspace = true }
+image = { workspace = true }
+bytes = { workspace = true }
+parking_lot = { workspace = true }

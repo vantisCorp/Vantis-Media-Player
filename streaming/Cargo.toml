@@ -1,0 +1,52 @@
+[package]
+name = "vantis-streaming"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Advanced network streaming for Vantis Media Player"
+license = "MIT"
+
+[dependencies]
+vantis-core = { path = "../core" }
+vantis-video = { path = "../video" }
+vantis-audio = { path = "../audio" }
+
+# Async runtime
+tokio = { workspace = true }
+futures = { workspace = true }
+async-trait = { workspace = true }
+
+# Networking
+reqwest = { workspace = true }
+hyper = { workspace = true }
+hyper-tls = { workspace = true }
+rustls = { workspace = true }
+webpki-roots = { workspace = true }
+
+# Streaming protocols
+hls = { workspace = true }
+dash = { workspace = true }
+rtsp = { workspace = true }
+
+# P2P
+libp2p = { workspace = true }
+
+# Data processing
+bytes = { workspace = true }
+byteorder = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Utilities
+thiserror = { workspace = true }
+tracing = { workspace = true }
+url = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+dashmap = { workspace = true }
+parking_lot = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
