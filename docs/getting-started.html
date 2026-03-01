@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - Vantis Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .requirements {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .requirements li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .requirements li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .install-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .install-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .install-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .install-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        .install-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .tip {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>Getting Started</h1>
+        <p>Welcome to Vantis Media Player! This guide will help you get up and running quickly.</p>
+
+        <div class="requirements">
+            <h2><i class="fas fa-check-circle"></i> System Requirements</h2>
+            <ul>
+                <li><strong>Operating System:</strong> Linux, Windows, or macOS</li>
+                <li><strong>Rust:</strong> 1.70.0 or later (for building from source)</li>
+                <li><strong>GPU:</strong> Vulkan, DirectX 12, or Metal support</li>
+                <li><strong>RAM:</strong> 4GB minimum, 8GB recommended</li>
+                <li><strong>Storage:</strong> 500MB for installation</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-download"></i> Installation</h2>
+        
+        <div class="install-methods">
+            <div class="install-card">
+                <i class="fas fa-code-branch"></i>
+                <h3>Build from Source</h3>
+                <p>Clone the repository and build:</p>
+                <pre><code>git clone https://github.com/vantisCorp/VantisMedia.git
+cd VantisMedia
+cargo build --release</code></pre>
+                <p>The binary will be in <code>target/release/vantis</code></p>
+            </div>
+
+            <div class="install-card">
+                <i class="fab fa-docker"></i>
+                <h3>Docker</h3>
+                <p>Pull and run the Docker image:</p>
+                <pre><code>docker pull vantismedia/vantis-player:latest
+docker run -it --rm \
+  -v /path/to/media:/media \
+  vantismedia/vantis-player:latest</code></pre>
+            </div>
+
+            <div class="install-card">
+                <i class="fas fa-box"></i>
+                <h3>Release Binary</h3>
+                <p>Download the latest release from GitHub:</p>
+                <pre><code>wget https://github.com/vantisCorp/VantisMedia/releases/latest/download/vantis-linux.tar.gz
+tar -xzf vantis-linux.tar.gz
+./vantis</code></pre>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-play"></i> Quick Start</h2>
+        <p>Play a media file using the CLI:</p>
+        <pre><code>vantis play /path/to/video.mp4</code></pre>
+
+        <p>Play with subtitles:</p>
+        <pre><code>vantis play /path/to/video.mp4 --subtitles /path/to/subtitles.srt</code></pre>
+
+        <p>Search and download subtitles automatically:</p>
+        <pre><code>vantis play /path/to/video.mp4 --auto-subtitles</code></p>
+
+        <h2><i class="fas fa-cog"></i> Configuration</h2>
+        <p>Vantis Media Player uses a TOML configuration file. Create <code>~/.config/vantis/config.toml</code>:</p>
+        <pre><code>[audio]
+device = "default"
+exclusive_mode = true
+loudness_normalization = true
+
+[video]
+renderer = "auto"
+hardware_acceleration = true
+upscaling = "ai"
+
+[subtitles]
+auto_download = true
+preferred_language = "en"
+encoding = "utf-8"
+
+[ui]
+theme = "dark"
+omnibar_shortcut = "Ctrl+K"</code></pre>
+
+        <div class="tip">
+            <i class="fas fa-lightbulb"></i>
+            <strong>Tip:</strong> Run <code>vantis config --init</code> to generate a default configuration file.
+        </div>
+
+        <h2><i class="fas fa-plug"></i> Plugins</h2>
+        <p>Install plugins from the marketplace:</p>
+        <pre><code>vantis plugins install plugin-name</code></pre>
+
+        <p>List installed plugins:</p>
+        <pre><code>vantis plugins list</code></pre>
+
+        <p>Enable/disable plugins:</p>
+        <pre><code>vantis plugins enable plugin-name
+vantis plugins disable plugin-name</code></pre>
+
+        <h2><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h2>
+        <p>Default keyboard shortcuts:</p>
+        <ul>
+            <li><code>Space</code> - Play/Pause</li>
+            <li><code>←</code> / <code>→</code> - Seek backward/forward 10 seconds</li>
+            <li><code>↑</code> / <code>↓</code> - Volume up/down</li>
+            <li><code>M</code> - Mute/Unmute</li>
+            <li><code>F</code> - Toggle fullscreen</li>
+            <li><code>S</code> - Toggle subtitles</li>
+            <li><code>Ctrl+K</code> - Open Omnibar</li>
+            <li><code>Q</code> - Quit</li>
+        </ul>
+
+        <div class="note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Note:</strong> You can customize keyboard shortcuts in the configuration file or via the UI.
+        </div>
+
+        <h2><i class="fas fa-question-circle"></i> Need Help?</h2>
+        <p>If you encounter any issues:</p>
+        <ul>
+            <li>Check the <a href="troubleshooting.html">Troubleshooting</a> page</li>
+            <li>Search existing <a href="https://github.com/vantisCorp/VantisMedia/issues" target="_blank">GitHub Issues</a></li>
+            <li>Create a new issue if needed</li>
+            <li>Join our community discussions</li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="architecture.html">Architecture</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="examples.html">Examples</a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>

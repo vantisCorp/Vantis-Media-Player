@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples - Vantis Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .example-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        .example-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .example-card .difficulty {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty.beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty.intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty.advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>Code Examples</h1>
+        <p>Practical examples to help you get started with Vantis Media Player.</p>
+
+        <h2><i class="fas fa-star"></i> Basic Examples</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-play"></i>
+                <span class="difficulty beginner">Beginner</span>
+                <h3>Simple Player</h3>
+                <p>Create a basic media player with playback controls.</p>
+                <div class="code-block">
+                    <code>examples/simple_player.rs</code>
+                </div>
+                <p>Demonstrates: Core initialization, playback control, volume adjustment</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-list"></i>
+                <span class="difficulty beginner">Beginner</span>
+                <h3>Advanced Player</h3>
+                <p>Player with playlist management and event handling.</p>
+                <div class="code-block">
+                    <code>examples/advanced_player.rs</code>
+                </div>
+                <p>Demonstrates: Playlist, events, auto-play, state management</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-photo-video"></i>
+                <span class="difficulty intermediate">Intermediate</span>
+                <h3>Video Processing</h3>
+                <p>Apply video effects and filters.</p>
+                <div class="code-block">
+                    <code>examples/video_processing_example.rs</code>
+                </div>
+                <p>Demonstrates: Brightness, contrast, blur, color correction</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-music"></i>
+                <span class="difficulty intermediate">Intermediate</span>
+                <h3>Audio Processing</h3>
+                <p>Apply audio effects and processing.</p>
+                <div class="code-block">
+                    <code>examples/audio_processing_example.rs</code>
+                </div>
+                <p>Demonstrates: EQ, reverb, normalization, spatial audio</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-network-wired"></i> Network & Streaming</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-globe"></i>
+                <span class="difficulty intermediate">Intermediate</span>
+                <h3>Network Streaming</h3>
+                <p>Stream media from HTTP/HTTPS sources.</p>
+                <div class="code-block">
+                    <code>examples/network_streaming_example.rs</code>
+                </div>
+                <p>Demonstrates: HTTP streaming, adaptive bitrate, quality selection</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-broadcast-tower"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Streaming Features</h3>
+                <p>Advanced streaming with caching and P2P.</p>
+                <div class="code-block">
+                    <code>examples/streaming_example.rs</code>
+                </div>
+                <p>Demonstrates: Caching, recording, P2P, protocol support</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-brain"></i> AI Features</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-magic"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>AI Features</h3>
+                <p>Use AI-powered video and audio enhancements.</p>
+                <div class="code-block">
+                    <code>examples/ai_features_example.rs</code>
+                </div>
+                <p>Demonstrates: Upscaling, scene detection, recommendations</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-closed-captioning"></i> Subtitles</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-language"></i>
+                <span class="difficulty intermediate">Intermediate</span>
+                <h3>Media Library</h3>
+                <p>Manage media library with subtitle support.</p>
+                <div class="code-block">
+                    <code>examples/media_library_example.rs</code>
+                </div>
+                <p>Demonstrates: Library scanning, metadata, subtitle search</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-plug"></i> Plugins</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-puzzle-piece"></i>
+                <span class="difficulty intermediate">Intermediate</span>
+                <h3>Custom UI</h3>
+                <p>Create custom UI components.</p>
+                <div class="code-block">
+                    <code>examples/custom_ui_example.rs</code>
+                </div>
+                <p>Demonstrates: Custom controls, themes, layouts</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-cogs"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Plugin</h3>
+                <p>Create advanced plugin with audio visualization.</p>
+                <div class="code-block">
+                    <code>examples/advanced_plugin_example.rs</code>
+                </div>
+                <p>Demonstrates: Plugin lifecycle, host functions, visualization</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-box"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Rust Plugin Template</h3>
+                <p>Complete Rust plugin template.</p>
+                <div class="code-block">
+                    <code>examples/plugins/rust_example_plugin/</code>
+                </div>
+                <p>Demonstrates: WASM plugin structure, build configuration</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-rocket"></i> Advanced Features</h2>
+        <div class="example-grid">
+            <div class="example-card">
+                <i class="fas fa-headphones"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Audio</h3>
+                <p>Room correction and HRTF virtualization.</p>
+                <div class="code-block">
+                    <code>examples/advanced_audio_example.rs</code>
+                </div>
+                <p>Demonstrates: Room correction, HRTF, fingerprinting, visualization</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-film"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Video</h3>
+                <p>Video stabilization and frame interpolation.</p>
+                <div class="code-block">
+                    <code>examples/advanced_video_example.rs</code>
+                </div>
+                <p>Demonstrates: Stabilization, interpolation, denoising, color grading</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-window-maximize"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced UI</h3>
+                <p>Picture-in-Picture and theater mode.</p>
+                <div class="code-block">
+                    <code>examples/advanced_ui_example.rs</code>
+                </div>
+                <p>Demonstrates: PiP, mini-player, theater mode, gestures</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-store"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Plugins</h3>
+                <p>Plugin marketplace and dependency management.</p>
+                <div class="code-block">
+                    <code>examples/advanced_plugins_example.rs</code>
+                </div>
+                <p>Demonstrates: Marketplace, dependencies, hot-reload, monitoring</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-vial"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Testing</h3>
+                <p>Property-based testing and fuzzing.</p>
+                <div class="code-block">
+                    <code>examples/advanced_testing_example.rs</code>
+                </div>
+                <p>Demonstrates: Property tests, fuzzing, performance benchmarks</p>
+            </div>
+
+            <div class="example-card">
+                <i class="fas fa-book"></i>
+                <span class="difficulty advanced">Advanced</span>
+                <h3>Advanced Documentation</h3>
+                <p>Interactive tutorials and API playground.</p>
+                <div class="code-block">
+                    <code>examples/advanced_docs_example.rs</code>
+                </div>
+                <p>Demonstrates: Tutorials, video tutorials, API playground</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-code"></i> Running Examples</h2>
+        <p>To run any example:</p>
+        <pre><code>cargo run --example example_name</code></pre>
+
+        <p>For example, to run the simple player:</p>
+        <pre><code>cargo run --example simple_player -- /path/to/video.mp4</code></pre>
+
+        <div class="note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Note:</strong> Some examples may require additional dependencies or configuration. Check the example file for specific requirements.
+        </div>
+
+        <h2><i class="fas fa-folder-open"></i> Example Structure</h2>
+        <p>All examples are located in the <code>examples/</code> directory:</p>
+        <pre><code>examples/
+├── simple_player.rs
+├── advanced_player.rs
+├── media_library_example.rs
+├── video_processing_example.rs
+├── audio_processing_example.rs
+├── network_streaming_example.rs
+├── custom_ui_example.rs
+├── advanced_plugin_example.rs
+├── ai_features_example.rs
+├── streaming_example.rs
+├── advanced_audio_example.rs
+├── advanced_video_example.rs
+├── advanced_ui_example.rs
+├── advanced_plugins_example.rs
+├── advanced_testing_example.rs
+├── advanced_docs_example.rs
+├── rust_plugin_template/
+│   ├── Cargo.toml
+│   ├── lib.rs
+│   └── README.md
+└── rust_example_plugin/
+    ├── Cargo.toml
+    ├── lib.rs
+    └── README.md</code></pre>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="architecture.html">Architecture</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>

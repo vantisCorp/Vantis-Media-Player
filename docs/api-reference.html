@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - Vantis Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .api-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .method-signature {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .method-signature code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        .param-list {
+            margin: 1rem 0;
+        }
+
+        .param-list dt {
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 0.5rem;
+        }
+
+        .param-list dd {
+            margin-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .return-type {
+            background: #d1ecf1;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .return-type strong {
+            color: #0c5460;
+        }
+
+        .module-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .module-nav a {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .module-nav a:hover {
+            background: #764ba2;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>API Reference</h1>
+        <p>Complete API documentation for Vantis Media Player modules.</p>
+
+        <div class="module-nav">
+            <a href="#core">Core</a>
+            <a href="#video">Video</a>
+            <a href="#audio">Audio</a>
+            <a href="#subtitles">Subtitles</a>
+            <a href="#ui">UI</a>
+            <a href="#plugins">Plugins</a>
+            <a href="#ai">AI</a>
+            <a href="#streaming">Streaming</a>
+        </div>
+
+        <div class="api-section" id="core">
+            <h2><i class="fas fa-cog"></i> Core API</h2>
+            
+            <h3>VantisCore</h3>
+            <p>The main player engine that coordinates all subsystems.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: Config) -> Result&lt;VantisCore&gt;</code>
+            </div>
+            <p>Create a new VantisCore instance with the given configuration.</p>
+            
+            <dl class="param-list">
+                <dt>config</dt>
+                <dd>Player configuration including audio, video, subtitles, and UI settings</dd>
+            </dl>
+            
+            <div class="return-type">
+                <strong>Returns:</strong> Result&lt;VantisCore&gt; - The initialized player core or an error
+            </div>
+
+            <h3>Playback Control</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn play(&amp;self) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Start or resume playback.</p>
+
+            <div class="method-signature">
+                <code>pub async fn pause(&amp;self) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Pause playback.</p>
+
+            <div class="method-signature">
+                <code>pub async fn stop(&amp;self) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Stop playback and reset position.</p>
+
+            <div class="method-signature">
+                <code>pub async fn seek(&amp;self, position: Duration) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Seek to the specified position.</p>
+
+            <h3>Volume Control</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn set_volume(&amp;self, volume: f32) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Set volume (0.0 to 1.0).</p>
+
+            <div class="method-signature">
+                <code>pub async fn set_mute(&amp;self, muted: bool) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Mute or unmute audio.</p>
+        </div>
+
+        <div class="api-section" id="video">
+            <h2><i class="fas fa-video"></i> Video API</h2>
+            
+            <h3>VideoEngine</h3>
+            <p>Hardware-accelerated video decoding and rendering.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new() -> Result&lt;VideoEngine&gt;;</code>
+            </div>
+            <p>Create a new VideoEngine instance.</p>
+
+            <div class="method-signature">
+                <code>pub fn new_with_surface(surface: Surface) -> Result&lt;VideoEngine&gt;;</code>
+            </div>
+            <p>Create a VideoEngine with a specific rendering surface.</p>
+
+            <h3>Video Processing</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn decode(&amp;mut self, data: &amp;[u8]) -> Result&lt;VideoFrame&gt;;</code>
+            </div>
+            <p>Decode video data into a frame.</p>
+
+            <div class="method-signature">
+                <code>pub async fn upscale(&amp;self, frame: &amp;VideoFrame, target: UpscaleTarget) -> Result&lt;VideoFrame&gt;;</code>
+            </div>
+            <p>AI upscale video frame to higher resolution.</p>
+
+            <div class="method-signature">
+                <code>pub async fn apply_tone_mapping(&amp;self, frame: &amp;VideoFrame, algorithm: ToneMappingAlgorithm) -> Result&lt;VideoFrame&gt;;</code>
+            </div>
+            <p>Apply HDR tone mapping to frame.</p>
+        </div>
+
+        <div class="api-section" id="audio">
+            <h2><i class="fas fa-music"></i> Audio API</h2>
+            
+            <h3>AudioEngine</h3>
+            <p>Bit-perfect audio decoding and output.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: AudioConfig) -> Result&lt;AudioEngine&gt;;</code>
+            </div>
+            <p>Create a new AudioEngine instance.</p>
+
+            <h3>Audio Effects</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn set_equalizer(&amp;self, bands: [f32; 10]) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Set 10-band equalizer values.</p>
+
+            <div class="method-signature">
+                <code>pub async fn normalize_loudness(&amp;self, target: f32) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Normalize loudness to EBU R128 target.</p>
+
+            <div class="method-signature">
+                <code>pub async fn enable_spatial_audio(&amp;self, mode: SpatialAudioMode) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Enable spatial audio processing.</p>
+        </div>
+
+        <div class="api-section" id="subtitles">
+            <h2><i class="fas fa-closed-captioning"></i> Subtitles API</h2>
+            
+            <h3>SubtitleEngine</h3>
+            <p>Vantis Babel subtitle system.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: SubtitleConfig) -> Result&lt;SubtitleEngine&gt;;</code>
+            </div>
+            <p>Create a new SubtitleEngine instance.</p>
+
+            <h3>Subtitle Management</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn search_subtitles(&amp;self, video_path: &amp;str) -> Result&lt;Vec&lt;SubtitleSource&gt;&gt;;</code>
+            </div>
+            <p>Search for subtitles from multiple sources.</p>
+
+            <div class="method-signature">
+                <code>pub async fn download_subtitle(&amp;self, source: &amp;SubtitleSource) -> Result&lt;SubtitleTrack&gt;;</code>
+            </div>
+            <p>Download subtitle from source.</p>
+
+            <div class="method-signature">
+                <code>pub async fn sync_subtitle(&amp;self, track: &amp;mut SubtitleTrack) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>AI-powered subtitle synchronization.</p>
+        </div>
+
+        <div class="api-section" id="ui">
+            <h2><i class="fas fa-desktop"></i> UI API</h2>
+            
+            <h3>UIEngine</h3>
+            <p>Liquid Glass UI framework.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: UIConfig) -> Result&lt;UIEngine&gt;;</code>
+            </div>
+            <p>Create a new UIEngine instance.</p>
+
+            <h3>UI Controls</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn show_omnibar(&amp;self) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Show the omnibar command interface.</p>
+
+            <div class="method-signature">
+                <code>pub async fn set_theme(&amp;self, theme: Theme) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Set UI theme (dark, light, custom).</p>
+        </div>
+
+        <div class="api-section" id="plugins">
+            <h2><i class="fas fa-plug"></i> Plugins API</h2>
+            
+            <h3>PluginManager</h3>
+            <p>WASM plugin system.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new() -> Result&lt;PluginManager&gt;;</code>
+            </div>
+            <p>Create a new PluginManager instance.</p>
+
+            <h3>Plugin Management</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn load_plugin(&amp;mut self, path: &amp;str) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Load a WASM plugin from file.</p>
+
+            <div class="method-signature">
+                <code>pub async fn unload_plugin(&amp;mut self, id: &amp;str) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Unload a plugin by ID.</p>
+
+            <div class="method-signature">
+                <code>pub async fn call_plugin(&amp;self, id: &amp;str, function: &amp;str, args: &amp;[u8]) -> Result&lt;Vec&lt;u8&gt;&gt;;</code>
+            </div>
+            <p>Call a function in a loaded plugin.</p>
+        </div>
+
+        <div class="api-section" id="ai">
+            <h2><i class="fas fa-brain"></i> AI API</h2>
+            
+            <h3>AIEngine</h3>
+            <p>AI-powered features.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: AIConfig) -> Result&lt;AIEngine&gt;;</code>
+            </div>
+            <p>Create a new AIEngine instance.</p>
+
+            <h3>AI Features</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn enhance_video(&amp;self, frame: &amp;VideoFrame, operations: Vec&lt;EnhancementOperation&gt;) -> Result&lt;VideoFrame&gt;;</code>
+            </div>
+            <p>Apply AI video enhancements.</p>
+
+            <div class="method-signature">
+                <code>pub async fn detect_scenes(&amp;self, frames: Vec&lt;VideoFrame&gt;) -> Result&lt;Vec&lt;Scene&gt;&gt;;</code>
+            </div>
+            <p>Detect scene boundaries and generate chapters.</p>
+
+            <div class="method-signature">
+                <code>pub async fn get_recommendations(&amp;self, user_id: &amp;str) -> Result&lt;Vec&lt;Recommendation&gt;&gt;;</code>
+            </div>
+            <p>Get content recommendations for user.</p>
+        </div>
+
+        <div class="api-section" id="streaming">
+            <h2><i class="fas fa-network-wired"></i> Streaming API</h2>
+            
+            <h3>StreamingEngine</h3>
+            <p>Network streaming capabilities.</p>
+            
+            <div class="method-signature">
+                <code>pub fn new(config: StreamingConfig) -> Result&lt;StreamingEngine&gt;;</code>
+            </div>
+            <p>Create a new StreamingEngine instance.</p>
+
+            <h3>Streaming</h3>
+            
+            <div class="method-signature">
+                <code>pub async fn play_stream(&amp;self, url: &amp;str) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Play a network stream.</p>
+
+            <div class="method-signature">
+                <code>pub async fn set_quality(&amp;self, quality: QualityLevel) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Set streaming quality level.</p>
+
+            <div class="method-signature">
+                <code>pub async fn start_recording(&amp;self, path: &amp;str) -> Result&lt;()&gt;;</code>
+            </div>
+            <p>Start recording stream to file.</p>
+        </div>
+
+        <h2><i class="fas fa-info-circle"></i> Additional Resources</h2>
+        <p>For complete API documentation with all methods and types, see:</p>
+        <ul>
+            <li><a href="https://docs.rs/vantis-core" target="_blank">vantis-core on docs.rs</a></li>
+            <li><a href="https://docs.rs/vantis-video" target="_blank">vantis-video on docs.rs</a></li>
+            <li><a href="https://docs.rs/vantis-audio" target="_blank">vantis-audio on docs.rs</a></li>
+            <li><a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub Repository</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="architecture.html">Architecture</a>
+                <a href="examples.html">Examples</a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>

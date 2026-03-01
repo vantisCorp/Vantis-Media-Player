@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vantis Media Player - The Last Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #667eea;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .stats {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .documentation {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .documentation h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #667eea;
+        }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doc-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .doc-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .doc-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .doc-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#stats">Stats</a></li>
+                    <li><a href="#documentation">Documentation</a></li>
+                    <li><a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>The Last Interface</h1>
+            <p>One platform that understands content, users, and surroundings</p>
+            <div class="hero-buttons">
+                <a href="#documentation" class="btn btn-primary">
+                    <i class="fas fa-book"></i>
+                    Get Started
+                </a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>GPU Accelerated</h3>
+                    <p>Zero-cost architecture with hardware-accelerated video and audio processing using WGPU and Vulkan/DX12/Metal</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI Powered</h3>
+                    <p>AI video upscaling (720p → 4K), scene detection, content recommendations, and smart subtitle timing</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-plug"></i>
+                    <h3>Plugin System</h3>
+                    <p>WASM sandbox with marketplace, hot-reload, dependency management, and performance monitoring</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-closed-captioning"></i>
+                    <h3>Vantis Babel</h3>
+                    <p>Multi-source subtitle aggregation with hash-based matching, AI synchronization, and encoding detection</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Advanced Audio</h3>
+                    <p>Room correction, HRTF virtualization, audio fingerprinting, visualization, and multi-channel processing</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Advanced Video</h3>
+                    <p>Video stabilization, frame interpolation, denoising, color grading, and comparison tools</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats" id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>18</h3>
+                    <p>Modules</p>
+                </div>
+                <div class="stat-item">
+                    <h3>63K+</h3>
+                    <p>Lines of Code</p>
+                </div>
+                <div class="stat-item">
+                    <h3>90%+</h3>
+                    <p>Test Coverage</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Complete</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="documentation" id="documentation">
+        <div class="container">
+            <h2>Documentation</h2>
+            <div class="doc-grid">
+                <a href="getting-started.html" class="doc-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Getting Started</h3>
+                    <p>Quick start guide and installation instructions</p>
+                </a>
+                <a href="architecture.html" class="doc-card">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>Architecture</h3>
+                    <p>System design and technical overview</p>
+                </a>
+                <a href="api-reference.html" class="doc-card">
+                    <i class="fas fa-code"></i>
+                    <h3>API Reference</h3>
+                    <p>Complete API documentation</p>
+                </a>
+                <a href="examples.html" class="doc-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Examples</h3>
+                    <p>Code examples and tutorials</p>
+                </a>
+                <a href="plugins.html" class="doc-card">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h3>Plugin Development</h3>
+                    <p>Create your own plugins</p>
+                </a>
+                <a href="troubleshooting.html" class="doc-card">
+                    <i class="fas fa-wrench"></i>
+                    <h3>Troubleshooting</h3>
+                    <p>Common issues and solutions</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+                <a href="https://github.com/vantisCorp/VantisMedia/issues" target="_blank">Issues</a>
+                <a href="https://github.com/vantisCorp/VantisMedia/blob/main/LICENSE" target="_blank">License</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>

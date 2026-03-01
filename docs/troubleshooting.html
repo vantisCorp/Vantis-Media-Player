@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - Vantis Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .issue-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .issue-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        .solution {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .solution strong {
+            color: #155724;
+        }
+
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .category-nav a {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .category-nav a:hover {
+            background: #764ba2;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>Troubleshooting</h1>
+        <p>Common issues and solutions for Vantis Media Player.</p>
+
+        <div class="category-nav">
+            <a href="#installation">Installation</a>
+            <a href="#playback">Playback</a>
+            <a href="#audio">Audio</a>
+            <a href="#video">Video</a>
+            <a href="#subtitles">Subtitles</a>
+            <a href="#plugins">Plugins</a>
+            <a href="#performance">Performance</a>
+        </div>
+
+        <div class="issue-card" id="installation">
+            <h2><i class="fas fa-download"></i> Installation Issues</h2>
+            
+            <h3>Build Fails with "linker not found"</h3>
+            <p>Error: <code>error: linker `link.exe` not found</code></p>
+            <div class="solution">
+                <strong>Solution:</strong> Install the appropriate linker for your platform:
+                <ul>
+                    <li><strong>Linux:</strong> <code>sudo apt install build-essential</code></li>
+                    <li><strong>macOS:</strong> <code>xcode-select --install</code></li>
+                    <li><strong>Windows:</strong> Install Visual Studio Build Tools</li>
+                </ul>
+            </div>
+
+            <h3>FFmpeg Not Found</h3>
+            <p>Error: <code>Failed to find FFmpeg libraries</code></p>
+            <div class="solution">
+                <strong>Solution:</strong> Install FFmpeg development libraries:
+                <ul>
+                    <li><strong>Linux:</strong> <code>sudo apt install libavcodec-dev libavformat-dev libavutil-dev</code></li>
+                    <li><strong>macOS:</strong> <code>brew install ffmpeg</code></li>
+                    <li><strong>Windows:</strong> Download from <a href="https://ffmpeg.org/download.html" target="_blank">ffmpeg.org</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="issue-card" id="playback">
+            <h2><i class="fas fa-play"></i> Playback Issues</h2>
+            
+            <h3>Video Won't Play</h3>
+            <p>Player shows error when trying to play video file.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check if file format is supported (MP4, MKV, AVI, WebM)</li>
+                    <li>Verify file is not corrupted</li>
+                    <li>Check logs: <code>vantis play --verbose file.mp4</code></li>
+                    <li>Try with different codec settings</li>
+                </ol>
+            </div>
+
+            <h3>Playback Stutters</h3>
+            <p>Video plays but with stuttering or frame drops.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Disable hardware acceleration: <code>vantis config set video.hardware_acceleration false</code></li>
+                    <li>Reduce video quality</li>
+                    <li>Close other applications</li>
+                    <li>Check system resources: <code>vantis stats</code></li>
+                </ol>
+            </div>
+
+            <h3>Seeking is Slow</h3>
+            <p>Player takes long time to seek to different positions.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Enable keyframe seeking in config</li>
+                    <li>Use faster storage (SSD vs HDD)</li>
+                    <li>Reduce buffer size</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="issue-card" id="audio">
+            <h2><i class="fas fa-music"></i> Audio Issues</h2>
+            
+            <h3>No Sound</h3>
+            <p>Video plays but there's no audio output.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check volume is not muted: <code>vantis volume get</code></li>
+                    <li>Verify audio device: <code>vantis audio list-devices</code></li>
+                    <li>Check system audio settings</li>
+                    <li>Try different audio backend</li>
+                </ol>
+            </div>
+
+            <h3>Audio Out of Sync</h3>
+            <p>Audio and video are not synchronized.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Enable audio sync: <code>vantis config set audio.sync true</code></li>
+                    <li>Adjust sync offset: <code>vantis audio sync-offset 100</code></li>
+                    <li>Try different audio decoder</li>
+                </ol>
+            </div>
+
+            <h3>Audio Distortion</h3>
+            <p>Audio sounds distorted or crackling.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Disable exclusive mode: <code>vantis config set audio.exclusive_mode false</code></li>
+                    <li>Adjust buffer size</li>
+                    <li>Disable audio effects</li>
+                    <li>Check audio driver updates</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="issue-card" id="video">
+            <h2><i class="fas fa-video"></i> Video Issues</h2>
+            
+            <h3>Green Screen</h3>
+            <p>Video displays as green screen.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Switch GPU backend: <code>vantis config set video.renderer vulkan</code></li>
+                    <li>Update GPU drivers</li>
+                    <li>Disable hardware acceleration</li>
+                    <li>Try software decoding</li>
+                </ol>
+            </div>
+
+            <h3>Wrong Colors</h3>
+            <p>Video colors appear incorrect or washed out.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Adjust color space settings</li>
+                    <li>Enable HDR tone mapping</li>
+                    <li>Check display color profile</li>
+                    <li>Try different color grading preset</li>
+                </ol>
+            </div>
+
+            <h3>AI Upscaling Not Working</h3>
+            <p>Video not being upscaled as expected.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check AI models are downloaded: <code>vantis ai list-models</code></li>
+                    <li>Verify upscaling is enabled: <code>vantis config set video.upscaling ai</code></li>
+                    <li>Ensure GPU supports AI operations</li>
+                    <li>Check logs for errors</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="issue-card" id="subtitles">
+            <h2><i class="fas fa-closed-captioning"></i> Subtitle Issues</h2>
+            
+            <h3>Subtitles Not Displaying</h3>
+            <p>Subtitles loaded but not shown on screen.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check subtitles are enabled: <code>vantis subtitles enable</code></li>
+                    <li>Verify subtitle file format is supported</li>
+                    <li>Check encoding (try UTF-8)</li>
+                    <li>Adjust subtitle position/size</li>
+                </ol>
+            </div>
+
+            <h3>Subtitles Out of Sync</h3>
+            <p>Subtitle timing doesn't match video.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Use AI sync: <code>vantis subtitles sync --ai</code></li>
+                    <li>Manual offset: <code>vantis subtitles offset 2.5</code></li>
+                    <li>Adjust playback speed temporarily</li>
+                </ol>
+            </div>
+
+            <h3>Garbled Characters</h3>
+            <p>Subtitle text displays as garbled characters.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Detect encoding: <code>vantis subtitles detect-encoding file.srt</code></li>
+                    <li>Convert to UTF-8: <code>vantis subtitles convert --to utf-8 file.srt</code></li>
+                    <li>Set encoding in config</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="issue-card" id="plugins">
+            <h2><i class="fas fa-plug"></i> Plugin Issues</h2>
+            
+            <h3>Plugin Won't Load</h3>
+            <p>Plugin fails to load with error message.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check plugin is compiled for WASM</li>
+                    <li>Verify plugin.toml is valid</li>
+                    <li>Check permissions are declared</li>
+                    <li>View plugin logs: <code>vantis plugins logs plugin-name</code></li>
+                </ol>
+            </div>
+
+            <h3>Plugin Crashes Player</h3>
+            <p>Player crashes when plugin is loaded.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check plugin for infinite loops</li>
+                    <li>Verify memory usage is reasonable</li>
+                    <li>Test plugin in isolation</li>
+                    <li>Report issue to plugin author</li>
+                </ol>
+            </div>
+
+            <h3>Hot Reload Not Working</h3>
+            <p>Plugin changes not reflected after reload.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Ensure hot-reload is enabled: <code>vantis plugins enable-hot-reload plugin-name</code></li>
+                    <li>Check file watcher is running</li>
+                    <li>Verify plugin is recompiled</li>
+                    <li>Try manual reload: <code>vantis plugins reload plugin-name</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="issue-card" id="performance">
+            <h2><i class="fas fa-tachometer-alt"></i> Performance Issues</h2>
+            
+            <h3>High CPU Usage</h3>
+            <p>Player uses excessive CPU resources.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Disable AI features</li>
+                    <li>Reduce video quality</li>
+                    <li>Disable unnecessary effects</li>
+                    <li>Use hardware acceleration</li>
+                </ol>
+            </div>
+
+            <h3>High Memory Usage</h3>
+            <p>Player consumes too much RAM.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Reduce buffer size</li>
+                    <li>Disable caching</li>
+                    <li>Close unused plugins</li>
+                    <li>Check for memory leaks</li>
+                </ol>
+            </div>
+
+            <h3>Slow Startup</h3>
+            <p>Player takes long time to start.</p>
+            <div class="solution">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Disable auto-loading plugins</li>
+                    <li>Reduce library scanning</li>
+                    <li>Clear cache: <code>vantis cache clear</code></li>
+                    <li>Check for slow operations in startup</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Getting More Help:</strong>
+            <ul>
+                <li>Check logs: <code>vantis logs --verbose</code></li>
+                <li>Search <a href="https://github.com/vantisCorp/VantisMedia/issues" target="_blank">GitHub Issues</a></li>
+                <li>Create a new issue with detailed information</li>
+                <li>Join community discussions</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>When Reporting Issues:</strong> Please include:
+            <ul>
+                <li>Vantis Media Player version</li>
+                <li>Operating system and version</li>
+                <li>Hardware specifications</li>
+                <li>Steps to reproduce</li>
+                <li>Error messages and logs</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="architecture.html">Architecture</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>

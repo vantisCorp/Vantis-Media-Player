@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plugin Development - Vantis Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.5rem;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .plugin-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .host-functions {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .function-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .function-list li {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .function-list code {
+            background: none;
+            padding: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    Vantis Media Player
+                </div>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content">
+        <h1>Plugin Development</h1>
+        <p>Create powerful extensions for Vantis Media Player using WebAssembly (WASM).</p>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-puzzle-piece"></i> Overview</h2>
+            <p>Vantis Media Player uses a WASM-based plugin system that allows you to:</p>
+            <ul>
+                <li>Extend functionality with custom features</li>
+                <li>Run code in a secure sandbox</li>
+                <li>Access host functions for media control</li>
+                <li>Support hot-reload for development</li>
+                <li>Distribute plugins via the marketplace</li>
+            </ul>
+        </div>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-rocket"></i> Quick Start</h2>
+            
+            <div class="step">
+                <h4>Step 1: Create Plugin Project</h4>
+                <pre><code>cargo new --lib my-plugin
+cd my-plugin</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 2: Configure Cargo.toml</h4>
+                <pre><code>[package]
+name = "my-plugin"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 3: Implement Plugin</h4>
+                <pre><code>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn plugin_init() -> String {
+    "My Plugin initialized".to_string()
+}
+
+#[wasm_bindgen]
+pub fn plugin_tick() {
+    // Called every frame
+}
+
+#[wasm_bindgen]
+pub fn plugin_shutdown() {
+    // Cleanup
+}</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 4: Build WASM</h4>
+                <pre><code>cargo build --target wasm32-unknown-unknown --release
+wasm-bindgen target/wasm32-unknown-unknown/release/my_plugin.wasm \
+  --out-dir ./pkg</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 5: Load Plugin</h4>
+                <pre><code>vantis plugins load ./pkg/my_plugin.wasm</code></pre>
+            </div>
+        </div>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-cogs"></i> Host Functions</h2>
+            <p>Plugins can call host functions to interact with the player:</p>
+            
+            <div class="host-functions">
+                <h3>Logging</h3>
+                <ul class="function-list">
+                    <li><code>log(message: String)</code> - Log a message</li>
+                    <li><code>log_error(message: String)</code> - Log an error</li>
+                    <li><code>log_warn(message: String)</code> - Log a warning</li>
+                </ul>
+
+                <h3>Media Control</h3>
+                <ul class="function-list">
+                    <li><code>play()</code> - Start playback</li>
+                    <li><code>pause()</code> - Pause playback</li>
+                    <li><code>stop()</code> - Stop playback</li>
+                    <li><code>seek(position: f64)</code> - Seek to position (seconds)</li>
+                    <li><code>set_volume(volume: f32)</code> - Set volume (0.0-1.0)</li>
+                    <li><code>set_mute(muted: bool)</code> - Mute/unmute</li>
+                </ul>
+
+                <h3>State Query</h3>
+                <ul class="function-list">
+                    <li><code>get_position() -> f64</code> - Get current position (seconds)</li>
+                    <li><code>get_duration() -> f64</code> - Get duration (seconds)</li>
+                    <li><code>is_playing() -> bool</code> - Check if playing</li>
+                    <li><code>get_volume() -> f32</code> - Get volume</li>
+                </ul>
+
+                <h3>Utilities</h3>
+                <ul class="function-list">
+                    <li><code>get_config(key: String) -> String</code> - Get config value</li>
+                    <li><code>set_config(key: String, value: String)</code> - Set config value</li>
+                    <li><code>register_command(name: String, callback: i32)</code> - Register custom command</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-file-alt"></i> Plugin Manifest</h2>
+            <p>Create a <code>plugin.toml</code> manifest file:</p>
+            <pre><code>[plugin]
+name = "My Plugin"
+version = "0.1.0"
+author = "Your Name"
+description = "A sample plugin"
+category = "Utility"
+
+[permissions]
+# Required permissions
+media_control = true
+config_access = true
+network = false
+
+[dependencies]
+# Plugin dependencies
+required = []</code></pre>
+        </div>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-vial"></i> Testing Plugins</h2>
+            <p>Test your plugin during development:</p>
+            <pre><code># Load plugin
+vantis plugins load ./pkg/my_plugin.wasm
+
+# Enable hot-reload for development
+vantis plugins enable-hot-reload my_plugin
+
+# View plugin logs
+vantis plugins logs my_plugin
+
+# Unload plugin
+vantis plugins unload my_plugin</code></pre>
+        </div>
+
+        <div class="plugin-section">
+            <h2><i class="fas fa-store"></i> Publishing to Marketplace</h2>
+            <p>Share your plugin with the community:</p>
+            
+            <div class="step">
+                <h4>Step 1: Prepare Plugin</h4>
+                <ul>
+                    <li>Ensure plugin.toml is complete</li>
+                    <li>Write comprehensive README.md</li>
+                    <li>Add screenshots and examples</li>
+                    <li>Test thoroughly</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>Step 2: Create Release</h4>
+                <pre><code>vantis plugins package ./my-plugin
+# Creates my-plugin-0.1.0.vantisplugin</code></pre>
+            </div>
+
+            <div class="step">
+                <h4>Step 3: Submit to Marketplace</h4>
+                <pre><code>vantis plugins publish my-plugin-0.1.0.vantisplugin</code></pre>
+            </div>
+        </div>
+
+        <div class="note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Note:</strong> Plugins run in a WASM sandbox for security. They have limited access to system resources and must declare required permissions in the manifest.
+        </div>
+
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Warning:</strong> Be careful with performance in plugins. Avoid blocking operations in the tick() function as it's called every frame.
+        </div>
+
+        <h2><i class="fas fa-book"></i> Resources</h2>
+        <ul>
+            <li><a href="examples.html" target="_blank">Plugin Examples</a></li>
+            <li><a href="https://github.com/vantisCorp/VantisMedia/tree/main/examples/plugins" target="_blank">Plugin Templates</a></li>
+            <li><a href="https://webassembly.org/" target="_blank">WebAssembly Documentation</a></li>
+            <li><a href="https://rustwasm.github.io/" target="_blank">Rust and WebAssembly</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="architecture.html">Architecture</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="https://github.com/vantisCorp/VantisMedia" target="_blank">GitHub</a>
+            </div>
+            <p>&copy; 2024 Vantis Media Player. Built with Rust.</p>
+        </div>
+    </footer>
+</body>
+</html>
