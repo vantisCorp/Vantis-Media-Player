@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+docs/
+*.md
+!README.md
+!CHANGELOG.md
+
+# CI/CD
+.github/
+
+# Development
+target/
+Cargo.lock
+**/*.rs.bk
+.DS_Store
+
+# Testing
+tests/
+benches/
+*.profraw
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Other
+.env
+.env.local
+*.log
