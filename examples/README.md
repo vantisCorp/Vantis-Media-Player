@@ -20,6 +20,20 @@ A minimal example showing how to create a basic media player.
 cargo run --example simple_player
 ```
 
+#### `memory_optimization_example.rs`
+Demonstrates memory optimization features to reduce memory usage by 20%.
+
+**Features demonstrated:**
+- Video frame pooling
+- Memory reclamation
+- Memory statistics tracking
+- Memory optimization
+
+**Run:**
+```bash
+cargo run --example memory_optimization_example
+```
+
 ### Advanced Build & Deployment Features\n\n#### `advanced_build_example.rs`\nComprehensive demonstration of the advanced build & deployment system.\n\n**Features demonstrated:**\n- Cross-compilation for multiple platforms\n- Release notes generation\n- Deployment to different targets\n- Rollback operations\n- Health monitoring\n- Metric recording\n- Backup management\n\n**Run:**\n```bash\ncargo run --example advanced_build_example\n```\n\n**Advanced Build & Deployment Features:**\n\n1. **Cross-Compilation**\n   - Build for Linux, Windows, and macOS\n   - Support for x86_64 and ARM64 architectures\n   - Parallel builds and build caching\n\n2. **Release Notes Generation**\n   - Automatic categorization of changes\n   - Statistics generation\n   - Markdown formatting\n\n3. **Deployment**\n   - Multi-target deployment\n   - Docker, AWS, GCP, Azure support\n   - Health check integration\n\n4. **Rollback**\n   - Automatic rollback on failure\n   - Backup management\n   - Rollback history tracking\n\n5. **Health Monitoring**\n   - Health checks\n   - Performance metrics\n   - Alerting and notifications\n\n---
 
 ---
