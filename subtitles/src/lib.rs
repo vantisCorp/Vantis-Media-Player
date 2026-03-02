@@ -23,6 +23,7 @@ pub mod aggregator;
 pub mod sources;
 pub mod parser;
 pub mod sync;
+pub mod synchronization;
 pub mod encoding;
 
 use aggregator::SubtitleAggregator;

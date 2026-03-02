@@ -973,3 +973,66 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
+
+---
+
+### Subtitle Synchronization Features
+
+#### `subtitle_synchronization_example.rs`
+Comprehensive demonstration of the subtitle synchronization system.
+
+**Features demonstrated:**
+- Advanced sync algorithms (Linear, Adaptive, Waveform, Speech Recognition, Manual)
+- Manual sync adjustment with fine-tuning
+- Subtitle delay support (early/late, range -10s to +10s)
+- Sync presets (7 presets: No Delay, Early 100/250/500ms, Late 100/250/500ms)
+- Sync preview functionality
+- Complete workflow (add points, auto-sync, fine-tune, preview, save)
+
+**Run:**
+```bash
+cargo run --example subtitle_synchronization_example
+```
+
+**Subtitle Synchronization Features:**
+
+1. **Advanced Sync Algorithms**
+   - Linear interpolation
+   - Adaptive sync with confidence weighting
+   - Waveform-based sync
+   - Speech recognition sync
+   - Manual sync
+
+2. **Manual Sync Adjustment**
+   - Set specific delay
+   - Adjust delay incrementally
+   - Reset to default
+   - Range validation (-10s to +10s)
+
+3. **Subtitle Delay Support**
+   - Early subtitles (negative delay)
+   - Late subtitles (positive delay)
+   - No delay option
+   - Configurable min/max range
+
+4. **Sync Presets**
+   - 7 built-in presets
+   - Quick delay adjustments
+   - Preset descriptions
+   - Easy preset application
+
+5. **Sync Preview**
+   - Preview sync with different delays
+   - Quality assessment
+   - Non-destructive testing
+   - Real-time feedback
+
+6. **Sync Points Management**
+   - Add sync points
+   - Clear sync points
+   - Confidence scoring
+   - Multiple sync points support
+
+---
+
+
