@@ -58,6 +58,16 @@ Demonstrates keyboard shortcut implementation for playback control.
 - Volume control
 - Seeking functionality
 - Subtitle toggling
+
+#### `shortcut_editor_example.rs`
+Demonstrates the keyboard shortcut editor UI for customizing shortcuts.
+
+**Features demonstrated:**
+- Shortcut editor UI
+- Conflict detection
+- Shortcut presets (Default, VLC Style, MPC)
+- Export and import configurations
+- Reset to defaults
 - Fullscreen control
 
 **Shortcuts included:**
