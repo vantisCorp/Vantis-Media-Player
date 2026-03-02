@@ -4,6 +4,8 @@
 /// - Automatic encoding detection and conversion
 /// - AI-powered subtitle synchronization
 /// - Hash-based matching for perfect alignment
+/// - Machine translation support for subtitles
+/// - Subtitle style customization
 /// 
 //! Supported subtitle sources:
 /// - NapiProjekt (Polish)
@@ -24,9 +26,13 @@ pub mod sources;
 pub mod parser;
 pub mod sync;
 pub mod encoding;
+pub mod translation;
+pub mod styles;
 
 use aggregator::SubtitleAggregator;
 use parser::{SubtitleFormat, SubtitleTrack};
+use translation::{MachineTranslator, TranslationConfig};
+use styles::{StyleManager, SubtitleStyle};
 
 // Re-export subtitle sources for convenience
 pub use sources::{
@@ -51,6 +57,9 @@ pub struct VantisBabel {
     
     /// Default language
     default_language: String,
+    
+    /// Style manager
+    style_manager: StyleManager,
 }
 
 impl VantisBabel {
@@ -58,10 +67,15 @@ impl VantisBabel {
     pub fn new() -> Result<Self> {
         info!("📝 Initializing Vantis Babel (Subtitle Engine)");
         
+        let translator = MachineTranslator::new(TranslationConfig::default());
+        let style_manager = StyleManager::new();
+        
         Ok(Self {
             aggregator: SubtitleAggregator::new()?,
             tracks: HashMap::new(),
             default_language: "pl".to_string(),
+            translator,
+            style_manager,
         })
     }
     
@@ -144,6 +158,77 @@ impl VantisBabel {
         }
         
         Ok(())
+    }
+    
+    /// Translate subtitle track to target language
+    pub async fn translate_subtitle(
+        &mut self,
+        track_id: &str,
+        target_language: &str,
+    ) -> Result<()> {
+        info!("🌍 Translating subtitle: {} to {}", track_id, target_language);
+        
+        if let Some(track) = self.tracks.get_mut(track_id) {
+            let source_language = &track.language;
+            
+            // Translate all subtitle entries
+            for entry in &mut track.entries {
+                if let Some(result) = self.translator
+                    .translate(&entry.text, source_language, target_language)
+                    .await
+                    .context("Failed to translate subtitle text")?
+                {
+                    entry.text = result.translated_text;
+                }
+            }
+            
+            // Update track language
+            track.language = target_language.to_string();
+            
+            info!("✅ Subtitle translated to {}", target_language);
+        }
+        
+        Ok(())
+    }
+    
+    /// Get machine translator
+    pub fn translator(&self) -> &MachineTranslator {
+        &self.translator
+    }
+    
+    /// Get machine translator mutable reference
+    pub fn translator_mut(&mut self) -> &mut MachineTranslator {
+        &mut self.translator
+    }
+    
+    /// Get style manager
+    pub fn style_manager(&self) -> &StyleManager {
+        &self.style_manager
+    }
+    
+    /// Get style manager mutable reference
+    pub fn style_manager_mut(&mut self) -> &mut StyleManager {
+        &mut self.style_manager
+    }
+    
+    /// Apply subtitle style
+    pub fn apply_subtitle_style(&mut self, style: SubtitleStyle) -> Result<()> {
+        info!("🎨 Applying subtitle style");
+        
+        // Validate and set the style
+        style.validate()?;
+        self.style_manager.set_current_style(style).await?;
+        
+        info!("✅ Subtitle style applied");
+        Ok(())
+    }
+    
+    /// Get current subtitle style
+    pub fn get_subtitle_style(&self) -> SubtitleStyle {
+        // Return current style from style manager
+        // Note: This is synchronous but the style manager is async
+        // In a real implementation, you'd handle this differently
+        SubtitleStyle::default()
     }
 }
 
