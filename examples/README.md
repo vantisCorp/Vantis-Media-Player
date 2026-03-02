@@ -973,3 +973,54 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
+
+---
+
+### Startup Optimization Features
+
+#### `startup_optimization_example.rs`
+Comprehensive demonstration of the startup optimization system.
+
+**Features demonstrated:**
+- Lazy plugin loading
+- Parallel initialization
+- Deferred initialization
+- Configuration caching
+- Startup time profiling
+- Phase-based initialization tracking
+
+**Run:**
+```bash
+cargo run --example startup_optimization_example
+```
+
+**Startup Optimization Features:**
+
+1. **Lazy Plugin Loading**
+   - Load plugins on-demand
+   - Plugin caching
+   - Load status tracking
+
+2. **Parallel Initialization**
+   - Concurrent task execution
+   - Configurable parallelism
+   - Task scheduling
+
+3. **Deferred Initialization**
+   - Non-critical task postponement
+   - Background initialization
+   - Task queue management
+
+4. **Configuration Caching**
+   - Config file caching
+   - Preloading support
+   - Cache invalidation
+
+5. **Startup Profiling**
+   - Phase-based timing
+   - Detailed reports
+   - Performance metrics
+
+---
+
+
