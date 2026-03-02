@@ -973,3 +973,68 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
+
+---
+
+### Customizable Theme System Features
+
+#### `customizable_theme_system_example.rs`
+Comprehensive demonstration of the customizable theme system.
+
+**Features demonstrated:**
+- Theme specification format with comprehensive settings
+- Theme presets (Dark, Light, Midnight, Ocean, Forest, Sunset)
+- Theme validation (name, colors, format)
+- Theme import/export (JSON format)
+- Theme customization (colors, typography, spacing, components)
+- Complete workflow (create, validate, add, set, export, remove, import)
+
+**Run:**
+```bash
+cargo run --example customizable_theme_system_example
+```
+
+**Customizable Theme System Features:**
+
+1. **Theme Specification Format**
+   - Comprehensive theme definition with 20+ fields
+   - Color palette (primary, secondary, accent, background, surface, text, borders, status colors)
+   - Typography settings (font family, sizes, weights, line height, letter spacing)
+   - Spacing settings (unit, small, medium, large, extra large)
+   - Border radius settings (small, medium, large, extra large, full)
+   - Shadow settings (small, medium, large, extra large)
+   - Component styles (button, input, card, navigation)
+   - Custom CSS support
+
+2. **Theme Presets**
+   - 6 built-in theme presets (Dark, Light, Midnight, Ocean, Forest, Sunset)
+   - Light and dark theme types
+   - Custom theme support
+   - Theme metadata (name, version, author, description)
+
+3. **Theme Validation**
+   - Theme name validation
+   - Color format validation (hex format #RRGGBB)
+   - Comprehensive validation checks
+
+4. **Theme Import/Export**
+   - JSON format for themes
+   - Export themes to files
+   - Import themes from files
+   - Theme sharing support
+
+5. **Theme Customization**
+   - Modify existing themes
+   - Create custom themes from scratch
+   - Customize colors, typography, spacing, components
+   - Add custom CSS
+
+6. **Theme Management**
+   - Add custom themes
+   - Remove custom themes (presets protected)
+   - Set current theme
+   - List available themes
+
+---
+
+

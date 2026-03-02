@@ -11,8 +11,10 @@ pub mod omnibar;
 pub mod controls;
 pub mod library;
 pub mod marketplace;
+pub mod enhanced_marketplace;
 pub mod navigation;
 pub mod theme;
+pub mod theme_system;
 
 /// Vantis UI Application
 pub struct VantisUI {
