@@ -973,3 +973,49 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
+---
+
+### Machine Translation Features
+
+#### `machine_translation_example.rs`
+Comprehensive demonstration of the machine translation system for subtitles.
+
+**Features demonstrated:**
+- Translation of subtitle tracks
+- Multiple translation services (Google Translate, DeepL, LibreTranslate)
+- 20 supported languages
+- Batch translation
+- Translation caching
+- Quality indicators
+- Custom configuration
+
+**Run:**
+```bash
+cargo run --example machine_translation_example
+```
+
+**Machine Translation Features:**
+
+1. **Translation Services**
+   - Google Translate integration
+   - DeepL integration
+   - LibreTranslate (free, self-hosted)
+
+2. **Language Support**
+   - 20 languages including English, Spanish, French, German, etc.
+   - Auto-detect source language
+   - Language information with native names
+
+3. **Translation Features**
+   - Subtitle track translation
+   - Batch translation
+   - Quality scoring (0.0-1.0)
+   - Confidence metrics
+
+4. **Performance**
+   - Translation caching
+   - Configurable cache size
+   - Batch processing
+   - Cache management
+
+---
