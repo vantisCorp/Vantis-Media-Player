@@ -11,6 +11,7 @@ pub mod omnibar;
 pub mod controls;
 pub mod library;
 pub mod marketplace;
+pub mod enhanced_marketplace;
 pub mod navigation;
 pub mod shortcuts;
 pub mod theme;
