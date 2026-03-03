@@ -24,9 +24,15 @@ pub mod sources;
 pub mod parser;
 pub mod sync;
 pub mod encoding;
+pub mod ttml;
+pub mod webvtt;
 
 use aggregator::SubtitleAggregator;
 use parser::{SubtitleFormat, SubtitleTrack};
+
+// Re-export new format parsers
+pub use ttml::{TtmlParser, TtmlSubtitleEntry, TtmlStyle, TtmlRegion};
+pub use webvtt::{WebVttParser, WebVttCue, WebVttSetting, WebVttRegion, WebVttStyle};
 
 // Re-export subtitle sources for convenience
 pub use sources::{
