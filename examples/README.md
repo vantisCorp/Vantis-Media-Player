@@ -20,6 +20,20 @@ A minimal example showing how to create a basic media player.
 cargo run --example simple_player
 ```
 
+#### `memory_optimization_example.rs`
+Demonstrates memory optimization features to reduce memory usage by 20%.
+
+**Features demonstrated:**
+- Video frame pooling
+- Memory reclamation
+- Memory statistics tracking
+- Memory optimization
+
+**Run:**
+```bash
+cargo run --example memory_optimization_example
+```
+
 ### Advanced Build & Deployment Features\n\n#### `advanced_build_example.rs`\nComprehensive demonstration of the advanced build & deployment system.\n\n**Features demonstrated:**\n- Cross-compilation for multiple platforms\n- Release notes generation\n- Deployment to different targets\n- Rollback operations\n- Health monitoring\n- Metric recording\n- Backup management\n\n**Run:**\n```bash\ncargo run --example advanced_build_example\n```\n\n**Advanced Build & Deployment Features:**\n\n1. **Cross-Compilation**\n   - Build for Linux, Windows, and macOS\n   - Support for x86_64 and ARM64 architectures\n   - Parallel builds and build caching\n\n2. **Release Notes Generation**\n   - Automatic categorization of changes\n   - Statistics generation\n   - Markdown formatting\n\n3. **Deployment**\n   - Multi-target deployment\n   - Docker, AWS, GCP, Azure support\n   - Health check integration\n\n4. **Rollback**\n   - Automatic rollback on failure\n   - Backup management\n   - Rollback history tracking\n\n5. **Health Monitoring**\n   - Health checks\n   - Performance metrics\n   - Alerting and notifications\n\n---
 
 ---
@@ -58,6 +72,16 @@ Demonstrates keyboard shortcut implementation for playback control.
 - Volume control
 - Seeking functionality
 - Subtitle toggling
+
+#### `shortcut_editor_example.rs`
+Demonstrates the keyboard shortcut editor UI for customizing shortcuts.
+
+**Features demonstrated:**
+- Shortcut editor UI
+- Conflict detection
+- Shortcut presets (Default, VLC Style, MPC)
+- Export and import configurations
+- Reset to defaults
 - Fullscreen control
 
 **Shortcuts included:**
@@ -976,6 +1000,7 @@ Happy coding! 🚀
 
 ---
 
+
 ### Enhanced Plugin Marketplace UI Features
 
 #### `enhanced_plugin_marketplace_example.rs`
@@ -1032,6 +1057,101 @@ cargo run --example enhanced_plugin_marketplace_example
    - Popular plugins section
    - New plugins section
    - Verified plugin badges
+
+
+### Startup Optimization Features
+
+#### `startup_optimization_example.rs`
+Comprehensive demonstration of the startup optimization system.
+
+**Features demonstrated:**
+- Lazy plugin loading
+- Parallel initialization
+- Deferred initialization
+- Configuration caching
+- Startup time profiling
+- Phase-based initialization tracking
+
+**Run:**
+```bash
+cargo run --example startup_optimization_example
+```
+
+**Startup Optimization Features:**
+
+1. **Lazy Plugin Loading**
+   - Load plugins on-demand
+   - Plugin caching
+   - Load status tracking
+
+2. **Parallel Initialization**
+   - Concurrent task execution
+   - Configurable parallelism
+   - Task scheduling
+
+3. **Deferred Initialization**
+   - Non-critical task postponement
+   - Background initialization
+   - Task queue management
+
+4. **Configuration Caching**
+   - Config file caching
+   - Preloading support
+   - Cache invalidation
+
+5. **Startup Profiling**
+   - Phase-based timing
+   - Detailed reports
+   - Performance metrics
+=======
+### Video Decoding Optimization Features
+
+#### `video_decoding_optimization_example.rs`
+Comprehensive demonstration of the video decoding optimization system.
+
+**Features demonstrated:**
+- Hardware-accelerated decoding for multiple codecs
+- Frame buffer management with overflow handling
+- Frame skipping strategies (adaptive, target FPS, skip every Nth)
+- GPU-CPU synchronization with zero-copy support
+- Adaptive quality adjustment based on performance
+- Hardware decoder selection
+
+**Run:**
+```bash
+cargo run --example video_decoding_optimization_example
+```
+
+**Video Decoding Optimization Features:**
+
+1. **Hardware-Accelerated Decoding**
+   - Support for NVDEC, QuickSync, VCE, VideoToolbox, VAAPI, VDPAU, DXVA2, D3D11VA
+   - Automatic decoder selection based on codec
+   - Software decoder fallback
+
+2. **Frame Buffer Management**
+   - Configurable buffer size
+   - Automatic overflow handling
+   - Frame retrieval and removal
+   - Usage statistics
+
+3. **Frame Skipping**
+   - Multiple strategies (None, SkipEveryNth, Adaptive, TargetFPS)
+   - Enable/disable control
+   - Frame counter reset
+
+4. **GPU-CPU Synchronization**
+   - Configurable timeout
+   - Zero-copy mode support
+   - Pending frame tracking
+   - Error tracking
+
+5. **Adaptive Quality**
+   - Automatic quality adjustment based on FPS
+   - Min/max quality limits
+   - Manual quality setting
+   - Enable/disable control
+
 
 ---
 

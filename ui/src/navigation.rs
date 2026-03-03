@@ -16,6 +16,9 @@ pub enum NavView {
     
     /// Settings view
     Settings,
+    
+    /// Shortcuts view
+    Shortcuts,
 }
 
 /// Navigation state
@@ -68,6 +71,9 @@ pub fn view_navigation(state: &NavigationState) -> Element<Message> {
             Space::with_width(Length::Fixed(10.0)),
             button("Settings")
                 .on_press(Message::NavigateTo(NavView::Settings)),
+            Space::with_width(Length::Fixed(10.0)),
+            button("Shortcuts")
+                .on_press(Message::NavigateTo(NavView::Shortcuts)),
         ]
         .spacing(10)
         .padding(10),
