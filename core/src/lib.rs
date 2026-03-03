@@ -15,12 +15,14 @@ use crate::memory_optimization::{MemoryOptimizer, MemoryOptimizationConfig};
 use crate::events::EventBus;
 use crate::state::PlayerState;
 use crate::config::Config;
+use crate::startup_optimization::{StartupConfig, StartupOptimizer};
 
 pub mod memory;
 pub mod memory_optimization;
 pub mod events;
 pub mod state;
 pub mod config;
+pub mod startup_optimization;
 
 /// The Core System - Heart of Vantis Player
 ///
@@ -47,6 +49,9 @@ pub struct VantisCore {
     
     /// Configuration
     config: Config,
+    
+    /// Startup optimizer
+    startup_optimizer: Option<StartupOptimizer>,
     
     /// Video engine
     video_engine: Option<Box<dyn std::any::Any + Send + Sync>>,
@@ -95,6 +100,10 @@ impl VantisCore {
         // Initialize frame pool for 1080p video
         memory_optimizer.init_frame_pool(1920, 1080, 30)?;
         
+        // Initialize startup optimizer
+        let startup_config = StartupConfig::default();
+        let startup_optimizer = Some(StartupOptimizer::new(startup_config));
+        
         Ok(Self {
             id,
             event_bus: Arc::new(EventBus::new()),
@@ -102,6 +111,7 @@ impl VantisCore {
             buffer_pool: Arc::new(ZeroCopyBuffer::new(512 * 1024 * 1024)?), // 512MB pool
             memory_optimizer: Arc::new(memory_optimizer),
             config,
+            startup_optimizer,
             video_engine: None,
             audio_engine: None,
             ui_engine: None,
@@ -428,6 +438,34 @@ impl VantisCore {
     /// Get core ID
     pub fn id(&self) -> Uuid {
         self.id
+    }
+    
+    /// Get startup optimizer
+    pub fn startup_optimizer(&self) -> Option<&StartupOptimizer> {
+        self.startup_optimizer.as_ref()
+    }
+    
+    /// Initialize with startup optimization
+    pub async fn initialize_optimized(&self) -> Result<()> {
+        if let Some(optimizer) = &self.startup_optimizer {
+            info!("Starting optimized initialization");
+            optimizer.start();
+            
+            // Run initialization tasks
+            optimizer.run_init_tasks().await?;
+            
+            // Complete startup
+            optimizer.complete();
+            
+            // Print startup report
+            let report = optimizer.get_report();
+            info!("{}", report);
+            
+            Ok(())
+        } else {
+            info!("No startup optimizer configured, using standard initialization");
+            Ok(())
+        }
     }
     
     /// Get memory optimizer
