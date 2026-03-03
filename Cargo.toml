@@ -25,7 +25,8 @@ members = [
     "advanced_docs",
     "advanced_build",
     "advanced_analytics",
-    "cli"
+    "cli",
+    "marketplace"
 ]
 
 [workspace.package]
@@ -131,6 +132,7 @@ vantis-advanced-docs = { path = "advanced_docs" }
 vantis-advanced-build = { path = "advanced_build" }
 vantis-advanced-analytics = { path = "advanced_analytics" }
 vantis-cli = { path = "cli" }
+vantis-marketplace = { path = "marketplace" }
 
 [dev-dependencies]
 criterion = "0.5"
