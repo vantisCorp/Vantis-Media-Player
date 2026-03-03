@@ -13,6 +13,7 @@ pub mod library;
 pub mod marketplace;
 pub mod enhanced_marketplace;
 pub mod navigation;
+pub mod shortcuts;
 pub mod theme;
 pub mod theme_system;
 
@@ -32,6 +33,9 @@ pub struct VantisUI {
     
     /// Navigation state
     navigation: navigation::NavigationState,
+    
+    /// Shortcuts editor state
+    shortcuts: shortcuts::ShortcutEditorState,
     
     /// Theme
     theme: theme::Theme,
@@ -54,6 +58,9 @@ pub enum Message {
     /// Navigation message
     Navigation(navigation::Message),
     
+    /// Shortcuts message
+    Shortcuts(shortcuts::Message),
+    
     /// Theme changed
     ThemeChanged(theme::Theme),
 }
@@ -69,6 +76,7 @@ impl VantisUI {
             library: library::LibraryState::new(),
             marketplace: marketplace::MarketplaceState::new(),
             navigation: navigation::NavigationState::new(),
+            shortcuts: shortcuts::ShortcutEditorState::new(),
             theme: theme::Theme::Dark,
         })
     }
@@ -89,6 +97,7 @@ impl Application for VantisUI {
             library: library::LibraryState::new(),
             marketplace: marketplace::MarketplaceState::new(),
             navigation: navigation::NavigationState::new(),
+            shortcuts: shortcuts::ShortcutEditorState::new(),
             theme: theme::Theme::Dark,
         };
         
@@ -112,6 +121,9 @@ impl Application for VantisUI {
             }
             Message::Marketplace(msg) => {
                 self.marketplace.update(msg);
+            }
+            Message::Shortcuts(msg) => {
+                self.shortcuts.update(msg);
             }
             Message::Navigation(msg) => {
                 match msg {
@@ -146,6 +158,10 @@ impl Application for VantisUI {
                 navigation::NavView::Settings => {
                     iced::container(iced::text("Settings View"))
                         .into()
+                }
+                navigation::NavView::Shortcuts => {
+                    self.shortcuts.view()
+                        .map(Message::Shortcuts)
                 }
             },
         ]
