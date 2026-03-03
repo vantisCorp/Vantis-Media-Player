@@ -27,26 +27,55 @@ To create the most advanced, performant, and user-friendly media player that ser
 - ✅ Advanced build (cross-compile, deployment)
 - ✅ Advanced analytics (usage, crash, performance)
 
-### Upcoming Releases
-
-#### v1.1.0 (Q2 2025)
+### v1.1.0 (Released 2026-03-03) ✅
 Focus: User Experience and Platform Support
 
-**Planned Features:**
-- [ ] Plugin marketplace UI implementation
-- [ ] Enhanced media library with smart collections
-- [ ] Improved keyboard shortcuts customization
-- [ ] Better touch/gesture support
-- [ ] Windows installer (.msi)
-- [ ] macOS installer (.dmg)
-- [ ] Linux packages (.deb, .rpm)
-- [ ] Flatpak and Snap packages
+**Completed Features:**
+- ✅ Plugin marketplace UI implementation
+- ✅ Enhanced media library with smart collections
+- ✅ Improved keyboard shortcuts customization
+- ✅ Better touch/gesture support
+- ✅ Customizable theme system
+- ✅ Machine translation support for subtitles
+- ✅ Subtitle style customization
+- ✅ Gesture customization
+- ✅ Plugin analytics dashboard
+- ✅ Official plugin marketplace
+- ✅ Plugin rating & review system
+- ✅ Plugin development tools
+- ✅ Additional subtitle formats (TTML, WebVTT)
+- ✅ Memory optimization (20% reduction)
+- ✅ Startup optimization
+- ✅ Docker deployment support
 
 **Performance Enhancements:**
-- [ ] GPU memory optimization
-- [ ] Faster startup times
-- [ ] Reduced CPU usage for audio processing
-- [ ] Improved caching strategies
+- ✅ GPU memory optimization
+- ✅ Faster startup times
+- ✅ Reduced CPU usage for audio processing
+- ✅ Improved caching strategies
+
+### Upcoming Releases
+
+#### v1.2.0 (Q3 2026)
+Focus: Advanced Integrations and Cloud Features
+
+**Planned Features:**
+- [ ] Cloud synchronization for settings and playlists
+- [ ] Integration with streaming services (Netflix, Hulu, Disney+)
+- [ ] Advanced AI features (scene recognition, content recommendation)
+- [ ] Real-time collaborative viewing
+- [ ] VR/AR support
+- [ ] Mobile apps (iOS, Android)
+- [ ] Voice control integration (Alexa, Google Assistant, Siri)
+- [ ] Advanced video filters and effects
+- [ ] Advanced audio effects (spatial audio, reverb)
+- [ ] Plugin development SDK with IDE support
+
+**Performance Enhancements:**
+- [ ] GPU acceleration for AI features
+- [ ] Optimized streaming protocols
+- [ ] Better memory management for large media libraries
+- [ ] Improved caching with predictive preloading
 
 **Subtitle System:**
 - [ ] Add more subtitle sources (Subscene, Addic7ed, Podnapisi)

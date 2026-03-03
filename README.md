@@ -4,6 +4,10 @@
 
 An advanced media player built entirely in Rust with zero-cost abstractions, GPU acceleration, and AI-powered features. Vantis represents "The Last Interface" - one platform that understands content, users, and surroundings.
 
+## Version
+
+Current stable release: **v1.1.0** (March 3, 2026)
+
 ## 🌟 Features
 
 ### 🏛️ Foundation (Phase 1)
