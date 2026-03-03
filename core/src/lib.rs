@@ -11,11 +11,13 @@ use tokio::sync::mpsc;
 use uuid::Uuid;
 
 use crate::memory::ZeroCopyBuffer;
+use crate::memory_optimization::{MemoryOptimizer, MemoryOptimizationConfig};
 use crate::events::EventBus;
 use crate::state::PlayerState;
 use crate::config::Config;
 
 pub mod memory;
+pub mod memory_optimization;
 pub mod events;
 pub mod state;
 pub mod config;
@@ -39,6 +41,9 @@ pub struct VantisCore {
     
     /// Zero-copy buffer pool for media data
     buffer_pool: Arc<ZeroCopyBuffer>,
+    
+    /// Memory optimizer
+    memory_optimizer: Arc<MemoryOptimizer>,
     
     /// Configuration
     config: Config,
@@ -83,11 +88,19 @@ impl VantisCore {
         let id = Uuid::new_v4();
         info!("Vantis Core initialized (ID: {})", id);
         
+        // Initialize memory optimizer
+        let memory_config = MemoryOptimizationConfig::default();
+        let mut memory_optimizer = MemoryOptimizer::new(memory_config);
+        
+        // Initialize frame pool for 1080p video
+        memory_optimizer.init_frame_pool(1920, 1080, 30)?;
+        
         Ok(Self {
             id,
             event_bus: Arc::new(EventBus::new()),
             state: Arc::new(RwLock::new(PlayerState::new())),
             buffer_pool: Arc::new(ZeroCopyBuffer::new(512 * 1024 * 1024)?), // 512MB pool
+            memory_optimizer: Arc::new(memory_optimizer),
             config,
             video_engine: None,
             audio_engine: None,
@@ -415,6 +428,21 @@ impl VantisCore {
     /// Get core ID
     pub fn id(&self) -> Uuid {
         self.id
+    }
+    
+    /// Get memory optimizer
+    pub fn memory_optimizer(&self) -> Arc<MemoryOptimizer> {
+        self.memory_optimizer.clone()
+    }
+    
+    /// Optimize memory usage
+    pub fn optimize_memory(&self) -> Result<f64> {
+        self.memory_optimizer.optimize()
+    }
+    
+    /// Get memory statistics
+    pub fn memory_stats(&self) -> crate::memory_optimization::MemoryStats {
+        self.memory_optimizer.get_stats()
     }
 }
 
