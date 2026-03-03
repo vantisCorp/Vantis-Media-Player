@@ -19,6 +19,15 @@ pub mod memory;
 pub mod events;
 pub mod state;
 pub mod config;
+pub mod memory_optimization;
+
+// Re-export memory optimization
+pub use memory_optimization::{
+    MemoryOptimizer, MemoryOptimizationConfig,
+    VideoFramePool, BufferPoolOptimization, MemoryMonitor,
+    LazyLoader, FrameHandle, BufferHandle,
+    PoolStats, BufferStats, MemoryStats,
+};
 
 /// The Core System - Heart of Vantis Player
 ///
