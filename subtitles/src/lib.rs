@@ -4,6 +4,7 @@
 /// - Automatic encoding detection and conversion
 /// - AI-powered subtitle synchronization
 /// - Hash-based matching for perfect alignment
+/// - Machine translation support for subtitles
 /// 
 //! Supported subtitle sources:
 /// - NapiProjekt (Polish)
@@ -23,17 +24,13 @@ pub mod aggregator;
 pub mod sources;
 pub mod parser;
 pub mod sync;
-pub mod synchronization;
 pub mod encoding;
-pub mod ttml;
-pub mod webvtt;
+pub mod translation;
 
 use aggregator::SubtitleAggregator;
 use parser::{SubtitleFormat, SubtitleTrack};
-
-// Re-export new format parsers
-pub use ttml::{TtmlParser, TtmlSubtitleEntry, TtmlStyle, TtmlRegion};
-pub use webvtt::{WebVttParser, WebVttCue, WebVttSetting, WebVttRegion, WebVttStyle};
+use translation::{MachineTranslator, TranslationConfig};
+use translation::{MachineTranslator, TranslationConfig};
 
 // Re-export subtitle sources for convenience
 pub use sources::{
@@ -58,6 +55,9 @@ pub struct VantisBabel {
     
     /// Default language
     default_language: String,
+    
+    /// Machine translator
+    translator: MachineTranslator,
 }
 
 impl VantisBabel {
@@ -65,10 +65,13 @@ impl VantisBabel {
     pub fn new() -> Result<Self> {
         info!("📝 Initializing Vantis Babel (Subtitle Engine)");
         
+        let translator = MachineTranslator::new(TranslationConfig::default());
+        
         Ok(Self {
             aggregator: SubtitleAggregator::new()?,
             tracks: HashMap::new(),
             default_language: "pl".to_string(),
+            translator,
         })
     }
     
@@ -151,6 +154,47 @@ impl VantisBabel {
         }
         
         Ok(())
+    }
+    
+    /// Translate subtitle track to target language
+    pub async fn translate_subtitle(
+        &mut self,
+        track_id: &str,
+        target_language: &str,
+    ) -> Result<()> {
+        info!("🌍 Translating subtitle: {} to {}", track_id, target_language);
+        
+        if let Some(track) = self.tracks.get_mut(track_id) {
+            let source_language = &track.language;
+            
+            // Translate all subtitle entries
+            for entry in &mut track.entries {
+                if let Some(result) = self.translator
+                    .translate(&entry.text, source_language, target_language)
+                    .await
+                    .context("Failed to translate subtitle text")?
+                {
+                    entry.text = result.translated_text;
+                }
+            }
+            
+            // Update track language
+            track.language = target_language.to_string();
+            
+            info!("✅ Subtitle translated to {}", target_language);
+        }
+        
+        Ok(())
+    }
+    
+    /// Get machine translator
+    pub fn translator(&self) -> &MachineTranslator {
+        &self.translator
+    }
+    
+    /// Get machine translator mutable reference
+    pub fn translator_mut(&mut self) -> &mut MachineTranslator {
+        &mut self.translator
     }
 }
 

@@ -891,78 +891,6 @@ VANTIS_GPU_BACKEND=Metal cargo run --example simple_player
 
 ### Advanced Analytics & Telemetry Features\n\n#### `advanced_analytics_example.rs`\nComprehensive demonstration of the advanced analytics & telemetry system.\n\n**Features demonstrated:**\n- Usage analytics (events, sessions)\n- Crash reporting\n- Performance monitoring\n- User feedback collection\n- A/B testing\n- Statistical analysis\n- Data export\n\n**Run:**\n```bash\ncargo run --example advanced_analytics_example\n```\n\n**Advanced Analytics & Telemetry Features:**\n\n1. **Usage Analytics**\n   - Event tracking with categories\n   - User session management\n   - Usage statistics\n   - Sampling support\n\n2. **Crash Reporting**\n   - Automatic crash detection\n   - Sentry integration\n   - Crash severity classification\n   - Crash statistics\n\n3. **Performance Monitoring**\n   - Metric collection (Counter, Gauge, Histogram, Summary)\n   - Prometheus integration\n   - Real-time monitoring\n   - Performance alerts\n\n4. **User Feedback**\n   - Feedback collection\n   - Rating system\n   - Screenshot support\n   - System information\n\n5. **A/B Testing**\n   - Experiment management\n   - Variant assignment\n   - Conversion tracking\n   - Statistical analysis\n\n---
 
-### Plugin Analytics & Development
-
-#### `plugin_analytics_dashboard_example.rs`
-Comprehensive demonstration of the plugin analytics dashboard.
-
-**Features demonstrated:**
-- Installation tracking
-- Download statistics
-- Usage session monitoring
-- Performance metrics collection
-- Error tracking and analysis
-- Analytics summary
-- Data export (JSON, CSV, HTML)
-- Performance alerts
-- Data cleanup with retention policy
-- Multi-plugin support
-
-**Plugin Analytics Dashboard Features:**
-
-1. **Installation Tracking**
-   - Total installations by plugin
-   - Installation history by date
-   - Active installations (last 30 days)
-   - Uninstallation tracking
-   - Platform distribution
-   - Installation source analysis
-
-2. **Usage Monitoring**
-   - Session tracking
-   - Average session duration
-   - Daily/monthly active users
-   - Feature usage statistics
-   - User actions count
-   - Error rates per session
-
-3. **Performance Metrics**
-   - Memory usage tracking
-   - CPU usage monitoring
-   - Response time measurement
-   - Initialization time tracking
-   - Average metrics calculation
-   - P95/P99 percentile metrics
-   - Performance alerts
-
-4. **Error Tracking**
-   - Error counting
-   - Error rate calculation
-   - Top errors identification
-   - Error impact analysis
-   - Stack trace collection
-   - Error history
-
-5. **Download Statistics**
-   - Total downloads
-   - Downloads by version
-   - Downloads by platform
-   - Download trends
-   - Growth rate calculation
-
-6. **Data Export**
-   - JSON format
-   - CSV format
-   - HTML format
-   - Comprehensive summary
-
-**Run:**
-```bash
-cargo run --example plugin_analytics_dashboard_example
-```
-
----
-
 ## Contributing Examples
 
 We welcome community contributions! To add a new example:
@@ -1045,66 +973,49 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
-
 ---
 
-### Subtitle Synchronization Features
+### Machine Translation Features
 
-#### `subtitle_synchronization_example.rs`
-Comprehensive demonstration of the subtitle synchronization system.
+#### `machine_translation_example.rs`
+Comprehensive demonstration of the machine translation system for subtitles.
 
 **Features demonstrated:**
-- Advanced sync algorithms (Linear, Adaptive, Waveform, Speech Recognition, Manual)
-- Manual sync adjustment with fine-tuning
-- Subtitle delay support (early/late, range -10s to +10s)
-- Sync presets (7 presets: No Delay, Early 100/250/500ms, Late 100/250/500ms)
-- Sync preview functionality
-- Complete workflow (add points, auto-sync, fine-tune, preview, save)
+- Translation of subtitle tracks
+- Multiple translation services (Google Translate, DeepL, LibreTranslate)
+- 20 supported languages
+- Batch translation
+- Translation caching
+- Quality indicators
+- Custom configuration
 
 **Run:**
 ```bash
-cargo run --example subtitle_synchronization_example
+cargo run --example machine_translation_example
 ```
 
-**Subtitle Synchronization Features:**
+**Machine Translation Features:**
 
-1. **Advanced Sync Algorithms**
-   - Linear interpolation
-   - Adaptive sync with confidence weighting
-   - Waveform-based sync
-   - Speech recognition sync
-   - Manual sync
+1. **Translation Services**
+   - Google Translate integration
+   - DeepL integration
+   - LibreTranslate (free, self-hosted)
 
-2. **Manual Sync Adjustment**
-   - Set specific delay
-   - Adjust delay incrementally
-   - Reset to default
-   - Range validation (-10s to +10s)
+2. **Language Support**
+   - 20 languages including English, Spanish, French, German, etc.
+   - Auto-detect source language
+   - Language information with native names
 
-3. **Subtitle Delay Support**
-   - Early subtitles (negative delay)
-   - Late subtitles (positive delay)
-   - No delay option
-   - Configurable min/max range
+3. **Translation Features**
+   - Subtitle track translation
+   - Batch translation
+   - Quality scoring (0.0-1.0)
+   - Confidence metrics
 
-4. **Sync Presets**
-   - 7 built-in presets
-   - Quick delay adjustments
-   - Preset descriptions
-   - Easy preset application
-
-5. **Sync Preview**
-   - Preview sync with different delays
-   - Quality assessment
-   - Non-destructive testing
-   - Real-time feedback
-
-6. **Sync Points Management**
-   - Add sync points
-   - Clear sync points
-   - Confidence scoring
-   - Multiple sync points support
+4. **Performance**
+   - Translation caching
+   - Configurable cache size
+   - Batch processing
+   - Cache management
 
 ---
-
-
