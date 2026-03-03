@@ -976,64 +976,62 @@ Happy coding! 🚀
 
 ---
 
-### Customizable Theme System Features
+### Subtitle Synchronization Features
 
-#### `customizable_theme_system_example.rs`
-Comprehensive demonstration of the customizable theme system.
+#### `subtitle_synchronization_example.rs`
+Comprehensive demonstration of the subtitle synchronization system.
 
 **Features demonstrated:**
-- Theme specification format with comprehensive settings
-- Theme presets (Dark, Light, Midnight, Ocean, Forest, Sunset)
-- Theme validation (name, colors, format)
-- Theme import/export (JSON format)
-- Theme customization (colors, typography, spacing, components)
-- Complete workflow (create, validate, add, set, export, remove, import)
+- Advanced sync algorithms (Linear, Adaptive, Waveform, Speech Recognition, Manual)
+- Manual sync adjustment with fine-tuning
+- Subtitle delay support (early/late, range -10s to +10s)
+- Sync presets (7 presets: No Delay, Early 100/250/500ms, Late 100/250/500ms)
+- Sync preview functionality
+- Complete workflow (add points, auto-sync, fine-tune, preview, save)
 
 **Run:**
 ```bash
-cargo run --example customizable_theme_system_example
+cargo run --example subtitle_synchronization_example
 ```
 
-**Customizable Theme System Features:**
+**Subtitle Synchronization Features:**
 
-1. **Theme Specification Format**
-   - Comprehensive theme definition with 20+ fields
-   - Color palette (primary, secondary, accent, background, surface, text, borders, status colors)
-   - Typography settings (font family, sizes, weights, line height, letter spacing)
-   - Spacing settings (unit, small, medium, large, extra large)
-   - Border radius settings (small, medium, large, extra large, full)
-   - Shadow settings (small, medium, large, extra large)
-   - Component styles (button, input, card, navigation)
-   - Custom CSS support
+1. **Advanced Sync Algorithms**
+   - Linear interpolation
+   - Adaptive sync with confidence weighting
+   - Waveform-based sync
+   - Speech recognition sync
+   - Manual sync
 
-2. **Theme Presets**
-   - 6 built-in theme presets (Dark, Light, Midnight, Ocean, Forest, Sunset)
-   - Light and dark theme types
-   - Custom theme support
-   - Theme metadata (name, version, author, description)
+2. **Manual Sync Adjustment**
+   - Set specific delay
+   - Adjust delay incrementally
+   - Reset to default
+   - Range validation (-10s to +10s)
 
-3. **Theme Validation**
-   - Theme name validation
-   - Color format validation (hex format #RRGGBB)
-   - Comprehensive validation checks
+3. **Subtitle Delay Support**
+   - Early subtitles (negative delay)
+   - Late subtitles (positive delay)
+   - No delay option
+   - Configurable min/max range
 
-4. **Theme Import/Export**
-   - JSON format for themes
-   - Export themes to files
-   - Import themes from files
-   - Theme sharing support
+4. **Sync Presets**
+   - 7 built-in presets
+   - Quick delay adjustments
+   - Preset descriptions
+   - Easy preset application
 
-5. **Theme Customization**
-   - Modify existing themes
-   - Create custom themes from scratch
-   - Customize colors, typography, spacing, components
-   - Add custom CSS
+5. **Sync Preview**
+   - Preview sync with different delays
+   - Quality assessment
+   - Non-destructive testing
+   - Real-time feedback
 
-6. **Theme Management**
-   - Add custom themes
-   - Remove custom themes (presets protected)
-   - Set current theme
-   - List available themes
+6. **Sync Points Management**
+   - Add sync points
+   - Clear sync points
+   - Confidence scoring
+   - Multiple sync points support
 
 ---
 
