@@ -12,6 +12,7 @@ pub mod renderer;
 pub mod upscaler;
 pub mod tonemap;
 pub mod frame;
+pub mod decoding_optimization;
 
 /// Video engine - manages all video processing
 pub struct VideoEngine {
@@ -38,6 +39,9 @@ pub struct VideoEngine {
     
     /// HDR tone mapper
     tonemap: tonemap::ToneMapper,
+    
+    /// Decoding optimizer
+    decoding_optimizer: Option<decoding_optimization::VideoDecodingOptimizer>,
 }
 
 impl VideoEngine {
@@ -109,6 +113,7 @@ impl VideoEngine {
             })?,
             upscaler: None,
             tonemap,
+            decoding_optimizer: None,
         })
     }
     
@@ -178,6 +183,7 @@ impl VideoEngine {
             renderer,
             upscaler: None,
             tonemap,
+            decoding_optimizer: None,
         })
     }
     
@@ -203,6 +209,19 @@ impl VideoEngine {
         self.config.width = width;
         self.config.height = height;
         self.surface.configure(&self.device, &self.config);
+    }
+    
+    /// Initialize decoding optimizer
+    pub fn init_decoding_optimizer(&mut self, config: DecodingOptimizationConfig) -> Result<()> {
+        info!("Initializing decoding optimizer");
+        let optimizer = VideoDecodingOptimizer::new(config);
+        self.decoding_optimizer = Some(optimizer);
+        Ok(())
+    }
+    
+    /// Get decoding optimizer
+    pub fn decoding_optimizer(&self) -> Option<&VideoDecodingOptimizer> {
+        self.decoding_optimizer.as_ref()
     }
 }
 
