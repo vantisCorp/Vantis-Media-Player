@@ -16,3 +16,4 @@ encoding_rs = "0.8"
 charset = "0.1"
 async-trait = { workspace = true }
 md5 = "0.7"
+roxmltree = "0.19"

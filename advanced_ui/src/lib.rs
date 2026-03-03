@@ -21,8 +21,11 @@ use tracing::{info, error, debug};
 use pip::PictureInPicture;
 use mini_player::MiniPlayer;
 use theater_mode::TheaterMode;
-use gestures::GestureController;
+use gestures::{GestureController, GesturePresetManager, GestureConfig, GesturePreset};
 use shortcuts::ShortcutManager;
+
+// Re-export gesture customization types
+pub use gestures::{GestureController, GesturePresetManager, GestureConfig, GesturePreset};
 
 /// Configuration for advanced UI features
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
