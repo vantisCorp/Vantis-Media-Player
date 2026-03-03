@@ -973,49 +973,65 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
----
-
-### Machine Translation Features
-
-#### `machine_translation_example.rs`
-Comprehensive demonstration of the machine translation system for subtitles.
-
-**Features demonstrated:**
-- Translation of subtitle tracks
-- Multiple translation services (Google Translate, DeepL, LibreTranslate)
-- 20 supported languages
-- Batch translation
-- Translation caching
-- Quality indicators
-- Custom configuration
-
-**Run:**
-```bash
-cargo run --example machine_translation_example
-```
-
-**Machine Translation Features:**
-
-1. **Translation Services**
-   - Google Translate integration
-   - DeepL integration
-   - LibreTranslate (free, self-hosted)
-
-2. **Language Support**
-   - 20 languages including English, Spanish, French, German, etc.
-   - Auto-detect source language
-   - Language information with native names
-
-3. **Translation Features**
-   - Subtitle track translation
-   - Batch translation
-   - Quality scoring (0.0-1.0)
-   - Confidence metrics
-
-4. **Performance**
-   - Translation caching
-   - Configurable cache size
-   - Batch processing
-   - Cache management
 
 ---
+
+### Subtitle Style Customization Features
+
+#### `subtitle_style_customization_example.rs`\\
+Comprehensive demonstration of the subtitle style customization system.\\
+
+**Features demonstrated:**\\
+- Style presets (Classic, Modern, Minimal, Bold, Cinematic, Rounded)\\
+- Custom style creation with full customization\\
+- Font customization (family, size, weight, style)\\
+- Color customization (text, background, outline, shadow)\\
+- Position adjustment (vertical, horizontal alignment)\\
+- Style export/import (JSON format)\\
+- Style validation\\
+- CSS generation\\
+
+**Run:**\\
+```bash\\
+cargo run --example subtitle_style_customization_example\\
+```\\
+
+**Subtitle Style Customization Features:**\\
+
+1. **Style Presets**\\
+   - 6 pre-built styles (Classic, Modern, Minimal, Bold, Cinematic, Rounded)\\
+   - Organized by categories (Classic, Modern, Minimal, Cinematic)\\
+   - Easy one-click application
+
+2. **Font Customization**\\
+   - Font family selection\\
+   - Font size (8-72 pixels)\\
+   - Font weight (100-900)\\
+   - Font style (Normal, Italic, Oblique)
+
+3. **Color Customization**\\
+   - Text color (hex format)\\
+   - Background color with opacity\\
+   - Outline color and width\\
+   - Shadow color, blur, and offset
+
+4. **Position Adjustment**\\
+   - Vertical position (0-100%)\\
+   - Horizontal alignment (Left, Center, Right)\\
+   - Line spacing adjustment
+   - Character spacing
+
+5. **Style Management**\\
+   - Save custom styles\\
+   - Load custom styles\\
+   - Delete custom styles\\
+   - Export/Import styles (JSON)
+
+6. **Style Validation**\\
+   - Comprehensive validation\\
+   - Range checking for all properties\\
+   - Error reporting
+
+---
+
+
