@@ -997,3 +997,57 @@ For issues or questions about examples:
 - Join community discussions
 
 Happy coding! 🚀
+
+---
+
+### Video Decoding Optimization Features
+
+#### `video_decoding_optimization_example.rs`
+Comprehensive demonstration of the video decoding optimization system.
+
+**Features demonstrated:**
+- Hardware-accelerated decoding for multiple codecs
+- Frame buffer management with overflow handling
+- Frame skipping strategies (adaptive, target FPS, skip every Nth)
+- GPU-CPU synchronization with zero-copy support
+- Adaptive quality adjustment based on performance
+- Hardware decoder selection
+
+**Run:**
+```bash
+cargo run --example video_decoding_optimization_example
+```
+
+**Video Decoding Optimization Features:**
+
+1. **Hardware-Accelerated Decoding**
+   - Support for NVDEC, QuickSync, VCE, VideoToolbox, VAAPI, VDPAU, DXVA2, D3D11VA
+   - Automatic decoder selection based on codec
+   - Software decoder fallback
+
+2. **Frame Buffer Management**
+   - Configurable buffer size
+   - Automatic overflow handling
+   - Frame retrieval and removal
+   - Usage statistics
+
+3. **Frame Skipping**
+   - Multiple strategies (None, SkipEveryNth, Adaptive, TargetFPS)
+   - Enable/disable control
+   - Frame counter reset
+
+4. **GPU-CPU Synchronization**
+   - Configurable timeout
+   - Zero-copy mode support
+   - Pending frame tracking
+   - Error tracking
+
+5. **Adaptive Quality**
+   - Automatic quality adjustment based on FPS
+   - Min/max quality limits
+   - Manual quality setting
+   - Enable/disable control
+
+---
+
+
