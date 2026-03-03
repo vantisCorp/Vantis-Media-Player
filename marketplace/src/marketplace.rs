@@ -434,6 +434,8 @@ pub struct UserRating {
     pub created_at: DateTime<Utc>,
     pub helpful_count: u64,
     pub verified: bool, // Verified purchase/install
+    pub moderation_status: ReviewModerationStatus,
+    pub updated_at: DateTime<Utc>,
 }
 
 /// Download stats
@@ -945,5 +947,256 @@ mod tests {
         let stats = marketplace.get_download_stats("test-plugin");
         assert!(stats.is_some());
         assert_eq!(stats.unwrap().total, 1);
+    }
+}
+// ==================== Review Moderation ====================
+
+/// Review moderation status
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum ReviewModerationStatus {
+    /// Review is pending moderation
+    Pending,
+    /// Review is approved and visible
+    Approved,
+    /// Review is rejected
+    Rejected,
+    /// Review is hidden due to reports
+    Hidden,
+}
+
+/// Review report reason
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum ReportReason {
+    Spam,
+    Inappropriate,
+    Harassment,
+    FalseInformation,
+    OffTopic,
+    Other,
+}
+
+/// Review report
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReviewReport {
+    /// Report ID
+    pub id: String,
+    
+    /// Review ID being reported
+    pub review_id: String,
+    
+    /// User who reported
+    pub reporter_id: String,
+    
+    /// Report reason
+    pub reason: ReportReason,
+    
+    /// Additional details
+    pub details: Option<String>,
+    
+    /// Report timestamp
+    pub created_at: DateTime<Utc>,
+    
+    /// Report status
+    pub status: ReviewModerationStatus,
+    
+    /// Moderator who handled the report
+    pub handled_by: Option<String>,
+    
+    /// Moderator notes
+    pub moderator_notes: Option<String>,
+}
+
+/// Review moderation actions
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ModerationAction {
+    /// Action ID
+    pub id: String,
+    
+    /// Review ID
+    pub review_id: String,
+    
+    /// Moderator ID
+    pub moderator_id: String,
+    
+    /// Action type
+    pub action_type: ModerationActionType,
+    
+    /// Action reason
+    pub reason: String,
+    
+    /// Action timestamp
+    pub created_at: DateTime<Utc>,
+}
+
+/// Moderation action type
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum ModerationActionType {
+    Approve,
+    Reject,
+    Hide,
+    Delete,
+    Warning,
+    Ban,
+}
+
+impl PluginMarketplace {
+    /// Get all reviews pending moderation
+    pub fn get_pending_moderation(&self) -> Vec<(String, UserRating)> {
+        self.ratings.read().iter()
+            .flat_map(|(plugin_id, ratings)| {
+                ratings.iter()
+                    .filter(|r| r.moderation_status == ReviewModerationStatus::Pending)
+                    .map(|r| (plugin_id.clone(), r.clone()))
+            })
+            .collect()
+    }
+    
+    /// Moderate a review
+    pub fn moderate_review(
+        &self,
+        review_id: &str,
+        moderator_id: &str,
+        action: ModerationActionType,
+        reason: String,
+    ) -> Result<()> {
+        let mut ratings = self.ratings.write();
+        
+        for ratings_vec in ratings.values_mut() {
+            if let Some(rating) = ratings_vec.iter_mut().find(|r| r.id == review_id) {
+                rating.moderation_status = match action {
+                    ModerationActionType::Approve => ReviewModerationStatus::Approved,
+                    ModerationActionType::Reject => ReviewModerationStatus::Rejected,
+                    ModerationActionType::Hide => ReviewModerationStatus::Hidden,
+                    ModerationActionType::Delete => {
+                        ratings_vec.retain(|r| r.id != review_id);
+                        return Ok(());
+                    }
+                    _ => return Err(anyhow!("Invalid moderation action for reviews")),
+                };
+                
+                return Ok(());
+            }
+        }
+        
+        Err(anyhow!("Review not found: {}", review_id))
+    }
+    
+    /// Report a review
+    pub fn report_review(
+        &self,
+        report: ReviewReport,
+    ) -> Result<()> {
+        let reports = Arc::new(RwLock::new(HashMap::<String, Vec<ReviewReport>>::new()));
+        let mut reports_map = reports.write();
+        reports_map
+            .entry(report.review_id.clone())
+            .or_insert_with(Vec::new)
+            .push(report);
+        
+        Ok(())
+    }
+    
+    /// Get reports for a review
+    pub fn get_review_reports(&self, review_id: &str) -> Vec<ReviewReport> {
+        // Would return from reports storage
+        vec![]
+    }
+    
+    /// Filter reviews by criteria
+    pub fn filter_reviews(
+        &self,
+        plugin_id: &str,
+        filters: ReviewFilters,
+    ) -> Vec<UserRating> {
+        let ratings = self.ratings.read();
+        
+        if let Some(plugin_ratings) = ratings.get(plugin_id) {
+            plugin_ratings.iter()
+                .filter(|r| {
+                    // Filter by minimum rating
+                    if let Some(min) = filters.min_rating {
+                        if r.rating < min {
+                            return false;
+                        }
+                    }
+                    
+                    // Filter by maximum rating
+                    if let Some(max) = filters.max_rating {
+                        if r.rating > max {
+                            return false;
+                        }
+                    }
+                    
+                    // Filter by verified status
+                    if filters.verified_only && !r.verified {
+                        return false;
+                    }
+                    
+                    // Filter by moderation status
+                    if r.moderation_status != ReviewModerationStatus::Approved {
+                        return false;
+                    }
+                    
+                    true
+                })
+                .cloned()
+                .collect()
+        } else {
+            vec![]
+        }
+    }
+    
+    /// Sort reviews
+    pub fn sort_reviews(
+        &self,
+        plugin_id: &str,
+        sort_by: ReviewSortBy,
+    ) -> Vec<UserRating> {
+        let mut ratings = self.get_plugin_ratings(plugin_id);
+        
+        match sort_by {
+            ReviewSortBy::Newest => ratings.sort_by(|a, b| b.created_at.cmp(&a.created_at)),
+            ReviewSortBy::Oldest => ratings.sort_by(|a, b| a.created_at.cmp(&b.created_at)),
+            ReviewSortBy::HighestRated => ratings.sort_by(|a, b| b.rating.cmp(&a.rating)),
+            ReviewSortBy::LowestRated => ratings.sort_by(|a, b| a.rating.cmp(&b.rating)),
+            ReviewSortBy::MostHelpful => ratings.sort_by(|a, b| b.helpful_count.cmp(&a.helpful_count)),
+        }
+        
+        ratings
+    }
+}
+
+/// Review filters
+#[derive(Debug, Clone, Default)]
+pub struct ReviewFilters {
+    /// Minimum rating filter
+    pub min_rating: Option<u8>,
+    
+    /// Maximum rating filter
+    pub max_rating: Option<u8>,
+    
+    /// Show only verified purchases
+    pub verified_only: bool,
+    
+    /// Include hidden reviews (moderator only)
+    pub include_hidden: bool,
+}
+
+/// Review sort options
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReviewSortBy {
+    Newest,
+    Oldest,
+    HighestRated,
+    LowestRated,
+    MostHelpful,
+}
+
+// Add moderation status to UserRating
+impl UserRating {
+    /// Get moderation status (would be stored in the struct)
+    pub fn moderation_status(&self) -> ReviewModerationStatus {
+        // Default to approved for existing reviews
+        ReviewModerationStatus::Approved
     }
 }

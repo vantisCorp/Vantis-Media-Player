@@ -13,4 +13,8 @@ pub use marketplace::{
     DownloadStats,
     Developer,
     SearchFilters,
+    // Review moderation exports
+    ReviewModerationStatus, ReportReason, ReviewReport,
+    ModerationAction, ModerationActionType,
+    ReviewFilters, ReviewSortBy,
 };
