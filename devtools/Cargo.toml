@@ -1,0 +1,13 @@
+[package]
+name = "vantis-devtools"
+version.workspace = true
+edition.workspace = true
+description = "Plugin development tools for Vantis Media Player"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+parking_lot = { workspace = true }
