@@ -891,6 +891,78 @@ VANTIS_GPU_BACKEND=Metal cargo run --example simple_player
 
 ### Advanced Analytics & Telemetry Features\n\n#### `advanced_analytics_example.rs`\nComprehensive demonstration of the advanced analytics & telemetry system.\n\n**Features demonstrated:**\n- Usage analytics (events, sessions)\n- Crash reporting\n- Performance monitoring\n- User feedback collection\n- A/B testing\n- Statistical analysis\n- Data export\n\n**Run:**\n```bash\ncargo run --example advanced_analytics_example\n```\n\n**Advanced Analytics & Telemetry Features:**\n\n1. **Usage Analytics**\n   - Event tracking with categories\n   - User session management\n   - Usage statistics\n   - Sampling support\n\n2. **Crash Reporting**\n   - Automatic crash detection\n   - Sentry integration\n   - Crash severity classification\n   - Crash statistics\n\n3. **Performance Monitoring**\n   - Metric collection (Counter, Gauge, Histogram, Summary)\n   - Prometheus integration\n   - Real-time monitoring\n   - Performance alerts\n\n4. **User Feedback**\n   - Feedback collection\n   - Rating system\n   - Screenshot support\n   - System information\n\n5. **A/B Testing**\n   - Experiment management\n   - Variant assignment\n   - Conversion tracking\n   - Statistical analysis\n\n---
 
+### Plugin Analytics & Development
+
+#### `plugin_analytics_dashboard_example.rs`
+Comprehensive demonstration of the plugin analytics dashboard.
+
+**Features demonstrated:**
+- Installation tracking
+- Download statistics
+- Usage session monitoring
+- Performance metrics collection
+- Error tracking and analysis
+- Analytics summary
+- Data export (JSON, CSV, HTML)
+- Performance alerts
+- Data cleanup with retention policy
+- Multi-plugin support
+
+**Plugin Analytics Dashboard Features:**
+
+1. **Installation Tracking**
+   - Total installations by plugin
+   - Installation history by date
+   - Active installations (last 30 days)
+   - Uninstallation tracking
+   - Platform distribution
+   - Installation source analysis
+
+2. **Usage Monitoring**
+   - Session tracking
+   - Average session duration
+   - Daily/monthly active users
+   - Feature usage statistics
+   - User actions count
+   - Error rates per session
+
+3. **Performance Metrics**
+   - Memory usage tracking
+   - CPU usage monitoring
+   - Response time measurement
+   - Initialization time tracking
+   - Average metrics calculation
+   - P95/P99 percentile metrics
+   - Performance alerts
+
+4. **Error Tracking**
+   - Error counting
+   - Error rate calculation
+   - Top errors identification
+   - Error impact analysis
+   - Stack trace collection
+   - Error history
+
+5. **Download Statistics**
+   - Total downloads
+   - Downloads by version
+   - Downloads by platform
+   - Download trends
+   - Growth rate calculation
+
+6. **Data Export**
+   - JSON format
+   - CSV format
+   - HTML format
+   - Comprehensive summary
+
+**Run:**
+```bash
+cargo run --example plugin_analytics_dashboard_example
+```
+
+---
+
 ## Contributing Examples
 
 We welcome community contributions! To add a new example:
