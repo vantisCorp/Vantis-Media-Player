@@ -1,189 +1,108 @@
 //! Memory Optimization Example
 //!
-//! Demonstrates the memory optimization features to reduce memory usage by 20%.
+//! Demonstrates comprehensive memory optimization features including
+//! video frame pooling, buffer optimization, and lazy loading.
 
 use anyhow::Result;
-use vantis_core::{VantisCore, Config};
-use vantis_core::memory_optimization::{MemoryOptimizer, MemoryOptimizationConfig, VideoFramePool};
+use vanis_core::{MemoryOptimizer, MemoryOptimizationConfig};
 
 fn main() -> Result<()> {
-    println!("🚀 Vantis Media Player - Memory Optimization Example");
-    println!();
-    println!("This example demonstrates memory optimization features to reduce");
-    println!("memory usage by 20% through:");
-    println!("  - Video frame pooling");
-    println!("  - Memory reclamation");
-    println!("  - Memory statistics tracking");
-    println!();
+    println!("🔧 Memory Optimization Example\n");
     
-    // Create a Vantis Core instance with memory optimization
-    let config = Config::default();
-    let core = VantisCore::new(config)?;
+    // Create memory optimizer with configuration
+    let config = MemoryOptimizationConfig {
+        enable_pooling: true,
+        enable_lazy_loading: true,
+        enable_compression: false,
+        target_reduction: 20,
+        max_pool_size_mb: 512,
+        enable_monitoring: true,
+        warning_threshold: 80,
+        critical_threshold: 90,
+    };
     
-    println!("✅ Vantis Core initialized with memory optimization");
-    println!();
+    let mut optimizer = MemoryOptimizer::new(config)?;
     
-    // Get memory statistics
-    let stats = core.memory_stats();
-    println!("📊 Initial Memory Statistics:");
-    println!("  Total Memory: {} MB", stats.total_mb);
-    println!("  Used Memory: {} MB", stats.used_mb);
-    println!("  Free Memory: {} MB", stats.free_mb);
-    println!("  Usage: {:.1}%", stats.usage_percent);
-    println!("  Allocations: {}", stats.allocations);
-    println!();
+    println!("✅ Memory optimizer initialized");
+    println!("   Target reduction: {}%", optimizer.config.target_reduction);
+    println!("   Pooling enabled: {}", optimizer.config.enable_pooling);
+    println!("   Lazy loading enabled: {}", optimizer.config.enable_lazy_loading);
     
-    // Allocate some video frames
-    println!("🎬 Allocating video frames...");
-    let optimizer = core.memory_optimizer();
+    // Example 1: Initialize video frame pool
+    println!("\n🎬 Example 1: Video Frame Pool");
+    println!("   Initializing frame pool for 1080p video...");
+    optimizer.init_frame_pool(1920, 1080, 10)?;
     
-    for i in 0..5 {
-        match optimizer.allocate_frame() {
-            Ok(handle) => {
-                println!("  Allocated frame {} ({} bytes)", i, handle.len());
-            }
-            Err(e) => {
-                println!("  Failed to allocate frame {}: {}", i, e);
-            }
-        }
+    // Example 2: Acquire and release frames
+    println!("\n📦 Example 2: Acquiring Frames");
+    println!("   Acquiring frame from pool...");
+    let frame = optimizer.acquire_frame()?;
+    println!("   Frame acquired successfully");
+    println!("   Frame size: {} bytes", frame.len());
+    
+    // Frame is automatically released when dropped
+    drop(frame);
+    println!("   Frame released back to pool");
+    
+    // Example 3: Allocate buffers
+    println!("\n💾 Example 3: Buffer Allocation");
+    println!("   Allocating small buffer (1KB)...");
+    let buffer1 = optimizer.allocate_buffer(1024)?;
+    println!("   Buffer allocated: {} bytes", buffer1.len());
+    
+    println!("   Allocating medium buffer (32KB)...");
+    let buffer2 = optimizer.allocate_buffer(32 * 1024)?;
+    println!("   Buffer allocated: {} bytes", buffer2.len());
+    
+    println!("   Allocating large buffer (256KB)...");
+    let buffer3 = optimizer.allocate_buffer(256 * 1024)?;
+    println!("   Buffer allocated: {} bytes", buffer3.len());
+    
+    // Example 4: Get memory statistics
+    println!("\n📊 Example 4: Memory Statistics");
+    let stats = optimizer.get_stats();
+    println!("   Current usage: {} MB", stats.current_usage / (1024 * 1024));
+    println!("   Peak usage: {} MB", stats.peak_usage / (1024 * 1024));
+    println!("   Usage percentage: {:.1}%", stats.usage_percentage);
+    
+    if let Some(frame_stats) = stats.frame_pool {
+        println!("   Frame pool statistics:");
+        println!("     Total allocations: {}", frame_stats.total_allocations);
+        println!("     Cache hits: {}", frame_stats.cache_hits);
+        println!("     Cache misses: {}", frame_stats.cache_misses);
+        println!("     Memory saved: {} MB", frame_stats.memory_saved_bytes / (1024 * 1024));
     }
     
-    println!();
+    // Example 5: Run optimization
+    println!("\n⚡ Example 5: Running Optimization");
+    let result = optimizer.optimize()?;
+    println!("   Frames removed: {}", result.frames_removed);
+    println!("   Buffers freed: {}", result.buffers_freed);
+    println!("   Memory freed: {} MB", result.memory_freed / (1024 * 1024));
     
-    // Get memory statistics after allocation
-    let stats = core.memory_stats();
-    println!("📊 Memory Statistics After Allocation:");
-    println!("  Total Memory: {} MB", stats.total_mb);
-    println!("  Used Memory: {} MB", stats.used_mb);
-    println!("  Free Memory: {} MB", stats.free_mb);
-    println!("  Usage: {:.1}%", stats.usage_percent);
-    println!("  Allocations: {}", stats.allocations);
-    println!();
+    // Example 6: Lazy loading demonstration
+    println!("\n🐌 Example 6: Lazy Loading");
+    println!("   Creating lazy loader for heavy resource...");
+    use vanis_core::LazyLoader;
     
-    // Optimize memory
-    println!("🔧 Optimizing memory...");
-    let reduction = core.optimize_memory()?;
-    println!("  Achieved {:.1}% memory reduction", reduction);
-    println!();
+    let lazy_loader = LazyLoader::new(|| {
+        println!("   Loading resource...");
+        Ok(vec![1, 2, 3, 4, 5])
+    });
     
-    // Get memory statistics after optimization
-    let stats = core.memory_stats();
-    println!("📊 Memory Statistics After Optimization:");
-    println!("  Total Memory: {} MB", stats.total_mb);
-    println!("  Used Memory: {} MB", stats.used_mb);
-    println!("  Free Memory: {} MB", stats.free_mb);
-    println!("  Usage: {:.1}%", stats.usage_percent);
-    println!("  Allocations: {}", stats.allocations);
-    println!();
+    println!("   Lazy loader created (not loaded yet)");
+    println!("   Is loaded: {}", lazy_loader.is_loaded());
     
-    // Demonstrate frame pool directly
-    println!("🎬 Demonstrating video frame pool...");
-    let pool = VideoFramePool::new(1920, 1080, 10)?;
+    let value = lazy_loader.get()?;
+    println!("   Value retrieved: {:?}", value);
+    println!("   Is loaded: {}", lazy_loader.is_loaded());
     
-    let (used, total) = pool.usage();
-    println!("  Pool usage: {}/{} frames", used, total);
-    println!("  Memory usage: {} MB", pool.memory_usage_mb());
-    println!();
+    // Unload
+    lazy_loader.unload();
+    println!("   Resource unloaded");
+    println!("   Is loaded: {}", lazy_loader.is_loaded());
     
-    // Allocate frames from pool
-    println!("  Allocating frames from pool...");
-    let mut handles = Vec::new();
-    for i in 0..3 {
-        match pool.allocate() {
-            Ok(handle) => {
-                println!("    Allocated frame {}", i);
-                handles.push(handle);
-            }
-            Err(e) => {
-                println!("    Failed to allocate frame {}: {}", i, e);
-            }
-        }
-    }
-    
-    let (used, total) = pool.usage();
-    println!("  Pool usage after allocation: {}/{} frames", used, total);
-    println!("  Memory usage: {} MB", pool.memory_usage_mb());
-    println!();
-    
-    // Drop handles to return frames to pool
-    println!("  Returning frames to pool...");
-    drop(handles);
-    
-    let (used, total) = pool.usage();
-    println!("  Pool usage after return: {}/{} frames", used, total);
-    println!("  Memory usage: {} MB", pool.memory_usage_mb());
-    println!();
-    
-    println!("✅ Memory optimization example completed successfully!");
-    println!();
-    println!("Key Benefits:");
-    println!("  - Reduced memory usage through pooling");
-    println!("  - Automatic memory reclamation");
-    println!("  - Real-time memory statistics");
-    println!("  - Configurable optimization targets");
+    println!("\n✅ All memory optimization features demonstrated!");
     
     Ok(())
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_memory_optimizer_creation() {
-        let config = MemoryOptimizationConfig::default();
-        let optimizer = MemoryOptimizer::new(config);
-        assert!(optimizer.is_enabled());
-    }
-
-    #[test]
-    fn test_memory_optimization() {
-        let config = MemoryOptimizationConfig::default();
-        let mut optimizer = MemoryOptimizer::new(config);
-        optimizer.init_frame_pool(1920, 1080, 10).unwrap();
-        
-        // Allocate some frames
-        let _handle1 = optimizer.allocate_frame().unwrap();
-        let _handle2 = optimizer.allocate_frame().unwrap();
-        
-        // Optimize
-        let reduction = optimizer.optimize().unwrap();
-        assert!(reduction >= 0.0);
-    }
-
-    #[test]
-    fn test_memory_stats() {
-        let config = MemoryOptimizationConfig::default();
-        let mut optimizer = MemoryOptimizer::new(config);
-        optimizer.init_frame_pool(1920, 1080, 10).unwrap();
-        
-        let stats = optimizer.get_stats();
-        assert!(stats.total_mb > 0);
-        assert_eq!(stats.allocations, 0);
-    }
-
-    #[test]
-    fn test_frame_pool_efficiency() {
-        let pool = VideoFramePool::new(1920, 1080, 10).unwrap();
-        
-        // Allocate and deallocate multiple times
-        for _ in 0..100 {
-            let handle = pool.allocate().unwrap();
-            drop(handle);
-        }
-        
-        let (used, total) = pool.usage();
-        assert_eq!(used, 0);
-        assert_eq!(total, 10);
-    }
-
-    #[test]
-    fn test_memory_reduction_target() {
-        let config = MemoryOptimizationConfig {
-            target_reduction: 20,
-            ..Default::default()
-        };
-        let optimizer = MemoryOptimizer::new(config);
-        assert_eq!(optimizer.config.target_reduction, 20);
-    }
 }

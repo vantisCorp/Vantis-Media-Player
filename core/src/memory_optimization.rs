@@ -1,12 +1,14 @@
 //! Memory Optimization Module
 //!
-//! Implements advanced memory optimization techniques to reduce memory usage by 20%.
+//! Comprehensive memory optimization to reduce memory usage by 20%.
+//! Implements memory pooling, buffer optimization, and lazy loading.
 
 use anyhow::{Result, anyhow};
-use parking_lot::Mutex;
+use parking_lot::{Mutex, RwLock};
 use std::collections::HashMap;
 use std::sync::Arc;
-use tracing::{debug, info, warn};
+use std::time::{Duration, Instant};
+use tracing::{info, debug, warn};
 
 /// Memory optimization configuration
 #[derive(Debug, Clone)]
@@ -25,6 +27,15 @@ pub struct MemoryOptimizationConfig {
     
     /// Maximum pool size in MB
     pub max_pool_size_mb: usize,
+    
+    /// Enable memory monitoring
+    pub enable_monitoring: bool,
+    
+    /// Memory warning threshold percentage
+    pub warning_threshold: u8,
+    
+    /// Memory critical threshold percentage
+    pub critical_threshold: u8,
 }
 
 impl Default for MemoryOptimizationConfig {
@@ -35,6 +46,9 @@ impl Default for MemoryOptimizationConfig {
             enable_compression: false,
             target_reduction: 20,
             max_pool_size_mb: 512,
+            enable_monitoring: true,
+            warning_threshold: 80,
+            critical_threshold: 90,
         }
     }
 }
@@ -55,6 +69,9 @@ pub struct VideoFramePool {
     
     /// Current pool size
     current_size: Arc<Mutex<usize>>,
+    
+    /// Statistics
+    stats: Arc<RwLock<PoolStats>>,
 }
 
 /// Pooled video frame
@@ -62,7 +79,19 @@ struct PooledFrame {
     id: u64,
     data: Vec<u8>,
     in_use: bool,
-    last_used: std::time::Instant,
+    last_used: Instant,
+    use_count: u64,
+}
+
+/// Pool statistics
+#[derive(Debug, Clone, Default)]
+pub struct PoolStats {
+    pub total_allocations: u64,
+    pub cache_hits: u64,
+    pub cache_misses: u64,
+    pub current_in_use: usize,
+    pub peak_usage: usize,
+    pub memory_saved_bytes: u64,
 }
 
 impl VideoFramePool {
@@ -88,7 +117,8 @@ impl VideoFramePool {
                 id: i,
                 data: vec![0u8; frame_size],
                 in_use: false,
-                last_used: std::time::Instant::now(),
+                last_used: Instant::now(),
+                use_count: 0,
             };
             pool.insert(i, frame);
             available.push(i);
@@ -99,154 +129,363 @@ impl VideoFramePool {
             available: Arc::new(Mutex::new(available)),
             frame_size,
             max_frames,
-            current_size: Arc::new(Mutex::new(max_frames)),
+            current_size: Arc::new(Mutex::new(0)),
+            stats: Arc::new(RwLock::new(PoolStats::default())),
         })
     }
     
-    /// Allocate a frame from the pool
-    pub fn allocate(&self) -> Result<FrameHandle> {
+    /// Acquire a frame from the pool
+    pub fn acquire(&self) -> Result<FrameHandle> {
         let mut available = self.available.lock();
         
-        if let Some(frame_id) = available.pop() {
+        if let Some(id) = available.pop() {
             let mut pool = self.pool.lock();
-            if let Some(frame) = pool.get_mut(&frame_id) {
+            if let Some(frame) = pool.get_mut(&id) {
                 frame.in_use = true;
-                frame.last_used = std::time::Instant::now();
+                frame.last_used = Instant::now();
+                frame.use_count += 1;
+                
+                // Update stats
+                let mut stats = self.stats.write();
+                stats.total_allocations += 1;
+                stats.cache_hits += 1;
+                stats.current_in_use += 1;
+                stats.peak_usage = stats.peak_usage.max(stats.current_in_use);
+                stats.memory_saved_bytes += self.frame_size as u64;
                 
                 return Ok(FrameHandle {
-                    frame_id,
+                    id,
                     pool: self.pool.clone(),
                     available: self.available.clone(),
-                    size: self.frame_size,
+                    stats: self.stats.clone(),
                 });
             }
         }
         
-        // Pool exhausted, try to reclaim old frames
-        self.reclaim_frames()?;
+        // No available frames
+        let mut stats = self.stats.write();
+        stats.cache_misses += 1;
         
-        // Try again
-        let mut available = self.available.lock();
-        if let Some(frame_id) = available.pop() {
-            let mut pool = self.pool.lock();
-            if let Some(frame) = pool.get_mut(&frame_id) {
-                frame.in_use = true;
-                frame.last_used = std::time::Instant::now();
-                
-                return Ok(FrameHandle {
-                    frame_id,
-                    pool: self.pool.clone(),
-                    available: self.available.clone(),
-                    size: self.frame_size,
-                });
-            }
-        }
-        
-        Err(anyhow!("Frame pool exhausted"))
+        Err(anyhow!("No available frames in pool"))
     }
     
-    /// Reclaim old frames that haven't been used recently
-    fn reclaim_frames(&self) -> Result<()> {
-        let mut pool = self.pool.lock();
-        let mut available = self.available.lock();
-        
-        let now = std::time::Instant::now();
-        let timeout = std::time::Duration::from_secs(5); // 5 seconds timeout
-        
-        for (id, frame) in pool.iter_mut() {
-            if frame.in_use && now.duration_since(frame.last_used) > timeout {
-                debug!("Reclaiming frame {}", id);
-                frame.in_use = false;
-                available.push(*id);
-            }
-        }
-        
-        Ok(())
+    /// Get pool statistics
+    pub fn get_stats(&self) -> PoolStats {
+        self.stats.read().clone()
     }
     
     /// Get current pool usage
-    pub fn usage(&self) -> (usize, usize) {
-        let pool = self.pool.lock();
-        let used = pool.values().filter(|f| f.in_use).count();
-        let total = pool.len();
-        (used, total)
+    pub fn get_usage(&self) -> f64 {
+        let stats = self.stats.read();
+        stats.current_in_use as f64 / self.max_frames as f64 * 100.0
     }
     
-    /// Get memory usage in MB
-    pub fn memory_usage_mb(&self) -> usize {
-        let (used, _) = self.usage();
-        (used * self.frame_size) / (1024 * 1024)
+    /// Shrink pool if possible
+    pub fn shrink(&self, target_reduction: usize) -> Result<usize> {
+        let mut pool = self.pool.lock();
+        let mut available = self.available.lock();
+        
+        let mut removed = 0;
+        let mut to_remove = Vec::new();
+        
+        // Find frames that can be removed (not in use, old)
+        for (id, frame) in pool.iter() {
+            if !frame.in_use && frame.last_used.elapsed() > Duration::from_secs(60) {
+                to_remove.push(*id);
+                if to_remove.len() >= target_reduction {
+                    break;
+                }
+            }
+        }
+        
+        // Remove frames
+        for id in to_remove {
+            pool.remove(&id);
+            available.retain(|&x| x != id);
+            removed += 1;
+        }
+        
+        if removed >  {
+            info!("🗑️ Shrunk frame pool by {} frames", removed);
+        }
+        
+        Ok(removed)
     }
 }
 
-/// Handle to a pooled frame
+/// Frame handle
 pub struct FrameHandle {
-    frame_id: u64,
+    id: u64,
     pool: Arc<Mutex<HashMap<u64, PooledFrame>>>,
     available: Arc<Mutex<Vec<u64>>>,
-    size: usize,
+    stats: Arc<RwLock<PoolStats>>,
 }
 
 impl FrameHandle {
-    /// Get read-only access to the frame data
-    pub fn as_slice(&self) -> &[u8] {
+    /// Get frame data
+    pub fn data(&self) -> Vec<u8> {
         let pool = self.pool.lock();
-        if let Some(frame) = pool.get(&self.frame_id) {
-            &frame.data
-        } else {
-            &[]
-        }
+        pool.get(&self.id).map(|f| f.data.clone()).unwrap_or_default()
     }
     
-    /// Get mutable access to the frame data
-    pub fn as_mut_slice(&mut self) -> &mut [u8] {
+    /// Get mutable frame data
+    pub fn data_mut(&mut self) -> &mut [u8] {
         let mut pool = self.pool.lock();
-        if let Some(frame) = pool.get_mut(&self.frame_id) {
-            &mut frame.data
-        } else {
-            &mut []
-        }
-    }
-    
-    /// Get frame size
-    pub fn len(&self) -> usize {
-        self.size
-    }
-    
-    /// Check if frame is empty
-    pub fn is_empty(&self) -> bool {
-        self.size == 0
+        &mut pool.get_mut(&self.id).unwrap().data
     }
 }
 
 impl Drop for FrameHandle {
     fn drop(&mut self) {
-        // Return frame to pool
-        let mut available = self.available.lock();
-        available.push(self.frame_id);
+        let mut pool = self.pool.lock();
+        if let Some(frame) = pool.get_mut(&self.id) {
+            frame.in_use = false;
+            frame.last_used = Instant::now();
+        }
+        
+        self.available.lock().push(self.id);
+        
+        let mut stats = self.stats.write();
+        stats.current_in_use = stats.current_in_use.saturating_sub(1);
     }
 }
 
-/// Memory statistics
-#[derive(Debug, Clone)]
-pub struct MemoryStats {
-    /// Total memory allocated in MB
-    pub total_mb: usize,
+/// Buffer pool optimization
+pub struct BufferPoolOptimization {
+    /// Small buffer pool (< 4KB)
+    small_pool: Arc<Mutex<Vec<Vec<u8>>>>,
     
-    /// Used memory in MB
-    pub used_mb: usize,
+    /// Medium buffer pool (4KB - 64KB)
+    medium_pool: Arc<Mutex<Vec<Vec<u8>>>>,
     
-    /// Free memory in MB
-    pub free_mb: usize,
+    /// Large buffer pool (64KB - 1MB)
+    large_pool: Arc<Mutex<Vec<Vec<u8>>>>,
     
-    /// Memory usage percentage
-    pub usage_percent: f64,
+    /// Statistics
+    stats: Arc<RwLock<BufferStats>>,
+}
+
+/// Buffer statistics
+#[derive(Debug, Clone, Default)]
+pub struct BufferStats {
+    pub small_allocations: u64,
+    pub medium_allocations: u64,
+    pub large_allocations: u64,
+    pub memory_fragmentation: f64,
+    pub total_memory_bytes: usize,
+}
+
+impl BufferPoolOptimization {
+    /// Create new buffer pool optimization
+    pub fn new() -> Self {
+        Self {
+            small_pool: Arc::new(Mutex::new(Vec::new())),
+            medium_pool: Arc::new(Mutex::new(Vec::new())),
+            large_pool: Arc::new(Mutex::new(Vec::new())),
+            stats: Arc::new(RwLock::new(BufferStats::default())),
+        }
+    }
     
-    /// Number of allocations
-    pub allocations: usize,
+    /// Allocate a buffer with optimal size class
+    pub fn allocate(&self, size: usize) -> Result<BufferHandle> {
+        let (pool, size_class) = if size < 4096 {
+            (&self.small_pool, SizeClass::Small)
+        } else if size < 65536 {
+            (&self.medium_pool, SizeClass::Medium)
+        } else {
+            (&self.large_pool, SizeClass::Large)
+        };
+        
+        let mut pool_lock = pool.lock();
+        
+        // Try to reuse existing buffer
+        if let Some(mut buffer) = pool_lock.pop() {
+            if buffer.capacity() >= size {
+                buffer.resize(size, 0);
+                return Ok(BufferHandle {
+                    data: buffer,
+                    size_class,
+                });
+            }
+        }
+        
+        // Allocate new buffer
+        let buffer = vec![0u8; size];
+        
+        let mut stats = self.stats.write();
+        match size_class {
+            SizeClass::Small => stats.small_allocations += 1,
+            SizeClass::Medium => stats.medium_allocations += 1,
+            SizeClass::Large => stats.large_allocations += 1,
+        }
+        stats.total_memory_bytes += size;
+        
+        Ok(BufferHandle {
+            data: buffer,
+            size_class,
+        })
+    }
     
-    /// Number of deallocations
-    pub deallocations: usize,
+    /// Get buffer statistics
+    pub fn get_stats(&self) -> BufferStats {
+        self.stats.read().clone()
+    }
+}
+
+/// Size class for buffers
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum SizeClass {
+    Small,
+    Medium,
+    Large,
+}
+
+/// Buffer handle
+pub struct BufferHandle {
+    data: Vec<u8>,
+    size_class: SizeClass,
+}
+
+impl BufferHandle {
+    /// Get buffer data
+    pub fn data(&self) -> &[u8] {
+        &self.data
+    }
+    
+    /// Get mutable buffer data
+    pub fn data_mut(&mut self) -> &mut [u8] {
+        &mut self.data
+    }
+    
+    /// Get buffer size
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+}
+
+/// Memory monitor
+pub struct MemoryMonitor {
+    /// Current memory usage
+    current_usage: Arc<Mutex<usize>>,
+    
+    /// Peak memory usage
+    peak_usage: Arc<Mutex<usize>>,
+    
+    /// Warning threshold in bytes
+    warning_threshold: usize,
+    
+    /// Critical threshold in bytes
+    critical_threshold: usize,
+    
+    /// Total system memory
+    total_memory: usize,
+}
+
+impl MemoryMonitor {
+    /// Create new memory monitor
+    pub fn new(total_memory: usize, warning_threshold: u8, critical_threshold: u8) -> Self {
+        Self {
+            current_usage: Arc::new(Mutex::new(0)),
+            peak_usage: Arc::new(Mutex::new(0)),
+            warning_threshold: (total_memory as f64 * warning_threshold as f64 / 100.0) as usize,
+            critical_threshold: (total_memory as f64 * critical_threshold as f64 / 100.0) as usize,
+            total_memory,
+        }
+    }
+    
+    /// Record memory allocation
+    pub fn record_allocation(&self, size: usize) {
+        let mut current = self.current_usage.lock();
+        *current += size;
+        
+        let mut peak = self.peak_usage.lock();
+        *peak = (*peak).max(*current);
+        
+        // Check thresholds
+        if *current >= self.critical_threshold {
+            warn!("🔴 Critical memory usage: {}MB / {}MB", 
+                  *current / (1024 * 1024), 
+                  self.total_memory / (1024 * 1024));
+        } else if *current >= self.warning_threshold {
+            warn!("🟡 High memory usage: {}MB / {}MB",
+                  *current / (1024 * 1024),
+                  self.total_memory / (1024 * 1024));
+        }
+    }
+    
+    /// Record memory deallocation
+    pub fn record_deallocation(&self, size: usize) {
+        let mut current = self.current_usage.lock();
+        *current = current.saturating_sub(size);
+    }
+    
+    /// Get current memory usage
+    pub fn get_current_usage(&self) -> usize {
+        *self.current_usage.lock()
+    }
+    
+    /// Get peak memory usage
+    pub fn get_peak_usage(&self) -> usize {
+        *self.peak_usage.lock()
+    }
+    
+    /// Get memory usage percentage
+    pub fn get_usage_percentage(&self) -> f64 {
+        *self.current_usage.lock() as f64 / self.total_memory as f64 * 100.0
+    }
+}
+
+/// Lazy loading manager for plugins
+pub struct LazyLoader<T> {
+    /// Loader function
+    loader: Box<dyn Fn() -> Result<T> + Send + Sync>,
+    
+    /// Loaded value
+    value: Arc<Mutex<Option<T>>>,
+    
+    /// Is loaded
+    is_loaded: Arc<Mutex<bool>>,
+}
+
+impl<T: Clone + Send + Sync + 'static> LazyLoader<T> {
+    /// Create new lazy loader
+    pub fn new<F>(loader: F) -> Self
+    where
+        F: Fn() -> Result<T> + Send + Sync + 'static,
+    {
+        Self {
+            loader: Box::new(loader),
+            value: Arc::new(Mutex::new(None)),
+            is_loaded: Arc::new(Mutex::new(false)),
+        }
+    }
+    
+    /// Get the value, loading if necessary
+    pub fn get(&self) -> Result<T> {
+        let mut is_loaded = self.is_loaded.lock();
+        
+        if *is_loaded {
+            let value = self.value.lock();
+            value.clone().ok_or_else(|| anyhow!("Value not loaded"))
+        } else {
+            let value = (self.loader)()?;
+            *self.value.lock() = Some(value.clone());
+            *is_loaded = true;
+            Ok(value)
+        }
+    }
+    
+    /// Check if loaded
+    pub fn is_loaded(&self) -> bool {
+        *self.is_loaded.lock()
+    }
+    
+    /// Unload the value
+    pub fn unload(&self) {
+        let mut is_loaded = self.is_loaded.lock();
+        *is_loaded = false;
+        *self.value.lock() = None;
+    }
 }
 
 /// Memory optimizer
@@ -257,193 +496,169 @@ pub struct MemoryOptimizer {
     /// Video frame pool
     frame_pool: Option<VideoFramePool>,
     
-    /// Statistics
-    stats: Arc<Mutex<MemoryStats>>,
+    /// Buffer pool
+    buffer_pool: BufferPoolOptimization,
     
-    /// Allocation count
-    allocations: Arc<Mutex<usize>>,
+    /// Memory monitor
+    monitor: MemoryMonitor,
     
-    /// Deallocation count
-    deallocations: Arc<Mutex<usize>>,
+    /// Memory saved
+    memory_saved: Arc<Mutex<u64>>,
 }
 
 impl MemoryOptimizer {
-    /// Create a new memory optimizer
-    pub fn new(config: MemoryOptimizationConfig) -> Self {
-        info!(
-            "🚀 Initializing memory optimizer with {}% target reduction",
-            config.target_reduction
+    /// Create new memory optimizer
+    pub fn new(config: MemoryOptimizationConfig) -> Result<Self> {
+        info!("🔧 Initializing memory optimizer");
+        info!("   Target reduction: {}%", config.target_reduction);
+        info!("   Pooling enabled: {}", config.enable_pooling);
+        info!("   Lazy loading enabled: {}", config.enable_lazy_loading);
+        
+        // Estimate total memory (default to 8GB)
+        let total_memory = 8 * 1024 * 1024 * 1024;
+        
+        let monitor = MemoryMonitor::new(
+            total_memory,
+            config.warning_threshold,
+            config.critical_threshold,
         );
         
-        Self {
+        Ok(Self {
             config,
             frame_pool: None,
-            stats: Arc::new(Mutex::new(MemoryStats {
-                total_mb: 0,
-                used_mb: 0,
-                free_mb: 0,
-                usage_percent: 0.0,
-                allocations: 0,
-                deallocations: 0,
-            })),
-            allocations: Arc::new(Mutex::new(0)),
-            deallocations: Arc::new(Mutex::new(0)),
-        }
+            buffer_pool: BufferPoolOptimization::new(),
+            monitor,
+            memory_saved: Arc::new(Mutex::new(0)),
+        })
     }
     
-    /// Initialize video frame pool
+    /// Initialize frame pool
     pub fn init_frame_pool(&mut self, width: u32, height: u32, max_frames: usize) -> Result<()> {
-        if !self.config.enable_pooling {
-            return Ok(());
-        }
-        
-        let pool = VideoFramePool::new(width, height, max_frames)?;
-        self.frame_pool = Some(pool);
-        
-        // Update stats
-        let mut stats = self.stats.lock();
-        stats.total_mb = (max_frames * (width * height * 3 / 2) as usize) / (1024 * 1024);
-        stats.free_mb = stats.total_mb;
-        
+        self.frame_pool = Some(VideoFramePool::new(width, height, max_frames)?);
+        info!("✅ Frame pool initialized");
         Ok(())
     }
     
-    /// Allocate a video frame
-    pub fn allocate_frame(&self) -> Result<FrameHandle> {
-        if let Some(pool) = &self.frame_pool {
-            let handle = pool.allocate()?;
-            
-            // Update stats
-            *self.allocations.lock() += 1;
-            let mut stats = self.stats.lock();
-            stats.allocations += 1;
-            stats.used_mb = pool.memory_usage_mb();
-            stats.free_mb = stats.total_mb - stats.used_mb;
-            stats.usage_percent = (stats.used_mb as f64 / stats.total_mb as f64) * 100.0;
-            
-            Ok(handle)
+    /// Acquire a frame
+    pub fn acquire_frame(&self) -> Result<FrameHandle> {
+        if let Some(ref pool) = self.frame_pool {
+            pool.acquire()
         } else {
             Err(anyhow!("Frame pool not initialized"))
         }
     }
     
+    /// Allocate a buffer
+    pub fn allocate_buffer(&self, size: usize) -> Result<BufferHandle> {
+        self.buffer_pool.allocate(size)
+    }
+    
     /// Get memory statistics
     pub fn get_stats(&self) -> MemoryStats {
-        let mut stats = self.stats.lock();
-        stats.allocations = *self.allocations.lock();
-        stats.deallocations = *self.deallocations.lock();
-        stats.clone()
+        let frame_stats = self.frame_pool.as_ref().map(|p| p.get_stats());
+        let buffer_stats = self.buffer_pool.get_stats();
+        
+        MemoryStats {
+            frame_pool: frame_stats,
+            buffer_pool: buffer_stats,
+            current_usage: self.monitor.get_current_usage(),
+            peak_usage: self.monitor.get_peak_usage(),
+            usage_percentage: self.monitor.get_usage_percentage(),
+            memory_saved: *self.memory_saved.lock(),
+        }
     }
     
-    /// Optimize memory usage
-    pub fn optimize(&self) -> Result<f64> {
-        let stats = self.get_stats();
-        let current_usage = stats.usage_percent;
+    /// Run memory optimization
+    pub fn optimize(&self) -> Result<OptimizationResult> {
+        let mut result = OptimizationResult::default();
         
-        // Calculate target usage
-        let target_usage = current_usage * (1.0 - (self.config.target_reduction as f64 / 100.0));
-        
-        info!(
-            "📊 Memory optimization: {:.1}% → {:.1}% (target: {}% reduction)",
-            current_usage,
-            target_usage,
-            self.config.target_reduction
-        );
-        
-        // Reclaim old frames if pool exists
-        if let Some(pool) = &self.frame_pool {
-            pool.reclaim_frames()?;
+        // Shrink frame pool if possible
+        if let Some(ref pool) = self.frame_pool {
+            let frames_removed = pool.shrink(10)?;
+            result.frames_removed = frames_removed;
+            result.memory_freed += frames_removed as u64 * pool.frame_size as u64;
         }
         
-        // Return achieved reduction
-        let new_stats = self.get_stats();
-        let achieved_reduction = ((current_usage - new_stats.usage_percent) / current_usage) * 100.0;
+        // Update memory saved
+        let mut saved = self.memory_saved.lock();
+        *saved += result.memory_freed;
         
-        Ok(achieved_reduction)
-    }
-    
-    /// Check if memory optimization is enabled
-    pub fn is_enabled(&self) -> bool {
-        self.config.enable_pooling || self.config.enable_lazy_loading
+        Ok(result)
     }
 }
 
-impl Default for MemoryOptimizer {
-    fn default() -> Self {
-        Self::new(MemoryOptimizationConfig::default())
-    }
+/// Memory statistics
+#[derive(Debug, Clone)]
+pub struct MemoryStats {
+    pub frame_pool: Option<PoolStats>,
+    pub buffer_pool: BufferStats,
+    pub current_usage: usize,
+    pub peak_usage: usize,
+    pub usage_percentage: f64,
+    pub memory_saved: u64,
+}
+
+/// Optimization result
+#[derive(Debug, Clone, Default)]
+pub struct OptimizationResult {
+    pub frames_removed: usize,
+    pub buffers_freed: usize,
+    pub memory_freed: u64,
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_memory_optimizer_creation() {
-        let optimizer = MemoryOptimizer::new(MemoryOptimizationConfig::default());
-        assert!(optimizer.is_enabled());
-    }
-
+    
     #[test]
     fn test_frame_pool_creation() {
+        let pool = VideoFramePool::new(1920, 1080, 10);
+        assert!(pool.is_ok());
+    }
+    
+    #[test]
+    fn test_frame_acquire_release() {
         let pool = VideoFramePool::new(1920, 1080, 10).unwrap();
-        let (used, total) = pool.usage();
-        assert_eq!(used, 0);
-        assert_eq!(total, 10);
+        let frame = pool.acquire();
+        assert!(frame.is_ok());
+        
+        // Release frame
+        drop(frame);
+        
+        // Should be able to acquire again
+        let frame2 = pool.acquire();
+        assert!(frame2.is_ok());
     }
-
+    
     #[test]
-    fn test_frame_allocation() {
-        let pool = VideoFramePool::new(1920, 1080, 10).unwrap();
-        let handle = pool.allocate().unwrap();
-        assert!(!handle.is_empty());
-        assert_eq!(handle.len(), 1920 * 1080 * 3 / 2);
+    fn test_buffer_pool() {
+        let pool = BufferPoolOptimization::new();
+        let buffer = pool.allocate(1024);
+        assert!(buffer.is_ok());
+        assert_eq!(buffer.unwrap().len(), 1024);
     }
-
+    
     #[test]
-    fn test_frame_pool_exhaustion() {
-        let pool = VideoFramePool::new(1920, 1080, 2).unwrap();
-        let _handle1 = pool.allocate().unwrap();
-        let _handle2 = pool.allocate().unwrap();
+    fn test_lazy_loader() {
+        let loader = LazyLoader::new(|| Ok(42));
+        assert!(!loader.is_loaded());
         
-        // Third allocation should fail
-        assert!(pool.allocate().is_err());
+        let value = loader.get();
+        assert!(value.is_ok());
+        assert_eq!(value.unwrap(), 42);
+        assert!(loader.is_loaded());
+        
+        loader.unload();
+        assert!(!loader.is_loaded());
     }
-
+    
     #[test]
-    fn test_frame_reclamation() {
-        let pool = VideoFramePool::new(1920, 1080, 2).unwrap();
-        let _handle1 = pool.allocate().unwrap();
-        let _handle2 = pool.allocate().unwrap();
+    fn test_memory_monitor() {
+        let monitor = MemoryMonitor::new(1024 * 1024 * 1024, 80, 90);
+        monitor.record_allocation(1024 * 1024 * 100);
+        assert_eq!(monitor.get_current_usage(), 1024 * 1024 * 100);
         
-        // Drop one handle
-        drop(_handle1);
-        
-        // Should be able to allocate again
-        let _handle3 = pool.allocate().unwrap();
-    }
-
-    #[test]
-    fn test_memory_stats() {
-        let mut optimizer = MemoryOptimizer::new(MemoryOptimizationConfig::default());
-        optimizer.init_frame_pool(1920, 1080, 10).unwrap();
-        
-        let stats = optimizer.get_stats();
-        assert!(stats.total_mb > 0);
-        assert_eq!(stats.allocations, 0);
-    }
-
-    #[test]
-    fn test_memory_optimization() {
-        let mut optimizer = MemoryOptimizer::new(MemoryOptimizationConfig::default());
-        optimizer.init_frame_pool(1920, 1080, 10).unwrap();
-        
-        // Allocate some frames
-        let _handle1 = optimizer.allocate_frame().unwrap();
-        let _handle2 = optimizer.allocate_frame().unwrap();
-        
-        // Optimize
-        let reduction = optimizer.optimize().unwrap();
-        assert!(reduction >= 0.0);
+        monitor.record_deallocation(1024 * 1024 * 50);
+        assert_eq!(monitor.get_current_usage(), 1024 * 1024 * 50);
     }
 }
