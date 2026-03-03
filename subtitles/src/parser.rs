@@ -53,6 +53,8 @@ pub enum SubtitleFormat {
     SubStationAlpha,
     WebVTT,
     MicroDVD,
+    TTML,
+    IMSC,
     Unknown,
 }
 
@@ -144,6 +146,8 @@ impl SubtitleParser {
             SubtitleFormat::SubStationAlpha => Self::parse_ssa(&content)?,
             SubtitleFormat::WebVTT => Self::parse_vtt(&content)?,
             SubtitleFormat::MicroDVD => Self::parse_sub(&content)?,
+            SubtitleFormat::TTML => Self::parse_ttml(&content)?,
+            SubtitleFormat::IMSC => Self::parse_imsc(&content)?,
             SubtitleFormat::Unknown => Self::parse_srt(&content)?, // Try SRT as default
         };
         
@@ -176,6 +180,17 @@ impl SubtitleParser {
             .unwrap_or(false)
         {
             SubtitleFormat::MicroDVD
+        } else if content.contains("<?xml") && (content.contains("<tt ") || content.contains("<tt:")) {
+            // TTML/IMSC format - detect specific profile
+            if content.contains("http://www.w3.org/ns/ttml") {
+                if content.contains("imsc1") || content.contains("http://www.smpte-ra.org/schemas/2052-1/2010/") {
+                    SubtitleFormat::IMSC
+                } else {
+                    SubtitleFormat::TTML
+                }
+            } else {
+                SubtitleFormat::TTML
+            }
         } else {
             SubtitleFormat::SubRip
         }
@@ -269,6 +284,42 @@ impl SubtitleParser {
         }
         
         "unknown".to_string()
+    }
+    
+    /// Parse TTML content
+    fn parse_ttml(content: &str) -> Result<Vec<SubtitleEntry>> {
+        use crate::ttml::TtmlParser;
+        
+        let ttml_entries = TtmlParser::parse(content)?;
+        
+        // Convert TtmlSubtitleEntry to SubtitleEntry
+        let entries = ttml_entries.into_iter().map(|ttml| {
+            SubtitleEntry {
+                start_ms: ttml.base.start_ms,
+                end_ms: ttml.base.end_ms,
+                text: ttml.base.text,
+            }
+        }).collect();
+        
+        Ok(entries)
+    }
+    
+    /// Parse IMSC content
+    fn parse_imsc(content: &str) -> Result<Vec<SubtitleEntry>> {
+        use crate::ttml::TtmlParser;
+        
+        let ttml_entries = TtmlParser::parse_imsc(content)?;
+        
+        // Convert TtmlSubtitleEntry to SubtitleEntry
+        let entries = ttml_entries.into_iter().map(|ttml| {
+            SubtitleEntry {
+                start_ms: ttml.base.start_ms,
+                end_ms: ttml.base.end_ms,
+                text: ttml.base.text,
+            }
+        }).collect();
+        
+        Ok(entries)
     }
     
     /// Calculate simple hash

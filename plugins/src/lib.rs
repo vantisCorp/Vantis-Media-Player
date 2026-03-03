@@ -1,5 +1,5 @@
 //! Vantis Plugin System - WASM Sandbox
-//! 
+//!
 /// All plugins run in isolated WebAssembly environment for safety.
 /// Crashes in plugins won't affect the main application.
 
@@ -11,6 +11,13 @@ use tracing::{info, debug, error};
 use wasmtime::{Engine, Module, Store, Linker, Config};
 
 pub mod host;
+pub mod analytics;
+
+pub use analytics::{
+    PluginAnalyticsDashboard, AnalyticsConfig, ExportFormat,
+    PluginAnalyticsSummary, InstallationStats, UsageStats, PerformanceStats,
+    ErrorStats, DownloadStatsView,
+};
 
 /// Plugin manager
 pub struct PluginManager {
@@ -22,6 +29,9 @@ pub struct PluginManager {
     
     /// Linker for host functions
     linker: Linker<HostState>,
+    
+    /// Analytics dashboard
+    analytics: Option<PluginAnalyticsDashboard>,
 }
 
 /// Plugin instance
@@ -72,12 +82,20 @@ impl PluginManager {
             engine,
             plugins: Arc::new(RwLock::new(HashMap::new())),
             linker,
+            analytics: None,
         })
+    }
+    
+    /// Create a new plugin manager with analytics enabled
+    pub fn with_analytics(config: AnalyticsConfig) -> Result<Self> {
+        let mut manager = Self::new()?;
+        manager.analytics = Some(PluginAnalyticsDashboard::new(config));
+        Ok(manager)
     }
     
     /// Load a plugin from WASM file
     pub async fn load_plugin(&mut self, path: &str) -> Result<()> {
-        info!("📦 Loading plugin: {}", path);
+        info!("📥 Loading plugin: {}", path);
         
         // Read WASM file
         let wasm_bytes = tokio::fs::read(path).await?;
@@ -94,6 +112,23 @@ impl PluginManager {
         let instance = self.linker.instantiate(&mut store, &module)?;
         
         debug!("✅ Plugin loaded: {}", path);
+        
+        // Track installation if analytics is enabled
+        if let Some(analytics) = &mut self.analytics {
+            let _ = analytics.track_installation(path, analytics::InstallationEvent {
+                timestamp: chrono::Utc::now(),
+                version: "1.0.0".to_string(),
+                platform: if cfg!(windows) {
+                    analytics::Platform::Windows
+                } else if cfg!(target_os = "macos") {
+                    analytics::Platform::MacOS
+                } else {
+                    analytics::Platform::Linux
+                },
+                country: None,
+                source: analytics::InstallationSource::Marketplace,
+            });
+        }
         
         // Store plugin info
         let plugin = Plugin {
@@ -115,6 +150,11 @@ impl PluginManager {
         let mut plugins = self.plugins.write();
         if plugins.remove(name).is_some() {
             debug!("✅ Plugin unloaded: {}", name);
+            
+            // Track uninstallation if analytics is enabled
+            if let Some(analytics) = &self.analytics {
+                let _ = analytics.track_uninstallation(name);
+            }
         } else {
             error!("⚠️ Plugin not found: {}", name);
         }
@@ -146,6 +186,16 @@ impl PluginManager {
         }
         Ok(())
     }
+    
+    /// Get analytics dashboard
+    pub fn analytics(&self) -> Option<&PluginAnalyticsDashboard> {
+        self.analytics.as_ref()
+    }
+    
+    /// Get mutable analytics dashboard
+    pub fn analytics_mut(&mut self) -> Option<&mut PluginAnalyticsDashboard> {
+        self.analytics.as_mut()
+    }
 }
 
 impl Default for PluginManager {
@@ -171,17 +221,9 @@ mod tests {
     }
     
     #[test]
-    fn test_plugin_info_creation() {
-        let info = PluginInfo {
-            name: "test_plugin".to_string(),
-            version: "1.0.0".to_string(),
-            author: "Test Author".to_string(),
-            description: "Test plugin".to_string(),
-            active: false,
-        };
-        
-        assert_eq!(info.name, "test_plugin");
-        assert_eq!(info.version, "1.0.0");
-        assert_eq!(info.active, false);
+    fn test_plugin_manager_with_analytics() {
+        let manager = PluginManager::with_analytics(AnalyticsConfig::default());
+        assert!(manager.is_ok());
+        assert!(manager.unwrap().analytics().is_some());
     }
 }

@@ -543,6 +543,207 @@ impl GestureController {
             callback(event);
         }
     }
+    
+    /// Get configuration
+    pub async fn get_config(&self) -> GestureConfig {
+        let config = self.config.read().await;
+        config.clone()
+    }
+    
+    /// Set configuration
+    pub async fn set_config(&self, config: GestureConfig) -> Result<()> {
+        let mut current_config = self.config.write().await;
+        *current_config = config;
+        Ok(())
+    }
+    
+    /// Export gesture configuration to JSON
+    pub async fn export_config(&self) -> Result<String> {
+        let config = self.config.read().await;
+        serde_json::to_string_pretty(&*config)
+            .context("Failed to serialize config to JSON")
+    }
+    
+    /// Import gesture configuration from JSON
+    pub async fn import_config(&self, json: &str) -> Result<()> {
+        let config: GestureConfig = serde_json::from_str(json)
+            .context("Failed to parse config JSON")?;
+        
+        self.set_config(config).await
+    }
+}
+
+/// Gesture preset
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct GesturePreset {
+    /// Preset name
+    pub name: String,
+    
+    /// Preset description
+    pub description: String,
+    
+    /// Swipe sensitivity
+    pub swipe_sensitivity: f32,
+    
+    /// Tap sensitivity
+    pub tap_sensitivity: f32,
+    
+    /// Minimum swipe distance
+    pub min_swipe_distance: u32,
+    
+    /// Tap duration threshold
+    pub tap_duration_threshold: u32,
+}
+
+impl Default for GesturePreset {
+    fn default() -> Self {
+        Self {
+            name: "Default".to_string(),
+            description: "Default gesture configuration".to_string(),
+            swipe_sensitivity: 0.7,
+            tap_sensitivity: 0.8,
+            min_swipe_distance: 50,
+            tap_duration_threshold: 300,
+        }
+    }
+}
+
+/// Gesture preset manager
+pub struct GesturePresetManager {
+    presets: Arc<RwLock<HashMap<String, GesturePreset>>>,
+}
+
+impl GesturePresetManager {
+    /// Create a new preset manager
+    pub fn new() -> Self {
+        info!("👋 Initializing Gesture Preset Manager");
+        
+        let presets = Self::create_default_presets();
+        
+        Self {
+            presets: Arc::new(RwLock::new(presets)),
+        }
+    }
+    
+    /// Create default presets
+    fn create_default_presets() -> HashMap<String, GesturePreset> {
+        let mut presets = HashMap::new();
+        
+        // Sensitive preset
+        presets.insert(
+            "sensitive".to_string(),
+            GesturePreset {
+                name: "Sensitive".to_string(),
+                description: "High sensitivity for quick gestures".to_string(),
+                swipe_sensitivity: 0.9,
+                tap_sensitivity: 0.95,
+                min_swipe_distance: 30,
+                tap_duration_threshold: 200,
+            },
+        );
+        
+        // Normal preset
+        presets.insert(
+            "normal".to_string(),
+            GesturePreset {
+                name: "Normal".to_string(),
+                description: "Normal gesture sensitivity".to_string(),
+                swipe_sensitivity: 0.7,
+                tap_sensitivity: 0.8,
+                min_swipe_distance: 50,
+                tap_duration_threshold: 300,
+            },
+        );
+        
+        // Relaxed preset
+        presets.insert(
+            "relaxed".to_string(),
+            GesturePreset {
+                name: "Relaxed".to_string(),
+                description: "Low sensitivity for casual use".to_string(),
+                swipe_sensitivity: 0.5,
+                tap_sensitivity: 0.6,
+                min_swipe_distance: 80,
+                tap_duration_threshold: 400,
+            },
+        );
+        
+        presets
+    }
+    
+    /// Get all presets
+    pub async fn get_presets(&self) -> Vec<GesturePreset> {
+        let presets = self.presets.read().await;
+        presets.values().cloned().collect()
+    }
+    
+    /// Get preset by name
+    pub async fn get_preset(&self, name: &str) -> Option<GesturePreset> {
+        let presets = self.presets.read().await;
+        presets.get(name).cloned()
+    }
+    
+    /// Apply preset to controller
+    pub async fn apply_preset(&self, name: &str, controller: &GestureController) -> Result<()> {
+        let preset = self.get_preset(name).await
+            .context(format!("Preset '{}' not found", name))?;
+        
+        let config = GestureConfig {
+            swipe_sensitivity: preset.swipe_sensitivity,
+            tap_sensitivity: preset.tap_sensitivity,
+            min_swipe_distance: preset.min_swipe_distance,
+            tap_duration_threshold: preset.tap_duration_threshold,
+            ..Default::default()
+        };
+        
+        controller.set_config(config).await?;
+        
+        info!("👋 Applied preset: {}", name);
+        Ok(())
+    }
+    
+    /// Add custom preset
+    pub async fn add_preset(&self, name: String, preset: GesturePreset) -> Result<()> {
+        let mut presets = self.presets.write().await;
+        presets.insert(name.clone(), preset);
+        
+        info!("👋 Added preset: {}", name);
+        Ok(())
+    }
+    
+    /// Remove preset
+    pub async fn remove_preset(&self, name: &str) -> Result<()> {
+        let mut presets = self.presets.write().await;
+        if presets.remove(name).is_some() {
+            info!("👋 Removed preset: {}", name);
+            Ok(())
+        } else {
+            Err(anyhow::anyhow!("Preset '{}' not found", name))
+        }
+    }
+    
+    /// Export preset to JSON
+    pub async fn export_preset(&self, name: &str) -> Result<String> {
+        let preset = self.get_preset(name).await
+            .context(format!("Preset '{}' not found", name))?;
+        
+        serde_json::to_string_pretty(&preset)
+            .context("Failed to serialize preset to JSON")
+    }
+    
+    /// Import preset from JSON
+    pub async fn import_preset(&self, name: String, json: &str) -> Result<()> {
+        let preset: GesturePreset = serde_json::from_str(json)
+            .context("Failed to parse preset JSON")?;
+        
+        self.add_preset(name, preset).await
+    }
+}
+
+impl Default for GesturePresetManager {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 #[cfg(test)]
@@ -575,5 +776,70 @@ mod tests {
         
         // Tap should be recognized
         // (In real implementation, callback would be triggered)
+    }
+    
+    #[tokio::test]
+    async fn test_preset_manager() {
+        let manager = GesturePresetManager::new();
+        let presets = manager.get_presets().await;
+        
+        assert_eq!(presets.len(), 3);
+        assert!(presets.iter().any(|p| p.name == "Normal"));
+    }
+    
+    #[tokio::test]
+    async fn test_apply_preset() {
+        let preset_manager = GesturePresetManager::new();
+        let config = GestureConfig::default();
+        let controller = GestureController::new(config).unwrap();
+        
+        assert!(preset_manager.apply_preset("sensitive", &controller).await.is_ok());
+        
+        let applied_config = controller.get_config().await;
+        assert_eq!(applied_config.swipe_sensitivity, 0.9);
+    }
+    
+    #[tokio::test]
+    async fn test_add_custom_preset() {
+        let manager = GesturePresetManager::new();
+        
+        let custom_preset = GesturePreset {
+            name: "Custom".to_string(),
+            description: "Custom preset".to_string(),
+            swipe_sensitivity: 0.75,
+            tap_sensitivity: 0.85,
+            min_swipe_distance: 60,
+            tap_duration_threshold: 350,
+        };
+        
+        assert!(manager.add_preset("my_custom".to_string(), custom_preset).await.is_ok());
+        
+        let loaded = manager.get_preset("my_custom").await;
+        assert!(loaded.is_some());
+        assert_eq!(loaded.unwrap().name, "Custom");
+    }
+    
+    #[tokio::test]
+    async fn test_export_import_config() {
+        let config = GestureConfig::default();
+        let controller = GestureController::new(config).unwrap();
+        
+        let json = controller.export_config().await;
+        assert!(json.is_ok());
+        
+        // Modify and import back
+        let modified_json = json.unwrap();
+        assert!(controller.import_config(&modified_json).await.is_ok());
+    }
+    
+    #[tokio::test]
+    async fn test_export_import_preset() {
+        let manager = GesturePresetManager::new();
+        
+        let json = manager.export_preset("normal").await;
+        assert!(json.is_ok());
+        
+        let loaded = manager.import_preset("imported_normal".to_string(), &json.unwrap()).await;
+        assert!(loaded.is_ok());
     }
 }
