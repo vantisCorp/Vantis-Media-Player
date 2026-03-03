@@ -15,6 +15,7 @@ pub mod enhanced_marketplace;
 pub mod navigation;
 pub mod shortcuts;
 pub mod theme;
+pub mod theme_system;
 
 /// Vantis UI Application
 pub struct VantisUI {
