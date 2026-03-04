@@ -45,13 +45,13 @@ jobs:
         run: |
           # Get commits since last tag
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          
+
           if [ -z "$LAST_TAG" ]; then
             COMMITS=$(git log --pretty=format:"- %s" HEAD)
           else
             COMMITS=$(git log --pretty=format:"- %s" $LAST_TAG..HEAD)
           fi
-          
+
           # Create release notes
           cat > release_notes.md << EOF
           ## 🎉 Release ${{ steps.version.outputs.version }}
@@ -80,7 +80,7 @@ jobs:
 
           Thank you to all contributors who made this release possible!
           EOF
-          
+
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           cat release_notes.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
