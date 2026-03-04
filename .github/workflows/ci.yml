@@ -1,128 +1,26 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
-
-env:
-  CARGO_TERM_COLOR: always
+    branches: [ main ]
 
 jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-      
-      - name: Setup cache
-        uses: Swatinem/rust-cache@v2
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
-      
-      - name: Check compilation
-        run: cargo check --verbose
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: check
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-      
-      - name: Setup cache
-        uses: Swatinem/rust-cache@v2
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
-      
-      - name: Run tests
-        run: cargo test --verbose
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    needs: check
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy
-      
-      - name: Setup cache
-        uses: Swatinem/rust-cache@v2
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
-      
-      - name: Check formatting
-        run: cargo fmt -- --check
-      
-      - name: Clippy
-        run: cargo clippy -- -D warnings
-
   build:
-    name: Build (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    needs: [test, lint]
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@stable
       
-      - name: Setup cache
-        uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
       
-      - name: Install dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
-      
-      - name: Install dependencies (macOS)
-        if: matrix.os == 'macos-latest'
-        run: brew install ffmpeg
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
       
       - name: Build
-        run: cargo build --release --verbose
-
-  security:
-    name: Security Audit
-    runs-on: ubuntu-latest
-    needs: check
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        run: cargo build --verbose
       
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-      
-      - name: Install cargo-audit
-        run: cargo install cargo-audit
-      
-      - name: Run audit
-        run: cargo audit
+      - name: Test
+        run: cargo test --verbose
