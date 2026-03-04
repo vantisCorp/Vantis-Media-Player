@@ -250,8 +250,8 @@ We value community feedback! If you have suggestions for the roadmap or want to 
 
 ---
 
-**Last Updated:** March 1, 2025
-**Next Review:** June 1, 2025
+**Last Updated:** March 4, 2026
+**Next Review:** June 4, 2026
 
 **Technical Improvements:**
 - [ ] ONNX runtime integration
@@ -573,7 +573,7 @@ For detailed version history, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-**Last Updated**: January 2024
-**Next Update**: April 2024
+**Last Updated**: March 2026
+**Next Update**: June 2026
 
 *This roadmap is a living document and subject to change based on community feedback and technical priorities.*
