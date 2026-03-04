@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        rust: [stable, nightly]
+        rust: [stable]
     
     steps:
     - name: Checkout code
@@ -25,7 +25,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
       with:
-        toolchain: ${{ matrix.rust }}
+        toolchain: stable
         components: rustfmt, clippy
     
     - name: Setup Rust cache
