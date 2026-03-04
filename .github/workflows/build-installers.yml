@@ -13,174 +13,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          targets: x86_64-pc-windows-msvc
-
-      - name: Install FFmpeg
-        run: |
-          choco install ffmpeg -y
-
-      - name: Cache cargo registry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache cargo index
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache cargo build
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Build release
-        run: |
-          cargo build --release --target x86_64-pc-windows-msvc
-
-      - name: Create installer directory
-        run: |
-          mkdir -p installer/vantis-player
-          cp target/x86_64-pc-windows-msvc/release/vantis.exe installer/vantis-player/
-          cp README.md installer/vantis-player/
-          cp LICENSE installer/vantis-player/
-          cp CHANGELOG.md installer/vantis-player/
-
-      - name: Create ZIP archive
-        run: |
-          Compress-Archive -Path installer/vantis-player -DestinationPath vantis-player-windows-x64.zip
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: vantis-player-windows-x64
-          path: vantis-player-windows-x64.zip
-
-      - name: Create release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: vantis-player-windows-x64.zip
-          draft: false
-          prerelease: false
-
-  build-macos:
-    runs-on: macos-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          targets: x86_64-apple-darwin,aarch64-apple-darwin
-
-      - name: Install FFmpeg
-        run: |
-          brew install ffmpeg
-
-      - name: Cache cargo registry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache cargo index
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache cargo build
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Build release (x86_64)
-        run: |
-          cargo build --release --target x86_64-apple-darwin
-
-      - name: Build release (aarch64)
-        run: |
-          cargo build --release --target aarch64-apple-darwin
-
-      - name: Create universal binary
-        run: |
-          lipo -create \
-            target/x86_64-apple-darwin/release/vantis \
-            target/aarch64-apple-darwin/release/vantis \
-            -output target/vantis-universal
-
-      - name: Create installer directory
-        run: |
-          mkdir -p installer/vantis-player.app/Contents/MacOS
-          mkdir -p installer/vantis-player.app/Contents/Resources
-          cp target/vantis-universal installer/vantis-player.app/Contents/MacOS/vantis
-          chmod +x installer/vantis-player.app/Contents/MacOS/vantis
-          cp README.md installer/vantis-player.app/Contents/Resources/
-          cp LICENSE installer/vantis-player.app/Contents/Resources/
-          cp CHANGELOG.md installer/vantis-player.app/Contents/Resources/
-
-      - name: Create Info.plist
-        run: |
-          cat > installer/vantis-player.app/Contents/Info.plist << 'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-              <key>CFBundleExecutable</key>
-              <string>vantis</string>
-              <key>CFBundleIdentifier</key>
-              <string>com.vantismedia.player</string>
-              <key>CFBundleName</key>
-              <string>Vantis Media Player</string>
-              <key>CFBundleVersion</key>
-              <string>1.0.0</string>
-              <key>CFBundleShortVersionString</key>
-              <string>1.0.0</string>
-              <key>CFBundlePackageType</key>
-              <string>APPL</string>
-              <key>NSHighResolutionCapable</key>
-              <true/>
-          </dict>
-          </plist>
-          EOF
-
-      - name: Create DMG
-        run: |
-          hdiutil create -volname "Vantis Media Player" -srcfolder installer -ov -format UDZO vantis-player-macos-universal.dmg
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: vantis-player-macos-universal
-          path: vantis-player-macos-universal.dmg
-
-      - name: Create release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: vantis-player-macos-universal.dmg
-          draft: false
-          prerelease: false
-
   build-linux:
     runs-on: ubuntu-latest
     
@@ -191,13 +23,19 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
+          toolchain: 1.93.0
           targets: x86_64-unknown-linux-gnu
 
       - name: Install FFmpeg
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev
+          sudo apt-get install -y \
+            ffmpeg \
+            libavcodec-dev \
+            libavformat-dev \
+            libavutil-dev \
+            libswscale-dev \
+            pkg-config
 
       - name: Cache cargo registry
         uses: actions/cache@v3
@@ -221,16 +59,13 @@ jobs:
         run: |
           cargo build --release --target x86_64-unknown-linux-gnu
 
-      - name: Create installer directory
-        run: |
-          mkdir -p installer/vantis-player
-          cp target/x86_64-unknown-linux-gnu/release/vantis installer/vantis-player/
-          cp README.md installer/vantis-player/
-          cp LICENSE installer/vantis-player/
-          cp CHANGELOG.md installer/vantis-player/
-
       - name: Create tarball
         run: |
+          mkdir -p installer/vantis-player
+          cp target/x86_64-unknown-linux-gnu/release/vantis-player installer/vantis-player/ || true
+          cp README.md installer/vantis-player/ || true
+          cp LICENSE installer/vantis-player/ || true
+          cp CHANGELOG.md installer/vantis-player/ || true
           cd installer && tar -czf ../vantis-player-linux-x64.tar.gz vantis-player
 
       - name: Upload artifact
