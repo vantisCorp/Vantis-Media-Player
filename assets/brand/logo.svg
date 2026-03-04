@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Vantis Media Player Logo -->
+  <defs>
+    <linearGradient id="vantisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#25c2a0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#32d8b4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="#0d0d0f" stroke="url(#vantisGradient)" stroke-width="8"/>
+  
+  <!-- Play Button Triangle -->
+  <polygon points="200,140 200,372 380,256" fill="url(#vantisGradient)" filter="url(#glow)"/>
+  
+  <!-- Inner Circle -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="url(#vantisGradient)" stroke-width="4" opacity="0.5"/>
+  
+  <!-- Sound Waves -->
+  <path d="M 100,200 Q 130,256 100,312" fill="none" stroke="url(#vantisGradient)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 80,180 Q 120,256 80,332" fill="none" stroke="url(#vantisGradient)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 60,160 Q 110,256 60,352" fill="none" stroke="url(#vantisGradient)" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+</svg>

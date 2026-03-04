@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320">
+  <!-- Vantis Media Player Banner -->
+  <defs>
+    <linearGradient id="bannerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#25c2a0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#32d8b4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0d0f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1d;stop-opacity:1" />
+    </linearGradient>
+    <filter id="bannerGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1280" height="320" fill="url(#bgGradient)"/>
+  
+  <!-- Grid Pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#25c2a0" stroke-width="0.5" opacity="0.1"/>
+  </pattern>
+  <rect width="1280" height="320" fill="url(#grid)"/>
+  
+  <!-- Logo (scaled and positioned) -->
+  <g transform="translate(50, 40) scale(0.75)">
+    <circle cx="160" cy="160" r="140" fill="#0d0d0f" stroke="url(#bannerGradient)" stroke-width="6"/>
+    <polygon points="110,80 110,240 210,160" fill="url(#bannerGradient)" filter="url(#bannerGlow)"/>
+  </g>
+  
+  <!-- Title Text -->
+  <text x="320" y="140" font-family="Inter, SF Pro Display, -apple-system, sans-serif" font-size="72" font-weight="800" fill="url(#bannerGradient)">Vantis Media Player</text>
+  
+  <!-- Tagline -->
+  <text x="320" y="200" font-family="Inter, SF Pro Display, -apple-system, sans-serif" font-size="32" fill="#e3e3e3" opacity="0.9">"The Last Interface"</text>
+  
+  <!-- Subtitle -->
+  <text x="320" y="250" font-family="Inter, SF Pro Display, -apple-system, sans-serif" font-size="20" fill="#b3b3b3">The World's Most Advanced Media Player • Built with Rust 🦀</text>
+  
+  <!-- Badges -->
+  <g transform="translate(320, 270)">
+    <!-- Rust Badge -->
+    <rect x="0" y="0" width="80" height="24" rx="4" fill="#ff6b35"/>
+    <text x="40" y="17" font-family="monospace" font-size="12" fill="white" text-anchor="middle">Rust</text>
+    
+    <!-- AGPL Badge -->
+    <rect x="90" y="0" width="100" height="24" rx="4" fill="#3da639"/>
+    <text x="140" y="17" font-family="monospace" font-size="12" fill="white" text-anchor="middle">AGPL-3.0</text>
+    
+    <!-- Version Badge -->
+    <rect x="200" y="0" width="80" height="24" rx="4" fill="#007ec6"/>
+    <text x="240" y="17" font-family="monospace" font-size="12" fill="white" text-anchor="middle">v2.0.0</text>
+    
+    <!-- Cross-platform Badge -->
+    <rect x="290" y="0" width="120" height="24" rx="4" fill="#6c5ce7"/>
+    <text x="350" y="17" font-family="monospace" font-size="12" fill="white" text-anchor="middle">Cross-Platform</text>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <circle cx="1150" cy="80" r="100" fill="none" stroke="url(#bannerGradient)" stroke-width="1" opacity="0.3"/>
+  <circle cx="1200" cy="280" r="60" fill="none" stroke="url(#bannerGradient)" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Sound Wave Lines -->
+  <g opacity="0.3">
+    <path d="M 1100,100 Q 1130,160 1100,220" fill="none" stroke="url(#bannerGradient)" stroke-width="3"/>
+    <path d="M 1070,80 Q 1120,160 1070,240" fill="none" stroke="url(#bannerGradient)" stroke-width="2"/>
+    <path d="M 1040,60 Q 1110,160 1040,260" fill="none" stroke="url(#bannerGradient)" stroke-width="1"/>
+  </g>
+</svg>
