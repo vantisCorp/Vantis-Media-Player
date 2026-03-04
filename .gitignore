@@ -1,107 +1,388 @@
+# Vantis Media Player - Git Ignore File
+# Comprehensive ignore patterns for all project types
+
+# ============================================
+# Environment & Secrets
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+*.env
+secrets/
+credentials/
+keys/
+*.key
+*.pem
+*.p12
+*.pfx
+*.gpg
+
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+jspm_packages/
+bower_components/
+vendor/
+third_party/
+
 # Rust
-/target/
+Cargo.lock
+target/
 **/*.rs.bk
 *.pdb
-Cargo.lock
 
-# IDE
-.vscode/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+ENV/
+env/
+.venv
+
+# Go
+vendor/
+*.test
+*.out
+go.work
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+target/
+.mvn/
+mvnw
+mvnw.cmd
+.gradle/
+
+# Node.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# Build Outputs
+# ============================================
+dist/
+build/
+out/
+release/
+bin/
+obj/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.turbo/
+
+# ============================================
+# Cache
+# ============================================
+.cache/
+.parcel-cache/
+.vite/
+.eslintcache
+.stylelintcache
+.prettiercache
+*.tsbuildinfo
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.cache/
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+.nyc_output/
+coverage-junit/
+test-results/
+*.lcov
+.jest/
+.turbo/
+
+# ============================================
+# IDE & Editor
+# ============================================
 .idea/
+.vscode/
+.vs/
 *.swp
 *.swo
 *~
 .DS_Store
-
-# Build
-/dist/
-/build/
-*.o
-*.so
-*.dylib
-*.dll
-
-# Testing
-*.profraw
-*.profdata
-
-# Documentation
-/doc/
-/docs/book/
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# OS
 Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.iml
+*.ipr
+*.iws
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.scratch/
+
+# EditorConfig override
+.editorconfig.override
+
+# ============================================
+# OS Files
+# ============================================
 .DS_Store
-
-# Temporary files
-*.tmp
-*.temp
-*.bak
-
-# Backup files
-*.backup
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 *~
 
-# Coverage
-*.profraw
-*.profdata
-coverage/
-tarpaulin-report.html
-lcov.info
-
-# Release artifacts
-*.tar.gz
-*.zip
-*.7z
-*.deb
-*.rpm
-*.msi
-*.dmg
-
-# Docker
-.dockerignore
-
-# Node modules (if any)
-node_modules/
-
-# Python (if any)
-__pycache__/
-*.py[cod]
-*$py.class
-.Python
-venv/
-env/
-ENV/
-
+# ============================================
 # Database
+# ============================================
 *.db
 *.sqlite
 *.sqlite3
+*.sql.gz
+*.sql.zip
+data/
+db/
 
-# Certificates and keys
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
+# ============================================
+# Docker
+# ============================================
+.dockerignore
+docker-compose.override.yml
+.docker/
 
-# Secrets
-secrets/
-*.secret
-*.credentials
+# ============================================
+# CI/CD
+# ============================================
+.github/workflows/*.local
+.gitlab-ci.local
+.travis.yml.local
+.circleci.local
 
-# Cache
-.cache/
-.cache/
+# ============================================
+# Documentation Builds
+# ============================================
+docs/_build/
+docs/site/
+docs/.doctrees/
+.docusaurus/
 
-# Workspace
-.vscode/
-.idea/
-*.code-workspace
+# ============================================
+# Assets & Media
+# ============================================
+assets/images/generated/
+assets/temp/
+uploads/
+temp/
+tmp/
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# ============================================
+# Security & LFS
+# ============================================
+.gitattributes.lock
+.gitattributes.backup
+.gitignore.lock
+.gitignore.backup
+.gitleaks.toml.backup
+
+# ============================================
+# Generated Files
+# ============================================
+*.generated.*
+*.gen.*
+.generated/
+.gen/
+
+# ============================================
+# Misc
+# ============================================
+*.pid
+*.seed
+*.pid.lock
+.pnp.*
+.turbo/
+.vercel/
+.netlify/
+.replit/
+.cursor/
+.cloud/
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ============================================
+# Backup Files
+# ============================================
+*.backup
+*.bak
+*.old
+*.orig
+*.save
+
+# ============================================
+# Package Managers
+# ============================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# Linting & Formatting
+# ============================================
+.eslintcache
+.prettiercache
+.stylelintcache
+
+# ============================================
+# TypeScript
+# ============================================
+*.tsbuildinfo
+
+# ============================================
+# Rust Specific
+# ============================================
+**/*.rs.bk
+*.pdb
+
+# ============================================
+# Turborepo
+# ============================================
+.turbo/
+
+# ============================================
+# Vercel
+# ============================================
+.vercel/
+
+# ============================================
+# Netlify
+# ============================================
+.netlify/
+
+# ============================================
+# Cloudflare
+# ============================================
+.wrangler/
+wrangler.toml.backup
+
+# ============================================
+# AWS
+# ============================================
+.aws-sam/
+.sam/
+
+# ============================================
+# Kubernetes
+# ============================================
+*.kubeconfig
+.kube/
+
+# ============================================
+# Terraform
+# ============================================
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+terraform.tfplan
+terraform.tfstate.backup
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ============================================
+# Ansible
+# ============================================
+*.retry
+ansible/
+
+# ============================================
+# CI/CD Platforms
+# ============================================
+.travis.yml
+.circleci/
+appveyor.yml
+codeship-services.yml
+codeship-steps.yml
+.gitlab-ci.yml
+azure-pipelines.yml
+cloudbuild.yaml
+bitbucket-pipelines.yml
+
+# ============================================
+# Performance & Profiling
+# ============================================
+*.prof
+*.pprof
+cpuprofile
+heapdump
+
+# ============================================
+# Development Tools
+# ============================================
+.devcontainer/
+.code-workspace
+launch.json
+tasks.json

@@ -1,0 +1,73 @@
+name: Documentation Issue
+description: Report an issue with documentation
+title: "[DOCS] "
+labels: ["documentation", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Documentation Issue
+        
+        Thank you for helping us improve our documentation! Please fill out this form to help us identify and fix documentation issues.
+        
+  - type: textarea
+    id: issue
+    attributes:
+      label: Documentation Issue
+      description: What is the issue with the documentation?
+      placeholder: Describe the documentation issue
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      description: What type of documentation issue is this?
+      options:
+        - Typo/Grammar
+        - Outdated Information
+        - Missing Information
+        - Confusing/Unclear
+        - Broken Link
+        - Code Example Issue
+        - Translation Issue
+        - Other
+    validations:
+      required: true
+      
+  - type: textarea
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is this issue located?
+      placeholder: |
+        File: [e.g., README.md, CONTRIBUTING.md]
+        Section: [e.g., Quick Start, Installation]
+        Link/URL: [if applicable]
+    validations:
+      required: true
+      
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Fix
+      description: How should we fix this issue?
+      placeholder: Provide the correct content or suggest improvements
+      
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language is affected?
+      options:
+        - English
+        - Polish (Polski)
+        - German (Deutsch)
+        - Chinese (中文)
+        - Russian (Русский)
+        - Korean (한국어)
+        - Spanish (Español)
+        - French (Français)
+    validations:
+      required: true

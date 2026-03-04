@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://docs.vantis.media
+    about: Check our documentation for help and guides
+  - name: 💬 Discord Community
+    url: https://discord.gg/A5MzwsRj7D
+    about: Join our Discord server for community support
+  - name: 🐛 Bug Bounty Program
+    url: https://vantis.media/bug-bounty
+    about: Report security vulnerabilities and earn rewards
+  - name: 📧 Email Support
+    url: mailto:support@vantis.media
+    about: Contact our support team directly

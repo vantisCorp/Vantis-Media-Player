@@ -1,0 +1,82 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        
+        Thank you for suggesting a new feature! Please fill out this form to help us understand your idea.
+        
+        ### Checklist
+        - [ ] I've searched for existing feature requests
+        - [ ] I've read the documentation
+        - [ ] This feature would benefit the community
+        
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature
+      placeholder: What is the feature you'd like to see?
+    validations:
+      required: true
+      
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: What problem are you trying to solve with this feature?
+    validations:
+      required: true
+      
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How would you like this feature to work?
+      placeholder: Describe the proposed solution in detail
+    validations:
+      required: true
+      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions?
+      placeholder: Describe any alternative solutions you've considered
+      
+  - type: textarea
+    id: examples
+    attributes:
+      label: Use Cases & Examples
+      description: Provide use cases or examples of how this feature would be used
+      placeholder: Give examples of how this feature would be used
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+        - Nice to have
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Willingness to Contribute
+      description: Would you be willing to contribute to this feature?
+      options:
+        - label: I want to implement this feature myself
+        - label: I can help test this feature
+        - label: I can provide more details or specifications
+        - label: I cannot contribute at this time
