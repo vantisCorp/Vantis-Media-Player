@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Vantis Media Player: The Last Interface"
+authors:
+  - family-names: Vantis
+    given-names: Team
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+version: 2.0.0
+date-released: 2026-03-04
+url: "https://github.com/vantisCorp/Vantis-Media-Player"
+license: AGPL-3.0
+repository-code: "https://github.com/vantisCorp/Vantis-Media-Player"
+contact:
+  - email: dev@vantis.io
+  - url: "https://discord.gg/A5MzwsRj7D"
+keywords:
+  - media-player
+  - rust
+  - gpu-acceleration
+  - quantum-cryptography
+  - zero-copy
+abstract: >
+  Vantis Media Player is an advanced, zero-cost architecture media player
+  built entirely in Rust with GPU acceleration, AI-powered features, and
+  post-quantum cryptography. It features zero-copy memory management,
+  real-time AI upscaling, and a modular plugin system.
