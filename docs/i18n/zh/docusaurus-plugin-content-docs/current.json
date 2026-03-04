@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "最新",
+    "description": "当前版本的标签"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "入门指南",
+    "description": "侧边栏入门指南类别的标签"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "核心功能",
+    "description": "侧边栏核心功能类别的标签"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "高级功能",
+    "description": "侧边栏高级功能类别的标签"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "API参考",
+    "description": "侧边栏API参考类别的标签"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "插件开发",
+    "description": "侧边栏插件开发类别的标签"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "示例",
+    "description": "侧边栏示例类别的标签"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "架构",
+    "description": "侧边栏架构类别的标签"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "部署",
+    "description": "侧边栏部署类别的标签"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "开发",
+    "description": "侧边栏开发类别的标签"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "参考文档",
+    "description": "侧边栏参考文档类别的标签"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Nächste",
+    "description": "Das Label für die aktuelle Version"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "Erste Schritte",
+    "description": "Das Label für die Kategorie Erste Schritte in der Seitenleiste"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "Kernfunktionen",
+    "description": "Das Label für die Kategorie Kernfunktionen in der Seitenleiste"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "Erweiterte Funktionen",
+    "description": "Das Label für die Kategorie Erweiterte Funktionen in der Seitenleiste"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "API-Referenz",
+    "description": "Das Label für die Kategorie API-Referenz in der Seitenleiste"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "Plugin-Entwicklung",
+    "description": "Das Label für die Kategorie Plugin-Entwicklung in der Seitenleiste"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "Beispiele",
+    "description": "Das Label für die Kategorie Beispiele in der Seitenleiste"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "Architektur",
+    "description": "Das Label für die Kategorie Architektur in der Seitenleiste"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "Bereitstellung",
+    "description": "Das Label für die Kategorie Bereitstellung in der Seitenleiste"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "Entwicklung",
+    "description": "Das Label für die Kategorie Entwicklung in der Seitenleiste"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "Referenz",
+    "description": "Das Label für die Kategorie Referenz in der Seitenleiste"
+  }
+}

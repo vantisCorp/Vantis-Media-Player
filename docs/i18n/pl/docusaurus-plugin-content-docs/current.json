@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Następna",
+    "description": "Etykieta dla wersji bieżącej"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "Pierwsze Kroki",
+    "description": "Etykieta dla kategorii Pierwsze Kroki na pasku bocznym"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "Funkcje Główne",
+    "description": "Etykieta dla kategorii Funkcje Główne na pasku bocznym"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "Funkcje Zaawansowane",
+    "description": "Etykieta dla kategorii Funkcje Zaawansowane na pasku bocznym"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "Dokumentacja API",
+    "description": "Etykieta dla kategorii Dokumentacja API na pasku bocznym"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "Tworzenie Wtyczek",
+    "description": "Etykieta dla kategorii Tworzenie Wtyczek na pasku bocznym"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "Przykłady",
+    "description": "Etykieta dla kategorii Przykłady na pasku bocznym"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "Architektura",
+    "description": "Etykieta dla kategorii Architektura na pasku bocznym"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "Wdrożenie",
+    "description": "Etykieta dla kategorii Wdrożenie na pasku bocznym"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "Programowanie",
+    "description": "Etykieta dla kategorii Programowanie na pasku bocznym"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "Dokumentacja",
+    "description": "Etykieta dla kategorii Dokumentacja na pasku bocznym"
+  }
+}

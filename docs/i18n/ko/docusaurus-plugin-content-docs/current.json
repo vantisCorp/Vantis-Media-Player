@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "최신",
+    "description": "현재 버전의 라벨"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "시작하기",
+    "description": "사이드바의 시작하기 카테고리 라벨"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "핵심 기능",
+    "description": "사이드바의 핵심 기능 카테고리 라벨"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "고급 기능",
+    "description": "사이드바의 고급 기능 카테고리 라벨"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "API 참조",
+    "description": "사이드바의 API 참조 카테고리 라벨"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "플러그인 개발",
+    "description": "사이드바의 플러그인 개발 카테고리 라벨"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "예제",
+    "description": "사이드바의 예제 카테고리 라벨"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "아키텍처",
+    "description": "사이드바의 아키텍처 카테고리 라벨"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "배포",
+    "description": "사이드바의 배포 카테고리 라벨"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "개발",
+    "description": "사이드바의 개발 카테고리 라벨"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "참조",
+    "description": "사이드바의 참조 카테고리 라벨"
+  }
+}

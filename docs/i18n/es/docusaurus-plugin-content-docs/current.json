@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Siguiente",
+    "description": "La etiqueta para la versión actual"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "Primeros Pasos",
+    "description": "La etiqueta para la categoría Primeros Pasos en la barra lateral"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "Características Principales",
+    "description": "La etiqueta para la categoría Características Principales en la barra lateral"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "Características Avanzadas",
+    "description": "La etiqueta para la categoría Características Avanzadas en la barra lateral"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "Referencia API",
+    "description": "La etiqueta para la categoría Referencia API en la barra lateral"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "Desarrollo de Plugins",
+    "description": "La etiqueta para la categoría Desarrollo de Plugins en la barra lateral"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "Ejemplos",
+    "description": "La etiqueta para la categoría Ejemplos en la barra lateral"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "Arquitectura",
+    "description": "La etiqueta para la categoría Arquitectura en la barra lateral"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "Despliegue",
+    "description": "La etiqueta para la categoría Despliegue en la barra lateral"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "Desarrollo",
+    "description": "La etiqueta para la categoría Desarrollo en la barra lateral"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "Referencia",
+    "description": "La etiqueta para la categoría Referencia en la barra lateral"
+  }
+}

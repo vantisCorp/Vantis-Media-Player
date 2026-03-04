@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "Getting Started",
+    "description": "The label for category Getting Started in sidebar docs"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "Core Features",
+    "description": "The label for category Core Features in sidebar docs"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "Advanced Features",
+    "description": "The label for category Advanced Features in sidebar docs"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "API Reference",
+    "description": "The label for category API Reference in sidebar docs"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "Plugin Development",
+    "description": "The label for category Plugin Development in sidebar docs"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "Examples",
+    "description": "The label for category Examples in sidebar docs"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "Architecture",
+    "description": "The label for category Architecture in sidebar docs"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "Deployment",
+    "description": "The label for category Deployment in sidebar docs"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "Development",
+    "description": "The label for category Development in sidebar docs"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "Reference",
+    "description": "The label for category Reference in sidebar docs"
+  }
+}

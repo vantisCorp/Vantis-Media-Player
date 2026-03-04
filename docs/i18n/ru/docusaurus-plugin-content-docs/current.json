@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Следующая",
+    "description": "Метка для текущей версии"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "Начало работы",
+    "description": "Метка для категории Начало работы на боковой панели"
+  },
+  "sidebar.docs.category.Core Features": {
+    "message": "Основные функции",
+    "description": "Метка для категории Основные функции на боковой панели"
+  },
+  "sidebar.docs.category.Advanced Features": {
+    "message": "Расширенные функции",
+    "description": "Метка для категории Расширенные функции на боковой панели"
+  },
+  "sidebar.docs.category.API Reference": {
+    "message": "Справочник по API",
+    "description": "Метка для категории Справочник по API на боковой панели"
+  },
+  "sidebar.docs.category.Plugin Development": {
+    "message": "Разработка плагинов",
+    "description": "Метка для категории Разработка плагинов на боковой панели"
+  },
+  "sidebar.docs.category.Examples": {
+    "message": "Примеры",
+    "description": "Метка для категории Примеры на боковой панели"
+  },
+  "sidebar.docs.category.Architecture": {
+    "message": "Архитектура",
+    "description": "Метка для категории Архитектура на боковой панели"
+  },
+  "sidebar.docs.category.Deployment": {
+    "message": "Развертывание",
+    "description": "Метка для категории Развертывание на боковой панели"
+  },
+  "sidebar.docs.category.Development": {
+    "message": "Разработка",
+    "description": "Метка для категории Разработка на боковой панели"
+  },
+  "sidebar.docs.category.Reference": {
+    "message": "Справка",
+    "description": "Метка для категории Справка на боковой панели"
+  }
+}
