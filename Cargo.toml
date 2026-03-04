@@ -108,6 +108,9 @@ crossbeam = "0.8"
 itertools = "0.12"
 url = "2.5"
 
+[build-dependencies]
+chrono = "0.4"
+
 [dependencies]
 tokio = { workspace = true }
 anyhow = { workspace = true }
