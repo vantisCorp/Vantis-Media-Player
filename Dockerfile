@@ -1,7 +1,7 @@
 # Multi-stage Docker build for Vantis Media Player
 
 # Stage 1: Builder
-FROM rust:1.93-slim as builder
+FROM rust:1.75-slim as builder
 
 WORKDIR /app
 
@@ -41,7 +41,7 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -u 1000 vantis
 
 # Copy binary from builder
-COPY --from=builder /app/target/release/vantis /app/vantis
+COPY --from=builder /app/target/release/vantis-player /app/vantis-player
 
 # Copy documentation
 COPY README.md /app/
@@ -54,7 +54,7 @@ RUN mkdir -p /home/vantis/.vantis/plugins \
     && chown -R vantis:vantis /home/vantis/.vantis
 
 # Set permissions
-RUN chmod +x /app/vantis
+RUN chmod +x /app/vantis-player
 
 # Switch to non-root user
 USER vantis
@@ -68,5 +68,5 @@ ENV VANTIS_PLUGIN_DIR=/home/vantis/.vantis/plugins
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["/app/vantis"]
+ENTRYPOINT ["/app/vantis-player"]
 CMD ["--help"]
