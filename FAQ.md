@@ -76,7 +76,7 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) for detailed installation instructi
    ```bash
    rustc --version
    ```
-   You need Rust 1.75.0 or later (Nightly recommended).
+   You need Rust 1.93.0 or later (Stable recommended).
 
 2. **Install dependencies**:
    ```bash

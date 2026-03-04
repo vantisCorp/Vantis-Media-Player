@@ -187,7 +187,7 @@ For detailed Docker instructions, see [DOCKER.md](DOCKER.md).
 
 ### Prerequisites
 
-- Rust 1.75 or later
+- Rust 1.93 or later
 - Cargo
 - FFmpeg development libraries
 - GPU drivers (Vulkan/DirectX 12/Metal)
