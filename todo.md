@@ -54,6 +54,8 @@ Manual intervention is required to investigate GitHub Actions billing, quotas, a
 - [x] Attempting to create minimal test workflow to isolate issue
 - [x] Checking for workflow-level configuration issues
 - [x] Verifying repository-level settings are accessible
-- [ ] **NEW FINDING**: Default workflow permissions set to "read" only - may need "write" permissions
-- [ ] Jobs remain in queued state without being assigned runners
-- [ ] Repository has no self-hosted runners (expected)
+- [x] **NEW FINDING**: Default workflow permissions set to "read" only - tested explicit write permissions (did not help)
+- [x] Jobs remain in queued state without being assigned runners
+- [x] Repository has no self-hosted runners (expected)
+- [ ] **CRITICAL FINDING**: GitHub Actions WORKS on public repository (V-Streaming) but FAILS on private repositories
+- [ ] This indicates the issue is with private repository settings, organization billing, or private repo quotas
