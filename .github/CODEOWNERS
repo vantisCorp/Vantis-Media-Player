@@ -1,0 +1,61 @@
+# Code Owners for Vantis Media Player
+# Lines starting with '#' are comments
+# Format: <file pattern> <github username>
+# More info: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-code-owners
+
+# Default code owners
+*       @vantisCorp
+
+# Core systems
+/core/              @vantisCorp
+/video/             @vantisCorp
+/audio/             @vantisCorp
+/subtitles/         @vantisCorp
+
+# UI and interactions
+/ui/                @vantisCorp
+/integrations/      @vantisCorp
+/cli/               @vantisCorp
+
+# AI and machine learning
+/ai/                @vantisCorp
+
+# Plugins and marketplace
+/plugins/           @vantisCorp
+/marketplace/       @vantisCorp
+
+# Streaming and network
+/streaming/         @vantisCorp
+
+# Advanced features
+/advanced_audio/    @vantisCorp
+/advanced_video/    @vantisCorp
+/advanced_ui/       @vantisCorp
+/advanced_plugins/  @vantisCorp
+/advanced_testing/  @vantisCorp
+/advanced_docs/     @vantisCorp
+/advanced_build/    @vantisCorp
+/advanced_analytics/ @vantisCorp
+
+# Development tools
+/devtools/          @vantisCorp
+/scripts/           @vantisCorp
+
+# Tests and benchmarks
+/tests/             @vantisCorp
+/benches/           @vantisCorp
+
+# Documentation
+*.md                @vantisCorp
+docs/               @vantisCorp
+
+# Build and configuration
+Cargo.toml          @vantisCorp
+Cargo.lock          @vantisCorp
+*.rs                @vantisCorp
+
+# GitHub configuration
+.github/            @vantisCorp
+Dockerfile          @vantisCorp
+docker-compose.yml  @vantisCorp
+Makefile            @vantisCorp
