@@ -55,13 +55,13 @@ jobs:
           # Create release notes
           cat > release_notes.md << EOF
           ## 🎉 Release ${{ steps.version.outputs.version }}
-          
+
           ### 📝 Changes
-          
+
           $COMMITS
-          
+
           ### 📦 Installation
-          
+
           \`\`\`bash
           # From source
           git clone https://github.com/vantisCorp/VantisMedia.git
@@ -69,15 +69,15 @@ jobs:
           git checkout ${{ steps.version.outputs.version }}
           cargo build --release
           \`\`\`
-          
+
           ### 📚 Documentation
-          
+
           - [GitHub Pages](https://vantiscorp.github.io/VantisMedia/)
           - [Getting Started](https://github.com/vantisCorp/VantisMedia/blob/main/GETTING_STARTED.md)
           - [API Reference](https://github.com/vantisCorp/VantisMedia/blob/main/docs/API_REFERENCE.md)
-          
+
           ### 🙏 Contributors
-          
+
           Thank you to all contributors who made this release possible!
           EOF
           
@@ -96,190 +96,3 @@ jobs:
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  build-artifacts:
-    name: Build Release Artifacts
-    needs: create-release
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            artifact_name: VantisMedia-${{ steps.version.outputs.version }}-linux-x64.tar.gz
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            artifact_name: VantisMedia-${{ steps.version.outputs.version }}-linux-arm64.tar.gz
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            artifact_name: VantisMedia-${{ steps.version.outputs.version }}-windows-x64.zip
-          - os: macos-latest
-            target: x86_64-apple-darwin
-            artifact_name: VantisMedia-${{ steps.version.outputs.version }}-macos-x64.tar.gz
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            artifact_name: VantisMedia-${{ steps.version.outputs.version }}-macos-arm64.tar.gz
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Get version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION="${GITHUB_REF#refs/tags/}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: nightly
-          target: ${{ matrix.target }}
-
-      - name: Install dependencies (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libavcodec-dev \
-            libavformat-dev \
-            libavutil-dev \
-            libswscale-dev \
-            libavdevice-dev \
-            libavfilter-dev \
-            pkg-config
-
-      - name: Install dependencies (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install ffmpeg pkg-config
-
-      - name: Build release
-        run: |
-          cargo build --release --target ${{ matrix.target }}
-
-      - name: Create archive (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          cd target/${{ matrix.target }}/release
-          tar czf ../../${{ matrix.artifact_name }} vantismedia
-          cd ../..
-
-      - name: Create archive (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          cd target/${{ matrix.target }}/release
-          7z a ../../${{ matrix.artifact_name }} vantismedia.exe
-          cd ../..
-
-      - name: Create archive (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          cd target/${{ matrix.target }}/release
-          tar czf ../../${{ matrix.artifact_name }} vantismedia
-          cd ../..
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact_name }}
-          path: ${{ matrix.artifact_name }}
-
-  upload-to-release:
-    name: Upload to Release
-    needs: build-artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Get version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION="${GITHUB_REF#refs/tags/}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Upload to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.version.outputs.version }}
-          files: artifacts/*/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  publish-docs:
-    name: Publish Documentation
-    needs: create-release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Get version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION="${GITHUB_REF#refs/tags/}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: nightly
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libavcodec-dev \
-            libavformat-dev \
-            libavutil-dev \
-            libswscale-dev \
-            pkg-config
-
-      - name: Generate documentation
-        run: |
-          cargo doc --no-deps --all-features
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/doc
-          destination_dir: api/${{ steps.version.outputs.version }}
-
-  notify:
-    name: Notify
-    needs: [create-release, build-artifacts, upload-to-release, publish-docs]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Get version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION="${GITHUB_REF#refs/tags/}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create notification
-        run: |
-          echo "Release ${{ steps.version.outputs.version }} completed!"
-          echo "Status: ${{ needs.create-release.result }}"
-          echo "Build: ${{ needs.build-artifacts.result }}"
-          echo "Upload: ${{ needs.upload-to-release.result }}"
-          echo "Docs: ${{ needs.publish-docs.result }}"

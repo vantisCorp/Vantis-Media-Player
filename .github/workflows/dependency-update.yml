@@ -21,8 +21,6 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: nightly
 
       - name: Install cargo-edit
         run: cargo install cargo-edit
@@ -64,13 +62,13 @@ jobs:
           title: 'chore: update dependencies'
           body: |
             ## 📦 Dependency Update
-            
+
             This PR updates all dependencies to their latest versions.
-            
+
             ### Changes
             - Updated all dependencies to latest versions
             - All tests passing
-            
+
             ### Checklist
             - [ ] All tests pass
             - [ ] No breaking changes detected
