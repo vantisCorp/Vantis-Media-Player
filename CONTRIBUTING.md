@@ -43,7 +43,7 @@ Contact conduct@vantis-os.org to report violations.
 
 ### Prerequisites
 
-- **Rust**: 1.93.0 or later (Stable recommended)
+- **Rust**: 1.75.0 or later (Stable recommended)
 - **Git**: Latest stable version
 - **Clang**: For building FFmpeg dependencies
 - **Make**: For build automation

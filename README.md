@@ -4,7 +4,7 @@
 
 **The Omni-System Architecture for VantisOS**
 
-[![Rust](https://img.shields.io/badge/Rust-1.93+-black?style=for-the-badge&logo=rust&logoColor=red)](https://www.rust-lang.org)
+[![Rust](https://img.shields.io/badge/Rust-1.75+-black?style=for-the-badge&logo=rust&logoColor=red)](https://www.rust-lang.org)
 [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge&logoColor=red)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-v1.1.0-black?style=for-the-badge&logoColor=red)](https://github.com/vantisCorp/VantisMedia/releases)
 [![Build Status](https://img.shields.io/badge/Build-Investigating-black?style=for-the-badge&logoColor=orange)](https://github.com/vantisCorp/VantisMedia/actions)
