@@ -1,0 +1,40 @@
+# Docusaurus documentation build artifacts
+docusaurus-build/
+
+# Docusaurus local cache
+.cache/
+.docusaurus/
+
+# Generated files
+build/
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
