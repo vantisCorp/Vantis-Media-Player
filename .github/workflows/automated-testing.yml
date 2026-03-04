@@ -26,7 +26,6 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.93.0
           components: rustfmt, clippy
 
       - name: Install dependencies
@@ -79,8 +78,6 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: 1.93.0
 
       - name: Install cargo-audit
         run: cargo install cargo-audit
