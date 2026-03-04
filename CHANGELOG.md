@@ -21,6 +21,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD pipeline
 - Docker support
 
+### Changed
+- Updated Rust version requirement from 1.93.0 to 1.75.0 across all configuration files
+- Simplified CI/CD workflows for improved reliability and maintainability
+- Standardized all workflows to use stable Rust toolchain
+- Added proper caching configuration for faster builds
+- Fixed YAML linting issues in workflow files
+
+### Fixed
+- Updated Cargo.toml with correct Rust version (1.75.0)
+- Fixed Dockerfile to use correct base image (rust:1.75-slim)
+- Corrected Dockerfile binary name from "vantis" to "vantis-player"
+- Removed invalid rust-version specifications from all workflows
+- Fixed trailing whitespace and formatting issues in workflow files
+
+### Documentation
+- Added CI_FIXES_SUMMARY.md documenting all CI/CD improvements
+- Added GITHUB_ACTIONS_DIAGNOSTICS.md with comprehensive diagnostic information
+- Updated all documentation files with correct Rust version references (1.75+)
+- Added critical_finding_summary.md documenting GitHub Actions investigation
+
 ## [1.0.0] - 2024-01-15
 
 ### Added
