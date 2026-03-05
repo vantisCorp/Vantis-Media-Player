@@ -48,6 +48,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standardized all workflows to use stable Rust toolchain
 - Added proper caching configuration for faster builds
 - Fixed YAML linting issues in workflow files
+- Fixed Docusaurus documentation build by removing problematic npm dependencies
+- Updated documentation navbar links and internal references
+- Documentation now builds successfully for all 8 locales
+
+### Fixed
+- Docusaurus npm dependency conflicts (removed docusaurus-plugin-typedoc, es-abstract)
+- Broken documentation links in navbar and internal references
+- Missing redirect pages for documentation paths
 
 ### Fixed
 - Updated Cargo.toml with correct Rust version (1.75.0)
