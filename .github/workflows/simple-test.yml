@@ -1,0 +1,13 @@
+name: Simple Test
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World
+        run: echo "Hello from GitHub Actions!"
