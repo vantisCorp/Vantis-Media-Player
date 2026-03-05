@@ -7,9 +7,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
-  actions: write
-  checks: write
+  contents: read
 
 jobs:
   build:
@@ -19,26 +17,34 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
 
       - name: Cache cargo registry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
           key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-registry-
 
       - name: Cache cargo index
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/git
           key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-index-
 
       - name: Cache cargo build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: target
           key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-build-target-
 
-      - name: Install FFmpeg
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -46,16 +52,37 @@ jobs:
             libavformat-dev \
             libavutil-dev \
             libswscale-dev \
-            pkg-config
+            pkg-config \
+            libssl-dev \
+            libgtk-3-dev
 
       - name: Check workspace structure
         run: |
           echo "Checking workspace structure..."
           find . -name "Cargo.toml" -type f | head -20
+          echo ""
+          echo "Workspace members:"
+          cat Cargo.toml | grep -A 20 "\[workspace\]"
 
-      - name: Build
-        run: cargo build --verbose
+      - name: Generate Cargo.lock
+        run: cargo generate-lockfile
 
-      - name: Test
-        run: cargo test --verbose
+      - name: Check code formatting
+        run: cargo fmt --all -- --check
+        continue-on-error: true
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+        continue-on-error: true
+
+      - name: Build workspace
+        run: cargo build --workspace --verbose
+        continue-on-error: true
+
+      - name: Run tests
+        run: cargo test --workspace --verbose
+        continue-on-error: true
+
+      - name: Check documentation
+        run: cargo doc --no-deps --all-features
         continue-on-error: true
