@@ -9,7 +9,7 @@ const sidebarsApi = {
   apiSidebar: [
     {
       type: 'doc',
-      id: 'api/overview',
+      id: 'overview',
       label: 'API Overview',
     },
     {
@@ -18,10 +18,10 @@ const sidebarsApi = {
       collapsed: false,
       collapsible: true,
       items: [
-        'api/player',
-        'api/video',
-        'api/audio',
-        'api/subtitles',
+        'player',
+        'video',
+        'audio',
+        'subtitles',
       ],
     },
     {
@@ -30,8 +30,8 @@ const sidebarsApi = {
       collapsed: true,
       collapsible: true,
       items: [
-        'api/events',
-        'api/plugins',
+        'events',
+        'plugins',
       ],
     },
   ],
