@@ -570,8 +570,8 @@ Yes, Vantis Media Player is released under the MIT License, which allows commerc
 
 ### How do I contribute to the project?
 
-See our [Contributing Guide](/development/contributing) for details on how to contribute code, documentation, or report issues.
+See our [Contributing Guide](https://github.com/vantisCorp/Vantis-Media-Player/blob/main/CONTRIBUTING.md) for details on how to contribute code, documentation, or report issues.
 
 ### Where can I find the changelog?
 
-See our [Changelog](/reference/changelog) for version history and release notes.
+See our [Changelog](changelog) for version history and release notes.
