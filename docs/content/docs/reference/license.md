@@ -148,7 +148,7 @@ No, you cannot relicense Vantis Media Player itself. You must distribute it unde
 
 ### What if I find a security vulnerability?
 
-Please report security vulnerabilities responsibly through our [Security Policy](/reference/security).
+Please report security vulnerabilities responsibly through our [Security Policy](security).
 
 ### Can I use the Vantis Media Player logo?
 

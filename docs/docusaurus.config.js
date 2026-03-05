@@ -42,8 +42,8 @@ const config = {
         src: 'img/logo.svg',
       },
       items: [
-        {to: '/docs/introduction', label: 'Docs', position: 'left'},
-        {to: '/docs/api-reference/overview', label: 'API', position: 'left'},
+        {to: '/docs/getting-started/introduction', label: 'Docs', position: 'left'},
+        {to: '/docs/api/overview', label: 'API', position: 'left'},
         {href: 'https://github.com/vantisCorp/VantisMedia', label: 'GitHub', position: 'right'},
       ],
     },

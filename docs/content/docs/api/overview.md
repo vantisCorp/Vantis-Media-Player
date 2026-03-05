@@ -292,7 +292,7 @@ Vantis Media Player follows Semantic Versioning:
 
 ## API Changelog
 
-See [Changelog](../reference/changelog) for detailed version history.
+See [Changelog](../reference/changelog.md) for detailed version history.
 
 ## Support
 

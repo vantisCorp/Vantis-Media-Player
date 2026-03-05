@@ -253,7 +253,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Upgrading from 1.x to 2.0
 
-The 2.0 release includes breaking changes. See the [Migration Guide](/getting-started/migration) for detailed instructions.
+The 2.0 release includes breaking changes. See the [Getting Started Guide](../getting-started/introduction) for detailed instructions.
 
 ### Key Changes
 
