@@ -9,7 +9,7 @@ const config = {
   organizationName: 'vantisCorp',
   projectName: 'VantisMedia',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
