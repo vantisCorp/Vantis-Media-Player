@@ -1,0 +1,49 @@
+{
+  "id": "example_demuxer",
+  "name": "Example Demuxer",
+  "version": "1.0.0",
+  "api_version": 1,
+  "description": "Example demuxer plugin demonstrating the plugin API",
+  "author": "Vantis Team",
+  "license": "MIT",
+  "homepage": "https://github.com/vantiscorp/Vantis-Media-Player",
+  "capabilities": [
+    "demuxer"
+  ],
+  "dependencies": [],
+  "formats": [
+    "mp4",
+    "mkv",
+    "avi",
+    "webm"
+  ],
+  "config_options": {
+    "buffer_size": {
+      "description": "Buffer size in bytes",
+      "value_type": "Integer",
+      "default_value": 8192,
+      "required": true,
+      "min_value": 1024,
+      "max_value": 65536,
+      "allowed_values": null
+    },
+    "prefetch_buffer": {
+      "description": "Enable prefetch buffering",
+      "value_type": "Boolean",
+      "default_value": true,
+      "required": false,
+      "min_value": null,
+      "max_value": null,
+      "allowed_values": null
+    },
+    "max_streams": {
+      "description": "Maximum number of streams",
+      "value_type": "Integer",
+      "default_value": 8,
+      "required": false,
+      "min_value": 1,
+      "max_value": 32,
+      "allowed_values": null
+    }
+  }
+}

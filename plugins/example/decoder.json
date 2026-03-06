@@ -1,0 +1,49 @@
+{
+  "id": "example_audio_decoder",
+  "name": "Example Audio Decoder",
+  "version": "1.0.0",
+  "api_version": 1,
+  "description": "Example audio decoder plugin demonstrating the plugin API",
+  "author": "Vantis Team",
+  "license": "MIT",
+  "homepage": "https://github.com/vantiscorp/Vantis-Media-Player",
+  "capabilities": [
+    "audio_decoder"
+  ],
+  "dependencies": [],
+  "formats": [
+    "mp3",
+    "wav",
+    "flac",
+    "aac"
+  ],
+  "config_options": {
+    "sample_rate": {
+      "description": "Output sample rate in Hz",
+      "value_type": "Integer",
+      "default_value": 48000,
+      "required": true,
+      "min_value": 8000,
+      "max_value": 192000,
+      "allowed_values": null
+    },
+    "channels": {
+      "description": "Number of audio channels",
+      "value_type": "Integer",
+      "default_value": 2,
+      "required": true,
+      "min_value": 1,
+      "max_value": 8,
+      "allowed_values": null
+    },
+    "bit_depth": {
+      "description": "Audio bit depth",
+      "value_type": "Integer",
+      "default_value": 16,
+      "required": false,
+      "min_value": 8,
+      "max_value": 32,
+      "allowed_values": [8, 16, 24, 32]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "example_video_filter",
+  "name": "Example Video Filter",
+  "version": "1.0.0",
+  "api_version": 1,
+  "description": "Example video filter plugin demonstrating the plugin API",
+  "author": "Vantis Team",
+  "license": "MIT",
+  "homepage": "https://github.com/vantiscorp/Vantis-Media-Player",
+  "capabilities": [
+    "video_filter"
+  ],
+  "dependencies": [],
+  "formats": [
+    "rgb",
+    "yuv",
+    "rgba"
+  ],
+  "config_options": {
+    "brightness": {
+      "description": "Brightness adjustment (-100 to 100)",
+      "value_type": "Float",
+      "default_value": 0.0,
+      "required": false,
+      "min_value": -100.0,
+      "max_value": 100.0,
+      "allowed_values": null
+    },
+    "contrast": {
+      "description": "Contrast adjustment (0.0 to 2.0)",
+      "value_type": "Float",
+      "default_value": 1.0,
+      "required": false,
+      "min_value": 0.0,
+      "max_value": 2.0,
+      "allowed_values": null
+    },
+    "saturation": {
+      "description": "Saturation adjustment (0.0 to 2.0)",
+      "value_type": "Float",
+      "default_value": 1.0,
+      "required": false,
+      "min_value": 0.0,
+      "max_value": 2.0,
+      "allowed_values": null
+    }
+  }
+}
