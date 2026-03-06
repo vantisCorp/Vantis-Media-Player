@@ -1,0 +1,20 @@
+# Cross-compilation configuration for Android ARM64 (arm64-v8a)
+# Based on VideoLAN's vlc-android build system
+# Requires ANDROID_NDK_HOME environment variable
+
+[binaries]
+c = 'clang'
+cpp = 'clang++'
+ar = 'llvm-ar'
+strip = 'llvm-strip'
+
+[host_machine]
+system = 'android'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
+
+[properties]
+c_args = ['-target', 'aarch64-linux-android21', '-fPIC', '-DANDROID']
+c_link_args = ['-target', 'aarch64-linux-android21']
+android_ndk = '@0@'.format(getenv('ANDROID_NDK_HOME'))

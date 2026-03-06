@@ -100,6 +100,51 @@ jobs:
           allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC
 
   # ============================================
+  # Cargo Audit - Rust Security
+  # ============================================
+  cargo-audit:
+    name: Cargo Audit (Rust Security)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: Run Cargo Audit
+        uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ============================================
+  # Cargo Deny - License & Dependency Check
+  # ============================================
+  cargo-deny:
+    name: Cargo Deny
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: Install Cargo Deny
+        run: cargo install cargo-deny
+
+      - name: Run Cargo Deny
+        run: cargo deny check
+
+  # ============================================
   # Socket.dev - Supply Chain Security
   # ============================================
   socket:

@@ -1,61 +1,129 @@
-# Code Owners for Vantis Media Player
-# Lines starting with '#' are comments
-# Format: <file pattern> <github username>
+# CODEOWNERS File
+# Inspired by VideoLAN's CODEOWNERS approach
+# Defines ownership and code review responsibility
+# Format: <file pattern> <github username/team>
 # More info: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-code-owners
 
-# Default code owners
-*       @vantisCorp
+# Core Team - Review required for all changes
+* @vantisCorp
 
-# Core systems
-/core/              @vantisCorp
-/video/             @vantisCorp
-/audio/             @vantisCorp
-/subtitles/         @vantisCorp
+# Architecture & Design
+*.md @vantisCorp/architects
+ARCHITECTURE.md @vantisCorp/architects
 
-# UI and interactions
-/ui/                @vantisCorp
-/integrations/      @vantisCorp
-/cli/               @vantisCorp
+# Build System & CI/CD
+buildsystem/ @vantisCorp/devops
+.github/workflows/build.yml @vantisCorp/devops
+.github/workflows/security.yml @vantisCorp/devops
+.github/workflows/testing.yml @vantisCorp/devops
+Cargo.toml @vantisCorp/devops
+Makefile @vantisCorp/devops
+Dockerfile @vantisCorp/devops
 
-# AI and machine learning
-/ai/                @vantisCorp
+# Security
+SECURITY.md @vantisCorp/security-team
+.github/workflows/security.yml @vantisCorp/security-team
+**/*security* @vantisCorp/security-team
+**/*crypto* @vantisCorp/security-team
+**/*auth* @vantisCorp/security-team
 
-# Plugins and marketplace
-/plugins/           @vantisCorp
-/marketplace/       @vantisCorp
+# Core Engine
+/core/ @vantisCorp/core-engine
+src/core/ @vantisCorp/core-engine
+src/lib.rs @vantisCorp/core-engine
+src/main.rs @vantisCorp/core-engine
 
-# Streaming and network
-/streaming/         @vantisCorp
+# Video Processing
+/video/ @vantisCorp/video-team
+src/video/ @vantisCorp/video-team
+**/*codec* @vantisCorp/video-team
+**/*decoder* @vantisCorp/video-team
+**/*encoder* @vantisCorp/video-team
 
-# Advanced features
-/advanced_audio/    @vantisCorp
-/advanced_video/    @vantisCorp
-/advanced_ui/       @vantisCorp
-/advanced_plugins/  @vantisCorp
-/advanced_testing/  @vantisCorp
-/advanced_docs/     @vantisCorp
-/advanced_build/    @vantisCorp
-/advanced_analytics/ @vantisCorp
+# Audio Processing
+/audio/ @vantisCorp/audio-team
+src/audio/ @vantisCorp/audio-team
+**/*audio* @vantisCorp/audio-team
+**/*sound* @vantisCorp/audio-team
+**/*spatial* @vantisCorp/audio-team
 
-# Development tools
-/devtools/          @vantisCorp
-/scripts/           @vantisCorp
+# Subtitles & Captions
+/subtitles/ @vantisCorp/subtitles-team
+src/subtitles/ @vantisCorp/subtitles-team
+**/*subtitle* @vantisCorp/subtitles-team
+**/*caption* @vantisCorp/subtitles-team
 
-# Tests and benchmarks
-/tests/             @vantisCorp
-/benches/           @vantisCorp
+# UI & UX
+/src/ui/ @vantisCorp/ui-team
+ui/ @vantisCorp/ui-team
+**/*frontend* @vantisCorp/ui-team
+**/*component* @vantisCorp/ui-team
+**/*theme* @vantisCorp/ui-team
+**/*animation* @vantisCorp/ui-team
+
+# Streaming & Network
+/src/streaming/ @vantisCorp/streaming-team
+streaming/ @vantisCorp/streaming-team
+**/*network* @vantisCorp/streaming-team
+**/*rtmp* @vantisCorp/streaming-team
+**/*hls* @vantisCorp/streaming-team
+**/*dash* @vantisCorp/streaming-team
+
+# Plugin System
+/src/plugins/ @vantisCorp/plugin-team
+plugins/ @vantisCorp/plugin-team
+**/*plugin* @vantisCorp/plugin-team
+**/*module* @vantisCorp/plugin-team
+
+# AI & ML
+/src/ai/ @vantisCorp/ai-team
+ai/ @vantisCorp/ai-team
+**/*ml* @vantisCorp/ai-team
+**/*neural* @vantisCorp/ai-team
+**/*inference* @vantisCorp/ai-team
+
+# Marketplace
+/marketplace/ @vantisCorp/marketplace-team
+**/*marketplace* @vantisCorp/marketplace-team
+
+# Testing
+/tests/ @vantisCorp/qa-team
+**/*test* @vantisCorp/qa-team
+**/*spec* @vantisCorp/qa-team
 
 # Documentation
-*.md                @vantisCorp
-docs/               @vantisCorp
+/docs/ @vantisCorp/docs-team
+examples/ @vantisCorp/docs-team
+
+# Advanced Features
+/advanced_audio/ @vantisCorp/audio-team
+/advanced_video/ @vantisCorp/video-team
+/advanced_ui/ @vantisCorp/ui-team
+/advanced_plugins/ @vantisCorp/plugin-team
+/advanced_testing/ @vantisCorp/qa-team
+/advanced_docs/ @vantisCorp/docs-team
+/advanced_build/ @vantisCorp/devops
+/advanced_analytics/ @vantisCorp/devops
+
+# Platform Specific
+/cli/ @vantisCorp/cli-team
+/integrations/ @vantisCorp/integrations-team
+/devtools/ @vantisCorp/devtools-team
+/scripts/ @vantisCorp/devtools-team
+
+# Tests and benchmarks
+/benches/ @vantisCorp/qa-team
+benches/ @vantisCorp/qa-team
 
 # Build and configuration
-Cargo.toml          @vantisCorp
-Cargo.lock          @vantisCorp
-*.rs                @vantisCorp
+Cargo.lock @vantisCorp/devops
+*.rs @vantisCorp/core-engine
 
 # GitHub configuration
-.github/            @vantisCorp
-Dockerfile          @vantisCorp
-docker-compose.yml  @vantisCorp
-Makefile            @vantisCorp
+.github/ @vantisCorp/devops
+Dockerfile @vantisCorp/devops
+docker-compose.yml @vantisCorp/devops
+
+# Optional: Approvers only (no review requirement)
+# These people are automatically added as reviewers but don't block PRs
+.github/workflows/ @vantisCorp/approvers  # Optional reviewers

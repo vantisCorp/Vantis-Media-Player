@@ -1,0 +1,281 @@
+name: Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  # Unit Tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [stable, beta, nightly]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+      
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-${{ matrix.rust }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Run Unit Tests
+        run: cargo test --all --verbose
+      
+      - name: Run with Nextest (Faster test runner)
+        uses: actions-rs/cargo@v1
+        with:
+          command: nextest
+          args: run --all
+
+  # Integration Tests
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: integration-cargo-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Run Integration Tests
+        run: cargo test --test '*' --verbose
+
+  # Fuzz Testing - Based on VideoLAN's fuzz testing
+  fuzz-testing:
+    name: Fuzz Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+      
+      - name: Install Cargo Fuzz
+        run: cargo install cargo-fuzz
+      
+      - name: Run Fuzz Tests
+        run: |
+          cargo fuzz build
+          cargo fuzz run fuzz_target_1 -- -max_total_time=300
+
+  # Benchmarks
+  benchmarks:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: benchmark-cargo-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Run Benchmarks
+        run: cargo bench --all
+      
+      - name: Store Benchmark Results
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'cargo'
+          output-file-path: target/criterion/report/index.html
+          alert-threshold: '150%'
+          comment-on-alert: true
+          fail-on-alert: true
+
+  # Code Coverage
+  code-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Install Tarpaulin
+        run: cargo install cargo-tarpaulin
+      
+      - name: Generate Coverage
+        run: cargo tarpaulin --out Xml --all
+      
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./cobertura.xml
+          flags: unittests
+          name: codecov-umbrella
+
+  # Clippy Linting
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: clippy
+      
+      - name: Run Clippy
+        uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-targets --all-features -- -D warnings
+
+  # Rustfmt Check
+  rustfmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt
+      
+      - name: Check Formatting
+        run: cargo fmt --all -- --check
+
+  # Conformance Tests - Based on VideoLAN's approach
+  conformance-tests:
+    name: Conformance Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Run Conformance Tests
+        run: |
+          cargo test --test conformance --verbose
+          # Test against reference media files
+          cargo test --test media_conformance --verbose
+
+  # Memory Safety Tests
+  memory-safety:
+    name: Memory Safety (Valgrind, ASan, UBSan)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Install Valgrind
+        run: sudo apt-get install -y valgrind
+      
+      - name: Run with AddressSanitizer
+        run: |
+          RUSTFLAGS="-Zsanitizer=address" \
+          cargo test --all --release --target x86_64-unknown-linux-gnu
+      
+      - name: Run with UndefinedBehaviorSanitizer
+        run: |
+          RUSTFLAGS="-Zsanitizer=undefined" \
+          cargo test --all --release --target x86_64-unknown-linux-gnu
+      
+      - name: Run with Valgrind
+        run: |
+          cargo test --all --release
+          valgrind --leak-check=full --error-exitcode=1 ./target/release/vantis-player
+
+  # Thread Safety Tests
+  thread-safety:
+    name: Thread Safety (ThreadSanitizer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+      
+      - name: Run with ThreadSanitizer
+        run: |
+          RUSTFLAGS="-Zsanitizer=thread" \
+          cargo test --all --release --target x86_64-unknown-linux-gnu

@@ -1,0 +1,19 @@
+# Cross-compilation configuration for WebAssembly
+# Based on VideoLAN's wasm support
+# Requires wasm32-wasi target installed
+
+[binaries]
+c = 'clang'
+cpp = 'clang++'
+ar = 'llvm-ar'
+strip = 'llvm-strip'
+
+[host_machine]
+system = 'wasm'
+cpu_family = 'wasm32'
+cpu = 'generic'
+endian = 'little'
+
+[properties]
+c_args = ['-target', 'wasm32-wasi', '-fPIC', '-D__wasi__']
+c_link_args = ['-target', 'wasm32-wasi', '--no-entry', '-s', 'EXPORTED_RUNTIME_METHODS=cwrap']

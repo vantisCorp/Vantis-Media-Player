@@ -1,0 +1,19 @@
+# Cross-compilation configuration for Linux ARM64 (aarch64)
+# Based on VideoLAN's cross-compilation approach
+
+[binaries]
+c = 'aarch64-linux-gnu-gcc'
+cpp = 'aarch64-linux-gnu-g++'
+ar = 'aarch64-linux-gnu-ar'
+strip = 'aarch64-linux-gnu-strip'
+pkgconfig = 'aarch64-linux-gnu-pkg-config'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
+
+[properties]
+c_args = ['-march=armv8-a', '-mtune=generic', '-O2']
+c_link_args = ['-march=armv8-a']
