@@ -16,6 +16,40 @@ updates:
       prefix: "chore"
       include: "scope"
 
+  # Enable version updates for npm (monorepo root)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "vantisCorp"
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Enable version updates for Docusaurus
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "vantisCorp"
+    labels:
+      - "dependencies"
+      - "npm"
+      - "docusaurus"
+    commit-message:
+      prefix: "docs"
+      include: "scope"
+
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
