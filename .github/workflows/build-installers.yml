@@ -68,7 +68,7 @@ jobs:
           cd installer && tar -czf ../vantis-player-linux-x64.tar.gz vantis-player
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: vantis-player-linux-x64
           path: vantis-player-linux-x64.tar.gz
