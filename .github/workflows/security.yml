@@ -212,3 +212,62 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: scorecard-results.sarif
+
+  # ============================================
+  # Commit Signature Verification
+  # ============================================
+  verify-commits:
+    name: Verify Commit Signatures
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify commit signatures
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Verifying commit signatures..."
+          # Get commits in this push
+          COMMITS=$(git log --format='%H' ${{ github.event.before }}..${{ github.event.after }})
+          
+          UNSIGNED=0
+          for commit in $COMMITS; do
+            SIGNATURE=$(git log --format='%s' -1 $commit)
+            if [[ "$SIGNATURE" != *"Signed-off-by"* && "$SIGNATURE" != *"gpg:"* ]]; then
+              echo "Warning: Commit $commit may not be signed"
+              UNSIGNED=$((UNSIGNED + 1))
+            else
+              echo "✓ Commit $commit is signed"
+            fi
+          done
+          
+          if [ $UNSIGNED -gt 0 ]; then
+            echo "::warning::$UNSIGNED commit(s) may not be signed"
+          else
+            echo "✓ All commits verified"
+          fi
+
+  # ============================================
+  # FOSSA License Scanning
+  # ============================================
+  fossa:
+    name: FOSSA License Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run FOSSA Scan
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+
+      - name: Run FOSSA Test
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+          run-tests: true

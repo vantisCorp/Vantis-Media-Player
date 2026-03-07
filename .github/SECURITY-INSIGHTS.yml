@@ -1,0 +1,76 @@
+# Security Insights Configuration
+# https://github.com/Ghbdgf/security-insights-spec
+
+header:
+  schema_uri: https://json.schemastore.org/security-insights.json
+  schema_version: 1.0.0
+
+repo:
+  url: https://github.com/vantisCorp/Vantis-Media-Player
+  status:
+    # Repository status
+    - community
+  documentation:
+    - https://docs.vantis.io
+  
+project:
+  name: Vantis Media Player
+  homepage: https://vantis.io
+  documentation: https://docs.vantis.io
+  license:
+    expression: MIT
+  
+contribution-policy:
+  accepts_pull_requests: true
+  accepts_auto_generated_pull_requests: true
+  code_of_conduct: https://github.com/vantisCorp/Vantis-Media-Player/blob/main/CODE_OF_CONDUCT.md
+  contributing_policy: https://github.com/vantisCorp/Vantis-Media-Player/blob/main/CONTRIBUTING.md
+
+security-artifacts:
+  threat_model:
+    threat_model_owner: security@vantis.io
+    threat_model_description: |
+      Zero Trust Architecture with quantum-safe cryptography.
+      All plugins run in WASM sandbox. All inputs validated.
+  secure_software_development_lifecycle_policy:
+    sdlc_policy_owner: security@vantis.io
+    sdlc_policy_uri: https://docs.vantis.io/security/sdlc
+  security_policy:
+    policy_uri: https://github.com/vantisCorp/Vantis-Media-Player/blob/main/SECURITY.md
+
+security-testing:
+  security_tests:
+    - name: CodeQL
+      type: sast
+      uri: https://github.com/vantisCorp/Vantis-Media-Player/actions/workflows/security.yml
+      coverage: code-analysis
+    - name: Trivy
+      type: container-security
+      uri: https://github.com/vantisCorp/Vantis-Media-Player/actions/workflows/security.yml
+      coverage: vulnerability-scanning
+    - name: Gitleaks
+      type: secret-scanning
+      uri: https://github.com/vantisCorp/Vantis-Media-Player/actions/workflows/security.yml
+      coverage: secret-detection
+    - name: Cargo Audit
+      type: dependency-security
+      uri: https://github.com/vantisCorp/Vantis-Media-Player/actions/workflows/security.yml
+      coverage: rust-dependencies
+
+vulnerability-reporting:
+  reports_accepted: true
+  vulnerability_reporting_policy: https://github.com/vantisCorp/Vantis-Media-Player/blob/main/SECURITY.md
+  comment: |
+    Report vulnerabilities via GitHub Security Advisories or email security@vantis.io
+  bug_bounty:
+    available: true
+    uri: https://hackerone.com/vantis
+    bounty_table:
+      - severity: Critical
+        reward: $10,000
+      - severity: High
+        reward: $5,000
+      - severity: Medium
+        reward: $1,000
+      - severity: Low
+        reward: $250
