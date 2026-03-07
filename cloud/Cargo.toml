@@ -1,0 +1,28 @@
+[package]
+name = "vantis-cloud"
+version.workspace = true
+edition.workspace = true
+description = "Cloud synchronization and services for Vantis Media Player"
+authors = ["Vantis Team"]
+license = "MIT"
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+oauth2 = "4.4"
+jsonwebtoken = "9.2"
+ring = "0.17"
+base64 = "0.21"
+uuid = { version = "1.7", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+async-trait = "0.1"
+futures = "0.3"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockito = "1.4"

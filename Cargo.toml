@@ -38,6 +38,9 @@ members = [
     # Packages - Monitoring
     "monitoring",
     
+    # Packages - Cloud
+    "cloud",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
