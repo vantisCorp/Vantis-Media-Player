@@ -1,6 +1,6 @@
 [package]
 name = "vantis-player"
-version = "1.1.0"
+version = "1.2.0"
 edition = "2021"
 description = "Advanced media player for VantisOS - The Omni-System Architecture"
 authors = ["Vantis Team"]
@@ -65,7 +65,7 @@ members = [
 ]
 
 [workspace.package]
-version = "1.1.0"
+version = "1.2.0"
 edition = "2021"
 rust-version = "1.75.0"
 repository = "https://github.com/vantisLab/Vantis-Media-Player"
