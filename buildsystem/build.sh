@@ -297,24 +297,108 @@ COMMANDS:
     linux-all       Build for all Linux architectures (x86_64, aarch64, armv7)
     android-all     Build for all Android architectures
     ios-all         Build for all iOS architectures (arm64, simulator)
+    freebsd-all     Build for all FreeBSD architectures (x86_64, aarch64)
     wasm            Build for WebAssembly
+    reproducible    Build with reproducible settings (deterministic output)
     clean           Clean build artifacts
     help            Show this help message
 
 OPTIONS:
     -v, --verbose   Enable verbose output
     -d, --debug     Build in debug mode (default: release)
-    --target TRIPLE  Build for specific Rust target triple
+    --sccache       Use sccache for distributed compilation caching
+    --target TRIPLE Build for specific Rust target triple
 
 EXAMPLES:
     $0 native                    # Build for current platform
     $0 linux-all                 # Build for all Linux architectures
     $0 android-all               # Build for all Android architectures
+    $0 freebsd-all               # Build for all FreeBSD architectures
     $0 wasm                      # Build for WebAssembly
+    $0 --sccache reproducible    # Reproducible build with sccache
     $0 --target aarch64-linux-gnu # Build for specific target
 
 For more information, see BUILD_SYSTEM.md
 EOF
+}
+
+# =============================================================================
+# SCCACHE INTEGRATION
+# =============================================================================
+
+setup_sccache() {
+    log_info "Setting up sccache for distributed caching..."
+    
+    if command -v sccache &> /dev/null; then
+        export RUSTC_WRAPPER=sccache
+        log_success "sccache enabled"
+    else
+        log_warning "sccache not found, using local cache only"
+    fi
+}
+
+# =============================================================================
+# FREEBSD BUILD
+# =============================================================================
+
+build_cross_freebsd() {
+    local target="$1"
+    log_info "Building for FreeBSD ($target)..."
+    
+    # Install target
+    rustup target add "$target" 2>&1 | tee -a "$LOG_FILE"
+    
+    # Configure for FreeBSD cross-compilation
+    case "$target" in
+        x86_64-unknown-freebsd)
+            export CC="clang"
+            export CXX="clang++"
+            export CFLAGS="--target=x86_64-unknown-freebsd"
+            ;;
+        aarch64-unknown-freebsd)
+            export CC="clang"
+            export CXX="clang++"
+            export CFLAGS="--target=aarch64-unknown-freebsd"
+            ;;
+    esac
+    
+    # Build
+    cargo build --release --target="$target" --target-dir="$BUILD_DIR" 2>&1 | tee -a "$LOG_FILE"
+    
+    # Copy artifacts
+    mkdir -p "$DIST_DIR/freebsd"
+    cp "$BUILD_DIR/$target/release/$PROJECT_NAME" "$DIST_DIR/freebsd/$PROJECT_NAME-$target"
+    
+    log_success "FreeBSD cross-build for $target completed!"
+}
+
+# =============================================================================
+# REPRODUCIBLE BUILD
+# =============================================================================
+
+build_reproducible() {
+    log_info "Building with reproducible settings..."
+    
+    # Set environment for reproducible builds
+    export SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-0}"
+    export RUSTFLAGS="--remap-path-prefix=${PWD}=/build --remap-path-prefix=${CARGO_HOME:-~/.cargo}=/cargo"
+    
+    # Clean and build
+    rm -rf "$BUILD_DIR" "$DIST_DIR"
+    mkdir -p "$BUILD_DIR" "$DIST_DIR"
+    
+    cargo build --release --locked --target-dir="$BUILD_DIR" 2>&1 | tee -a "$LOG_FILE"
+    
+    # Generate hash for verification
+    local binary="$BUILD_DIR/release/$PROJECT_NAME"
+    if [[ -f "$binary" ]]; then
+        sha256sum "$binary" > "$DIST_DIR/$PROJECT_NAME.sha256"
+        log_success "Reproducible build completed!"
+        log_info "SHA256: $(cat $DIST_DIR/$PROJECT_NAME.sha256)"
+    else
+        log_error "Build failed - binary not found"
+        exit 1
+    fi
 }
 
 # =============================================================================
@@ -324,6 +408,7 @@ EOF
 main() {
     local command="${1:-help}"
     local mode="release"
+    local use_sccache=false
     
     # Parse options
     while [[ $# -gt 0 ]]; do
@@ -336,12 +421,21 @@ main() {
                 mode="debug"
                 shift
                 ;;
+            --sccache)
+                use_sccache=true
+                shift
+                ;;
             *)
                 command="$1"
                 shift
                 ;;
         esac
     done
+    
+    # Setup sccache if requested
+    if $use_sccache; then
+        setup_sccache
+    fi
     
     # Detect platform
     detect_platform
@@ -372,8 +466,15 @@ main() {
                 exit 1
             fi
             ;;
+        freebsd-all)
+            build_cross_freebsd "x86_64-unknown-freebsd"
+            build_cross_freebsd "aarch64-unknown-freebsd"
+            ;;
         wasm)
             build_wasm
+            ;;
+        reproducible)
+            build_reproducible
             ;;
         clean)
             clean

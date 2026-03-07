@@ -1,0 +1,19 @@
+# Cross-compilation configuration for FreeBSD x86_64
+# Requires FreeBSD toolchain or cross build environment
+
+[binaries]
+c = 'clang'
+cpp = 'clang++'
+ar = 'ar'
+strip = 'strip'
+
+[host_machine]
+system = 'freebsd'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
+
+[properties]
+c_args = ['-target', 'x86_64-unknown-freebsd', '-fPIC']
+c_link_args = ['-target', 'x86_64-unknown-freebsd']
+sys_root = '/usr/local/freebsd-sysroot'

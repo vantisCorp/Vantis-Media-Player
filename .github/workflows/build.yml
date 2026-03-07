@@ -261,3 +261,99 @@ jobs:
         with:
           name: vantis-player-wasm
           path: target/dist/wasm/*
+
+  # FreeBSD Cross-Compilation
+  build-freebsd:
+    name: Build (FreeBSD)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [x86_64-unknown-freebsd, aarch64-unknown-freebsd]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: ${{ matrix.target }}
+      
+      - name: Install cross
+        run: cargo install cross
+      
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: freebsd-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Build
+        run: cross build --release --target=${{ matrix.target }}
+      
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: vantis-player-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/vantis-player
+
+  # Reproducible Build Verification
+  verify-reproducible:
+    name: Verify Reproducible Build
+    runs-on: ubuntu-latest
+    needs: [build-linux]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Verify Reproducible Build
+        run: ./scripts/verify-reproducible.sh
+        continue-on-error: true
+      
+      - name: Upload Verification Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: reproducibility-report
+          path: target/reproducible-test/
+
+  # Build Performance Monitoring
+  build-performance:
+    name: Build Performance Monitoring
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bc jq
+      
+      - name: Measure Build Performance
+        run: ./scripts/build-performance.sh release
+        continue-on-error: true
+      
+      - name: Upload Performance Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-report
+          path: target/performance/
