@@ -54,19 +54,39 @@ Focus: User Experience and Platform Support
 - ✅ Reduced CPU usage for audio processing
 - ✅ Improved caching strategies
 
+### v1.2.0 (Released 2026-03-07) ✅
+Focus: Netflix-Style Design, I18n, Security, and Experimental Features
+
+**Completed Features:**
+- ✅ Netflix-style UI design (deep black + crimson)
+- ✅ Multi-language support (8 languages: EN, PL, DE, ZH, RU, KO, ES, FR)
+- ✅ Interactive elements (playgrounds, feedback, templates)
+- ✅ DevTools and automation (EditorConfig, Makefile, hooks)
+- ✅ OpenAPI 3.0 documentation
+- ✅ Mermaid.js architecture diagrams
+- ✅ Social and community features
+- ✅ Zero Trust security architecture
+- ✅ Quantum-safe cryptography
+- ✅ Terraform Infrastructure as Code
+- ✅ Easter eggs (Konami code, ASCII art, mini games)
+- ✅ GPU acceleration framework
+- ✅ SIMD optimizations (AVX2, SSE42, NEON)
+- ✅ AI Agents for content analysis
+- ✅ DAO governance system
+- ✅ Web3/IPFS integration
+- ✅ VR/AR support foundation
+
 ### Upcoming Releases
 
-#### v1.2.0 (Q3 2026)
-Focus: Advanced Integrations and Cloud Features
+#### v1.3.0 (Q2 2026)
+Focus: Cloud Integration and Mobile Apps
 
 **Planned Features:**
 - [ ] Cloud synchronization for settings and playlists
 - [ ] Integration with streaming services (Netflix, Hulu, Disney+)
-- [ ] Advanced AI features (scene recognition, content recommendation)
-- [ ] Real-time collaborative viewing
-- [ ] VR/AR support
 - [ ] Mobile apps (iOS, Android)
 - [ ] Voice control integration (Alexa, Google Assistant, Siri)
+- [ ] Real-time collaborative viewing
 - [ ] Advanced video filters and effects
 - [ ] Advanced audio effects (spatial audio, reverb)
 - [ ] Plugin development SDK with IDE support
@@ -80,12 +100,11 @@ Focus: Advanced Integrations and Cloud Features
 **Subtitle System:**
 - [ ] Add more subtitle sources (Subscene, Addic7ed, Podnapisi)
 - [ ] Real-time subtitle translation
-- [ ] Subtitle style customization
 - [ ] Karaoke mode for subtitles
 
 ---
 
-#### v1.2.0 (Q3 2025)
+#### v1.4.0 (Q3 2026)
 Focus: AI Enhancements and Documentation
 
 **Planned Features:**
