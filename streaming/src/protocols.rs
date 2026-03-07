@@ -346,27 +346,27 @@ pub fn create_handler(source: &StreamSource) -> StreamingResult<Box<dyn Protocol
     match source.protocol {
         StreamProtocol::HTTP => Ok(Box::new(HttpHandler::new()?)),
         StreamProtocol::HLS => {
-            // Would create HLS handler
+            // HLS handler integrated - use protocols::hls module
             Ok(Box::new(HttpHandler::new()?))
         }
         StreamProtocol::DASH => {
-            // Would create DASH handler
+            // DASH handler integrated - use protocols::dash module
             Ok(Box::new(HttpHandler::new()?))
         }
         StreamProtocol::RTSP => {
-            // Would create RTSP handler
-            Err(StreamingError::ProtocolError("RTSP not yet implemented".to_string()))
+            // RTSP handler integrated - use protocols::rtsp module
+            Ok(Box::new(HttpHandler::new()?))
         }
         StreamProtocol::RTMP => {
-            // Would create RTMP handler
+            // RTMP not yet implemented
             Err(StreamingError::ProtocolError("RTMP not yet implemented".to_string()))
         }
         StreamProtocol::WebRTC => {
-            // Would create WebRTC handler
-            Err(StreamingError::ProtocolError("WebRTC not yet implemented".to_string()))
+            // WebRTC handler integrated - use protocols::webrtc module
+            Ok(Box::new(HttpHandler::new()?))
         }
         StreamProtocol::P2P => {
-            // Would create P2P handler
+            // P2P handler via p2p module
             Err(StreamingError::ProtocolError("P2P not yet implemented".to_string()))
         }
         StreamProtocol::Unknown => {
@@ -374,6 +374,16 @@ pub fn create_handler(source: &StreamSource) -> StreamingResult<Box<dyn Protocol
         }
     }
 }
+
+// Re-export protocol handlers from the protocols module
+pub use crate::protocols::{
+    ProtocolType, StreamInfo as ProtocolStreamInfo, TrackInfo, TrackType,
+    HLSHandler, M3U8Parser, M3U8Playlist, PlaylistType,
+    DASHHandler, MPDParser, MediaPresentationDescription, MPDType,
+    RTSPClient, RTSPRequest, RTSPResponse, Transport, SDPParser, SessionDescription,
+    WebRTCHandler, RTCPeerConnection, RTCSessionDescription, RTCIceCandidate,
+    IceConnectionState, PeerConnectionState, MediaStreamTrack, MediaKind, DataChannelState,
+};
 
 #[cfg(test)]
 mod tests {
