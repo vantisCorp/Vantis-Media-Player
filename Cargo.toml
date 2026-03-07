@@ -35,6 +35,9 @@ members = [
     "packages/marketplace",
     "packages/devtools",
     
+    # Packages - Monitoring
+    "monitoring",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
