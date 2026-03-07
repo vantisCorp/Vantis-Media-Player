@@ -21,7 +21,14 @@ pub use p2p::{P2PStreamer, P2PConfig, PeerInfo};
 pub use cache::{StreamCache, CacheConfig, CacheEntry};
 pub use bandwidth::{BandwidthMonitor, BandwidthStats};
 pub use recorder::{StreamRecorder, RecorderConfig, RecordingFormat};
-pub use protocols::{StreamProtocol, StreamSource, StreamInfo};
+pub use protocols::{
+    ProtocolType, StreamInfo, TrackInfo, TrackType,
+    HLSHandler, M3U8Parser, M3U8Playlist, PlaylistType,
+    DASHHandler, MPDParser, MediaPresentationDescription, MPDType,
+    RTSPClient, RTSPRequest, RTSPResponse, Transport, SDPParser, SessionDescription,
+    WebRTCHandler, RTCPeerConnection, RTCSessionDescription, RTCIceCandidate,
+    IceConnectionState, PeerConnectionState, MediaStreamTrack, MediaKind, DataChannelState,
+};
 pub use quality::{QualitySelector, QualityMetrics};
 
 use thiserror::Error;
