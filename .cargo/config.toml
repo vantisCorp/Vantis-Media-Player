@@ -1,0 +1,170 @@
+# =============================================================================
+# Vantis Media Player - Cargo Configuration
+# =============================================================================
+# This configuration enables reproducible builds and optimized compilation
+# across all supported platforms.
+
+# =============================================================================
+# REPRODUCIBLE BUILDS
+# =============================================================================
+
+[env]
+# Force deterministic timestamps for reproducible builds
+SOURCE_DATE_EPOCH = "0"
+# Remove file system paths from binaries
+RUSTFLAGS = "--remap-path-prefix=${CARGO_HOME}=/cargo --remap-path-prefix=${PWD}=/build"
+
+[build]
+# Use all available CPU cores
+jobs = -1
+# Enable incremental compilation for development
+incremental = true
+
+[term]
+# Always use colors in terminal output
+verbose = false
+color = "auto"
+
+# =============================================================================
+# COMPILATION PROFILES
+# =============================================================================
+
+# Release profile with optimizations and reproducibility
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+debug = false
+debug-assertions = false
+overflow-checks = false
+panic = "abort"
+rpath = false
+
+# Release profile with debug symbols for profiling
+[profile.release-with-debug]
+inherits = "release"
+debug = true
+strip = false
+
+# Development profile with fast compile times
+[profile.dev]
+opt-level = 0
+debug = true
+debug-assertions = true
+overflow-checks = true
+lto = false
+codegen-units = 256
+incremental = true
+
+# Test profile
+[profile.test]
+inherits = "dev"
+debug = true
+debug-assertions = true
+overflow-checks = true
+
+# Benchmark profile
+[profile.bench]
+inherits = "release"
+debug = true
+strip = false
+
+# =============================================================================
+# TARGET-SPECIFIC CONFIGURATIONS
+# =============================================================================
+
+# Linux x86_64
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "target-cpu=native", "-C", "link-arg=-Wl,--gc-sections"]
+
+# Linux ARM64
+[target.aarch64-unknown-linux-gnu]
+rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
+
+# Linux ARMv7
+[target.armv7-unknown-linux-gnueabihf]
+rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
+
+# macOS x86_64
+[target.x86_64-apple-darwin]
+rustflags = ["-C", "target-cpu=native"]
+
+# macOS ARM64 (Apple Silicon)
+[target.aarch64-apple-darwin]
+rustflags = ["-C", "target-cpu=apple-m1"]
+
+# Windows x86_64 (MSVC)
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-cpu=native"]
+
+# Windows x86_64 (GNU)
+[target.x86_64-pc-windows-gnu]
+rustflags = ["-C", "target-cpu=native"]
+
+# Android ARM64
+[target.aarch64-linux-android]
+rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
+
+# Android ARMv7
+[target.armv7-linux-androideabi]
+rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
+
+# Android x86_64
+[target.x86_64-linux-android]
+rustflags = ["-C", "target-cpu=native", "-C", "link-arg=-Wl,--gc-sections"]
+
+# iOS ARM64 (device)
+[target.aarch64-apple-ios]
+rustflags = ["-C", "target-cpu=apple-a12"]
+
+# iOS ARM64 (simulator)
+[target.aarch64-apple-ios-sim]
+rustflags = ["-C", "target-cpu=apple-m1"]
+
+# WebAssembly
+[target.wasm32-wasi]
+rustflags = ["-C", "target-feature=+simd128,+bulk-memory"]
+
+# =============================================================================
+# FREEBSD SUPPORT (NEW)
+# =============================================================================
+
+# FreeBSD x86_64
+[target.x86_64-unknown-freebsd]
+rustflags = ["-C", "target-cpu=native", "-C", "link-arg=-Wl,--gc-sections"]
+
+# FreeBSD ARM64
+[target.aarch64-unknown-freebsd]
+rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
+
+# =============================================================================
+# REGISTRIES AND ALTERNATIVE SOURCES
+# =============================================================================
+
+[registries]
+# Default crates.io registry
+default = "crates-io"
+
+[source.crates-io]
+# Use sparse registry for faster downloads
+registry = "sparse+https://index.crates.io/"
+
+# =============================================================================
+# NET CONFIGURATION
+# =============================================================================
+
+[net]
+# Retry failed downloads
+retry = 5
+# Use git protocol version 2
+git-fetch-with-cli = true
+offline = false
+
+# =============================================================================
+# DOC CONFIGURATION
+# =============================================================================
+
+[doc]
+# Use all CPUs for documentation generation
+jobs = -1
