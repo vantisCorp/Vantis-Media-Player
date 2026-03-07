@@ -1,0 +1,33 @@
+[package]
+name = "vantis-mobile-core"
+version.workspace = true
+edition.workspace = true
+description = "Shared core library for Vantis mobile apps"
+authors = ["Vantis Team"]
+license = "MIT"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread"] }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Platform-specific
+[target.'cfg(target_os = "ios")'.dependencies]
+objc = "0.2"
+block = "0.1"
+
+[target.'cfg(target_os = "android")'.dependencies]
+jni = "0.21"
+ndk = "0.8"
+ndk-sys = "0.5"
+
+[features]
+default = []
+ios = []
+android = []
