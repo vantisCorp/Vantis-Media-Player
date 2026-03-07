@@ -8,15 +8,49 @@ license = "MIT"
 
 [workspace]
 members = [
+    # Apps
+    "apps/cli",
+    
+    # Packages - Core
+    "packages/core",
+    
+    # Packages - Media Processing
+    "packages/media/audio",
+    "packages/media/video",
+    "packages/media/subtitles",
+    "packages/media/streaming",
+    
+    # Packages - UI
+    "packages/ui",
+    
+    # Packages - Plugins
+    "packages/plugins",
+    
+    # Packages - Hardware
+    "packages/hwaccel",
+    
+    # Packages - Integrations
+    "packages/integrations",
+    "packages/ai",
+    "packages/marketplace",
+    "packages/devtools",
+    
+    # Legacy modules (to be migrated)
     "core",
     "video",
-    "audio", 
+    "audio",
     "ui",
     "subtitles",
     "plugins",
     "integrations",
     "ai",
     "streaming",
+    "cli",
+    "marketplace",
+    "devtools",
+    "hwaccel",
+    
+    # Advanced modules (to be consolidated)
     "advanced_audio",
     "advanced_video",
     "advanced_ui",
@@ -25,16 +59,17 @@ members = [
     "advanced_docs",
     "advanced_build",
     "advanced_analytics",
-    "cli",
-    "marketplace",
-    "devtools",
-    "hwaccel"
 ]
 
 [workspace.package]
 version = "1.1.0"
 edition = "2021"
 rust-version = "1.75.0"
+repository = "https://github.com/vantisLab/Vantis-Media-Player"
+homepage = "https://vantis.media"
+documentation = "https://docs.vantis.media"
+license = "MIT"
+authors = ["Vantis Team"]
 
 [workspace.dependencies]
 # Core Dependencies
@@ -109,6 +144,13 @@ crossbeam = "0.8"
 itertools = "0.12"
 url = "2.5"
 
+# Security & Signing
+ed25519-dalek = "2.0"
+sha2 = "0.10"
+base64 = "0.21"
+hex = "0.4"
+semver = "1.0"
+
 [build-dependencies]
 chrono = "0.4"
 
@@ -118,7 +160,7 @@ anyhow = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 
-# Workspace members
+# Workspace members - Legacy (will be replaced)
 vantis-core = { path = "core" }
 vantis-video = { path = "video" }
 vantis-audio = { path = "audio" }
@@ -150,3 +192,10 @@ lto = true
 codegen-units = 1
 panic = "abort"
 strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.test]
+opt-level = 2
