@@ -1,0 +1,422 @@
+/**
+ * Vantis Media Player - Netflix-Style Components
+ * 
+ * Core UI components with geometric separators
+ */
+
+/* ============================================
+ * Geometric Separators
+ * ============================================ */
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  color: var(--vantis-crimson);
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--vantis-crimson),
+    transparent
+  );
+}
+
+/* Arrow Separator: ► ════ ◄ */
+.separator-arrows {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.5em;
+  color: var(--vantis-crimson);
+}
+
+.separator-arrows::before {
+  content: '► ';
+}
+
+.separator-arrows::after {
+  content: ' ◄';
+}
+
+/* Line Separator */
+.separator-line {
+  display: flex;
+  align-items: center;
+  color: var(--vantis-crimson);
+}
+
+.separator-line::before {
+  content: '════════════════════════════════════════';
+  letter-spacing: -2px;
+}
+
+/* Diamond Separator */
+.separator-diamond {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.separator-diamond::before,
+.separator-diamond::after {
+  content: '◆';
+  color: var(--vantis-crimson);
+}
+
+/* ============================================
+ * Quote Block (Left-side line)
+ * ============================================ */
+
+.quote-block {
+  border-left: 4px solid var(--vantis-crimson);
+  padding-left: var(--space-6);
+  margin: var(--space-6) 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: var(--space-2);
+  font-style: normal;
+  font-size: var(--text-sm);
+  color: var(--vantis-crimson);
+}
+
+/* ============================================
+ * Netflix-style Buttons
+ * ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-base) var(--ease-out);
+}
+
+.btn-primary {
+  background: var(--vantis-crimson);
+  color: #FFFFFF;
+}
+
+.btn-primary:hover {
+  background: var(--vantis-crimson-light);
+  box-shadow: var(--shadow-crimson);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-ghost:hover {
+  color: var(--vantis-crimson);
+  border-color: var(--vantis-crimson);
+}
+
+.btn-icon {
+  padding: var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* Play Button */
+.btn-play {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background: var(--vantis-crimson);
+  font-size: var(--text-xl);
+}
+
+.btn-play::before {
+  content: '▶';
+  margin-left: 3px;
+}
+
+.btn-play:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(220, 20, 60, 0.6);
+}
+
+/* ============================================
+ * Cards
+ * ============================================ */
+
+.card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-slow) var(--ease-out);
+}
+
+.card-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-content {
+  padding: var(--space-4);
+}
+
+.card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.card-meta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* Media Card - Netflix style hover */
+.media-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.media-card:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+}
+
+.media-card:hover .media-card-overlay {
+  opacity: 1;
+}
+
+.media-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0) 50%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-4);
+}
+
+/* ============================================
+ * Navigation
+ * ============================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed);
+  padding: var(--space-4) var(--space-8);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.9) 0%,
+    transparent 100%
+  );
+  transition: background var(--transition-base);
+}
+
+.nav.scrolled {
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  letter-spacing: 0.1em;
+  color: var(--vantis-crimson);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+/* ============================================
+ * Hero Section
+ * ============================================ */
+
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-20) var(--space-8);
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    transparent 100%
+  );
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  letter-spacing: 0.05em;
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-4);
+}
+
+.hero-description {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+  line-height: var(--leading-relaxed);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* ============================================
+ * Media Row
+ * ============================================ */
+
+.media-row {
+  padding: var(--space-8) 0;
+}
+
+.media-row-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-4);
+  padding: 0 var(--space-8);
+}
+
+.media-row-scroll {
+  display: flex;
+  gap: var(--space-3);
+  padding: 0 var(--space-8);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.media-row-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+ * Progress Bar
+ * ============================================ */
+
+.progress {
+  height: 4px;
+  background: var(--gray-800);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--vantis-crimson);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-fast);
+}
+
+/* ============================================
+ * Badge
+ * ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+}
+
+.badge-crimson {
+  background: var(--vantis-crimson);
+  color: #FFFFFF;
+}
+
+.badge-outline {
+  border: 1px solid var(--vantis-crimson);
+  color: var(--vantis-crimson);
+}
+
+/* ============================================
+ * Toast Notifications
+ * ============================================ */
+
+.toast {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  z-index: var(--z-toast);
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  animation: slideInRight var(--transition-slow) var(--ease-out);
+}
+
+.toast-success {
+  border-left: 4px solid var(--color-success);
+}
+
+.toast-error {
+  border-left: 4px solid var(--color-error);
+}

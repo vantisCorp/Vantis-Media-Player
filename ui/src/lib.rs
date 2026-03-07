@@ -16,6 +16,8 @@ pub mod navigation;
 pub mod shortcuts;
 pub mod theme;
 pub mod theme_system;
+pub mod i18n;
+pub mod interactive;
 pub mod devtools;
 
 /// Vantis UI Application
