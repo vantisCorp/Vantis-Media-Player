@@ -13,10 +13,48 @@ use wasmtime::{Engine, Module, Store, Linker, Config};
 pub mod host;
 pub mod analytics;
 
+// New plugin system modules
+pub mod marketplace;
+pub mod signing;
+pub mod dependency;
+pub mod autoupdate;
+pub mod versioning;
+
 pub use analytics::{
     PluginAnalyticsDashboard, AnalyticsConfig, ExportFormat,
     PluginAnalyticsSummary, InstallationStats, UsageStats, PerformanceStats,
     ErrorStats, DownloadStatsView,
+};
+
+// Re-export marketplace types
+pub use marketplace::{
+    PluginMarketplace, PluginListing, SearchResult, SearchQuery,
+    InstallProgress, InstallPhase, AuthorInfo, PluginVersion, Platform,
+    SignatureStatus as MarketplaceSignatureStatus,
+};
+
+// Re-export signing types
+pub use signing::{
+    PluginSignature, PluginVerifier, VerificationResult, TrustLevel,
+    SignatureAlgorithm, SignerInfo,
+};
+
+// Re-export dependency types
+pub use dependency::{
+    DependencyResolver, DependencyGraph, ResolutionResult, VersionConstraint,
+    Dependency, ResolvedDependency,
+};
+
+// Re-export autoupdate types
+pub use autoupdate::{
+    PluginAutoUpdater, UpdateConfig, UpdateStatus, UpdateType,
+    UpdateChannel, UpdateNotification, InstalledPlugin,
+};
+
+// Re-export versioning types
+pub use versioning::{
+    SemanticVersion, CompatibilityChecker, CompatibilityInfo,
+    CompatibilityLevel, BreakingChange, Deprecation,
 };
 
 /// Plugin manager
