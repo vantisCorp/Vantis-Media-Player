@@ -1,0 +1,28 @@
+[package]
+name = "vantis-voice"
+version.workspace = true
+edition.workspace = true
+description = "Voice control integration for Vantis Media Player"
+authors = ["Vantis Team"]
+license = "MIT"
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = "0.1"
+futures = "0.3"
+
+# Speech recognition
+whisper-rs = { version = "0.10", optional = true }
+
+# Text-to-speech
+tts = { version = "0.25", optional = true }
+
+[features]
+default = []
+local = ["whisper-rs", "tts"]
+cloud = []
