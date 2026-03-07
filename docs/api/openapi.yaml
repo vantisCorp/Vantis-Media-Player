@@ -1,0 +1,379 @@
+openapi: 3.0.3
+info:
+  title: Vantis Media Player API
+  description: |
+    Professional media player API for playback control, library management,
+    plugin system, and streaming capabilities.
+  version: 1.0.0
+  contact:
+    name: Vantis Team
+    email: api@vantis.dev
+    url: https://vantis.dev
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development
+  - url: https://api.vantis.dev/v1
+    description: Production
+
+tags:
+  - name: playback
+    description: Media playback control
+  - name: library
+    description: Media library management
+  - name: plugins
+    description: Plugin system
+  - name: streaming
+    description: Network streaming
+  - name: subtitles
+    description: Subtitle management
+
+paths:
+  /playback/play:
+    post:
+      tags: [playback]
+      summary: Start playback
+      operationId: startPlayback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackRequest'
+      responses:
+        '200':
+          description: Playback started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackState'
+
+  /playback/pause:
+    post:
+      tags: [playback]
+      summary: Pause playback
+      operationId: pausePlayback
+      responses:
+        '200':
+          description: Playback paused
+
+  /playback/stop:
+    post:
+      tags: [playback]
+      summary: Stop playback
+      operationId: stopPlayback
+      responses:
+        '200':
+          description: Playback stopped
+
+  /playback/seek:
+    post:
+      tags: [playback]
+      summary: Seek to position
+      operationId: seekToPosition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeekRequest'
+      responses:
+        '200':
+          description: Seek successful
+
+  /playback/volume:
+    put:
+      tags: [playback]
+      summary: Set volume
+      operationId: setVolume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VolumeRequest'
+      responses:
+        '200':
+          description: Volume set
+
+  /library:
+    get:
+      tags: [library]
+      summary: List all media
+      operationId: listLibrary
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [title, date_added, duration, size]
+      responses:
+        '200':
+          description: Library list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryList'
+
+  /library/{id}:
+    get:
+      tags: [library]
+      summary: Get media details
+      operationId: getMedia
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Media details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaItem'
+
+  /library/search:
+    get:
+      tags: [library]
+      summary: Search library
+      operationId: searchLibrary
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [video, audio, subtitle, all]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+
+  /plugins:
+    get:
+      tags: [plugins]
+      summary: List installed plugins
+      operationId: listPlugins
+      responses:
+        '200':
+          description: Plugin list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plugin'
+
+  /plugins/install:
+    post:
+      tags: [plugins]
+      summary: Install plugin
+      operationId: installPlugin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginInstallRequest'
+      responses:
+        '201':
+          description: Plugin installed
+
+  /stream/{id}:
+    get:
+      tags: [streaming]
+      summary: Stream media
+      operationId: streamMedia
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: quality
+          in: query
+          schema:
+            type: string
+            enum: [4k, 1080p, 720p, 480p]
+      responses:
+        '200':
+          description: Media stream
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    PlaybackRequest:
+      type: object
+      required:
+        - media_id
+      properties:
+        media_id:
+          type: string
+          description: Media item ID
+        start_position:
+          type: number
+          description: Start position in seconds
+          default: 0
+
+    PlaybackState:
+      type: object
+      properties:
+        media_id:
+          type: string
+        position:
+          type: number
+        duration:
+          type: number
+        state:
+          type: string
+          enum: [playing, paused, stopped, buffering]
+        volume:
+          type: number
+          minimum: 0
+          maximum: 100
+
+    SeekRequest:
+      type: object
+      required:
+        - position
+      properties:
+        position:
+          type: number
+          description: Target position in seconds
+
+    VolumeRequest:
+      type: object
+      required:
+        - volume
+      properties:
+        volume:
+          type: number
+          minimum: 0
+          maximum: 100
+
+    MediaItem:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum: [video, audio]
+        duration:
+          type: number
+        size:
+          type: number
+        path:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        date_added:
+          type: string
+          format: date-time
+
+    Metadata:
+      type: object
+      properties:
+        artist:
+          type: string
+        album:
+          type: string
+        year:
+          type: integer
+        genre:
+          type: string
+        resolution:
+          type: string
+        codec:
+          type: string
+        bitrate:
+          type: integer
+
+    LibraryList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    SearchResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItem'
+        query:
+          type: string
+        total:
+          type: integer
+
+    Plugin:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        author:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        rating:
+          type: number
+        downloads:
+          type: integer
+
+    PluginInstallRequest:
+      type: object
+      required:
+        - source
+      properties:
+        source:
+          type: string
+          description: Plugin URL or marketplace ID
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
