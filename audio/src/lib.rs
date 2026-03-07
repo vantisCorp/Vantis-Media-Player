@@ -20,6 +20,10 @@ use tracing::{info, debug, error};
 pub mod decoder;
 pub mod renderer;
 pub mod effects;
+pub mod filters;
+pub mod equalizer;
+pub mod spatial;
+pub mod visualization;
 
 /// Audio engine - manages all audio processing
 pub struct AudioEngine {
