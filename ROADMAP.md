@@ -173,10 +173,10 @@ Focus: AI Enhancements and Performance Optimization
 **Completed Features:**
 - ✅ AI-powered subtitle generation
 - ✅ Multi-track audio support
+- ✅ Picture-in-picture improvements
+- ✅ Media library search enhancements
 
 **Planned Features:**
-- [ ] Picture-in-picture improvements
-- [ ] Media library search enhancements
 - [ ] Smart content analysis
 - [ ] Automated video tagging
 
