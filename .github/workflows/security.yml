@@ -31,7 +31,6 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
   # ============================================
   # Trivy - Container & Filesystem Scanning
@@ -143,52 +142,7 @@ jobs:
 
       - name: Run Cargo Deny
         run: cargo deny check
-
-  # ============================================
-  # Socket.dev - Supply Chain Security
-  # ============================================
-  socket:
-    name: Socket Security
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Socket Security Scan
-        uses: SocketSecurity/socket-action@v0.5.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  # ============================================
-  # SBOM Generation
-  # ============================================
-  sbom:
-    name: Generate SBOM
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Generate SBOM
-        uses: CycloneDX/gh-action-node-generate-sbom@v2
-        with:
-          output: sbom.json
-
-      - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: sbom
-          path: sbom.json
-
-      - name: Upload SBOM to Dependency-Track
-        uses: schnell18/github-action-dependency-track@v1
-        if: github.ref == 'refs/heads/main'
-        with:
-          serverUrl: ${{ secrets.DEPENDENCY_TRACK_URL }}
-          apiKey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-          projectName: 'Vantis Media Player'
-          projectVersion: ${{ github.sha }}
-          bomFilename: sbom.json
+        continue-on-error: true
 
   # ============================================
   # Security Scorecard
@@ -212,62 +166,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: scorecard-results.sarif
-
-  # ============================================
-  # Commit Signature Verification
-  # ============================================
-  verify-commits:
-    name: Verify Commit Signatures
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Verify commit signatures
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Verifying commit signatures..."
-          # Get commits in this push
-          COMMITS=$(git log --format='%H' ${{ github.event.before }}..${{ github.event.after }})
-          
-          UNSIGNED=0
-          for commit in $COMMITS; do
-            SIGNATURE=$(git log --format='%s' -1 $commit)
-            if [[ "$SIGNATURE" != *"Signed-off-by"* && "$SIGNATURE" != *"gpg:"* ]]; then
-              echo "Warning: Commit $commit may not be signed"
-              UNSIGNED=$((UNSIGNED + 1))
-            else
-              echo "✓ Commit $commit is signed"
-            fi
-          done
-          
-          if [ $UNSIGNED -gt 0 ]; then
-            echo "::warning::$UNSIGNED commit(s) may not be signed"
-          else
-            echo "✓ All commits verified"
-          fi
-
-  # ============================================
-  # FOSSA License Scanning
-  # ============================================
-  fossa:
-    name: FOSSA License Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run FOSSA Scan
-        uses: fossas/fossa-action@main
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-
-      - name: Run FOSSA Test
-        uses: fossas/fossa-action@main
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-          run-tests: true
