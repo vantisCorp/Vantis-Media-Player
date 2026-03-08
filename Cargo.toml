@@ -59,6 +59,9 @@ members = [
     # Packages - Video Editing
     "video-editing",
     
+    # Packages - Screen Recording
+    "screen-recording",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
