@@ -47,6 +47,7 @@ pub mod api;
 pub mod ffi;
 pub mod manifest;
 pub mod types;
+pub mod debugging;
 
 // Re-exports for convenience
 pub use error::{PluginError, PluginResult};
@@ -56,6 +57,12 @@ pub use lifecycle::{PluginLifecycle, PluginState, StateTransition};
 pub use api::{PluginApi, HostApi, MediaApi, UiApi};
 pub use manifest::{PluginManifest, PluginDependency};
 pub use types::*;
+pub use debugging::{
+    DebugLogLevel, DebugLogMessage, Breakpoint, BreakpointHit,
+    PluginState as DebugPluginState, PluginStatus, StackFrame, MemoryRegion,
+    PluginDebugController, DebugConfig, DebugSession, PluginDebugger,
+    PluginDebugLogger,
+};
 
 /// Current SDK version.
 pub const SDK_VERSION: &str = env!("CARGO_PKG_VERSION");
