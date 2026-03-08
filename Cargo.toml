@@ -130,7 +130,7 @@ raw-window-handle = "0.5"
 burn = { version = "0.13", features = ["train", "ndarray"] }
 candle-core = "0.3"
 ndarray = "0.15"
-tch = "0.13"
+# Note: tch removed due to LibTorch native library conflicts
 imageproc = "0.23"
 rayon = "1.8"
 num-traits = "0.2"
