@@ -56,6 +56,9 @@ members = [
     # Packages - Live Streaming
     "live-streaming",
     
+    # Packages - Video Editing
+    "video-editing",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
