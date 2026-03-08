@@ -28,6 +28,7 @@ pub mod sync;
 pub mod encoding;
 pub mod translation;
 pub mod styles;
+pub mod ai_generation;
 
 use aggregator::SubtitleAggregator;
 use parser::{SubtitleFormat, SubtitleTrack};
@@ -47,6 +48,21 @@ pub use sources::{
     SubtitleSource,
 };
 
+// Re-export AI generation types
+pub use ai_generation::{
+    AIGenerationConfig,
+    TranscriptionModel,
+    TranscriptionResult,
+    SpeakerInfo,
+    WordTiming,
+    SubtitleSegment,
+    SubtitleOutputFormat,
+    AISubtitleGenerator,
+    WhisperSubtitleGenerator,
+    BatchSubtitleGenerator,
+    AISubtitleError,
+};
+
 /// Vantis Babel - Subtitle Engine
 pub struct VantisBabel {
     /// Subtitle aggregator
@@ -57,6 +73,9 @@ pub struct VantisBabel {
     
     /// Default language
     default_language: String,
+    
+    /// Machine translator
+    translator: MachineTranslator,
     
     /// Style manager
     style_manager: StyleManager,
