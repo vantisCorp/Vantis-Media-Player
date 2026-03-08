@@ -44,6 +44,9 @@ members = [
     # Packages - Voice
     "voice",
     
+    # Packages - Streaming Services
+    "streaming-services",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
