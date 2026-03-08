@@ -19,6 +19,18 @@ pub mod theme_system;
 pub mod i18n;
 pub mod interactive;
 pub mod devtools;
+pub mod pip;
+
+// Re-export PiP types
+pub use pip::{
+    PiPConfig,
+    PiPManager,
+    PiPPosition,
+    PiPSize,
+    PiPState,
+    PiPShortcuts,
+    Corner,
+};
 
 /// Vantis UI Application
 pub struct VantisUI {
