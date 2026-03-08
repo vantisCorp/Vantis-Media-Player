@@ -23,6 +23,7 @@ mod engine;
 mod content_analyzer;
 mod user_profile;
 mod similarity;
+mod smart_analysis;
 
 pub use error::{RecommendationError, Result};
 pub use types::{
@@ -35,6 +36,14 @@ pub use engine::{RecommendationEngine, EngineConfig, RecommendationStrategy};
 pub use content_analyzer::{ContentAnalyzer, ContentFeatures, ContentCluster};
 pub use user_profile::{UserProfileBuilder, PreferenceBuilder};
 pub use similarity::{SimilarityCalculator, SimilarityMetric};
+
+// Re-export smart analysis types
+pub use smart_analysis::{
+    Mood, MoodAnalysis, Sentiment, SentimentAnalysis,
+    SmartCategory, SmartContentAnalyzer, ViewingContext,
+    TimeOfDay, DayOfWeek, ViewingMode, ViewingCompany,
+    ContentMetadataSimple, ContentRecommendation,
+};
 
 /// Prelude for common imports
 pub mod prelude {
