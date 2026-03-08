@@ -170,9 +170,11 @@ Focus: Advanced Media Processing and Integrations
 #### v1.6.0 (Q2 2026)
 Focus: AI Enhancements and Performance Optimization
 
+**Completed Features:**
+- ✅ AI-powered subtitle generation
+- ✅ Multi-track audio support
+
 **Planned Features:**
-- [ ] AI-powered subtitle generation
-- [ ] Multi-track audio support
 - [ ] Picture-in-picture improvements
 - [ ] Media library search enhancements
 - [ ] Smart content analysis
