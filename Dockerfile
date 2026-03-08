@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 
 # Build release
-RUN cargo build --release || echo "Build completed with warnings"
+RUN cargo build --release
 
 # Stage 2: Runtime
 FROM debian:bookworm-slim

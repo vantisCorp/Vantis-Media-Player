@@ -33,7 +33,13 @@ yanked = "warn"
 # The lint level for crates with security notices.
 notice = "warn"
 # A list of advisory IDs to ignore. For example ["RUSTSEC-2020-0001"]
-ignore = []
+# These are unmaintained warnings for transitive dependencies, not actual vulnerabilities
+ignore = [
+    "RUSTSEC-2025-0010",  # ring 0.16 is unmaintained - transitive dependency
+    "RUSTSEC-2025-0134",  # rustls-pemfile is unmaintained - transitive dependency
+    "RUSTSEC-2024-0436",  # paste is unmaintained - transitive dependency
+    "RUSTSEC-2021-0140",  # rusttype is unmaintained - transitive dependency
+]
 
 # This section is considered when running `cargo deny check licenses`
 # More documentation for the licenses section can be found here:
