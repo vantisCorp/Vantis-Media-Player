@@ -1,0 +1,38 @@
+[package]
+name = "vantis-video-filters"
+version = "0.1.0"
+edition = "2021"
+description = "Video filters and effects for Vantis Media Player"
+authors = ["Vantis Media Team"]
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.35", features = ["full"] }
+async-trait = "0.1"
+uuid = { version = "1.6", features = ["v4", "serde"] }
+thiserror = "1.0"
+tracing = "0.1"
+image = "0.24"
+num-traits = "0.2"
+rayon = "1.8"
+rand = "0.8"
+futures = "0.3"
+
+# GPU acceleration (optional)
+wgpu = { version = "0.18", optional = true }
+bytemuck = { version = "1.14", features = ["derive"], optional = true }
+
+[dev-dependencies]
+tokio-test = "0.4"
+criterion = "0.5"
+
+[features]
+default = ["cpu"]
+cpu = []
+gpu = ["wgpu", "bytemuck"]
+
+[[bench]]
+name = "filter_benchmark"
+harness = false
