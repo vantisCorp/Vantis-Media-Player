@@ -138,34 +138,65 @@ Focus: AI Enhancements, Social, and Live Streaming
 
 ---
 
-#### v1.5.0 (Q4 2026)
+#### v1.5.0 (Released 2026-03-08) ✅
 Focus: Advanced Media Processing and Integrations
 
+**Completed Features:**
+- ✅ Advanced video editing capabilities
+  - Timeline-based editing with tracks and clips
+  - Video effects and transitions
+  - Keyframe animation system
+  - Render queue with presets
+- ✅ Screen recording with overlay support
+  - Multiple capture sources (display, window, application)
+  - Webcam and audio overlays
+  - Recording presets (gaming, presentation, tutorial)
+  - Device enumeration and configuration
+
+**Integrations:**
+- ✅ Spotify integration (OAuth2, playlists, library, playback)
+- ✅ YouTube integration (OAuth2, search, playlists, subscriptions)
+- ✅ Cloud storage integration (Google Drive, Dropbox)
+- ✅ Podcast support (iTunes Search, RSS feed parsing)
+
+**Developer Experience:**
+- ✅ IntegrationManager with unified API
+- ✅ Builder pattern for service configuration
+- ✅ Connection status tracking
+- ✅ Provider-agnostic interfaces
+
+---
+
+#### v1.6.0 (Q2 2026)
+Focus: AI Enhancements and Performance Optimization
+
 **Planned Features:**
-- [ ] Advanced video editing capabilities
-- [ ] Screen recording with overlay support
 - [ ] AI-powered subtitle generation
 - [ ] Multi-track audio support
 - [ ] Picture-in-picture improvements
 - [ ] Media library search enhancements
-
-**Integrations:**
-- [ ] Spotify integration
-- [ ] YouTube integration
-- [ ] Cloud storage integration (Google Drive, Dropbox)
-- [ ] Podcast support
+- [ ] Smart content analysis
+- [ ] Automated video tagging
 
 **Performance:**
 - [ ] 8K video playback optimization
 - [ ] Memory usage optimization
 - [ ] Startup time improvements
 - [ ] Battery optimization for mobile
+- [ ] GPU memory optimization
 
 **Developer Experience:**
 - [ ] Plugin debugging tools
 - [ ] Performance profiling dashboard
 - [ ] Extended API endpoints
 - [ ] Webhook support
+- [ ] GraphQL API
+
+**Advanced Features:**
+- [ ] Neural network upscaling
+- [ ] Real-time video filters
+- [ ] Audio enhancement pipeline
+- [ ] Content-aware caching
 
 ---
 
