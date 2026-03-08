@@ -41,6 +41,9 @@ members = [
     # Packages - Cloud
     "cloud",
     
+    # Packages - Voice
+    "voice",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
