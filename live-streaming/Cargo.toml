@@ -1,0 +1,28 @@
+[package]
+name = "vantis-live-streaming"
+version = "0.1.0"
+edition = "2021"
+description = "Live streaming capabilities for Vantis Media Player"
+authors = ["Vantis Team"]
+license = "MIT"
+
+[dependencies]
+tokio = { workspace = true, features = ["full"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+uuid = { workspace = true, features = ["v4", "serde"] }
+chrono = { workspace = true, features = ["serde"] }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
+futures = { workspace = true }
+dashmap = { workspace = true }
+parking_lot = { workspace = true }
+reqwest = { workspace = true, features = ["json", "stream"] }
+bytes = { workspace = true }
+tokio-stream = "0.1"
+webrtc = "0.9"
+
+[dev-dependencies]
+tokio-test = "0.4"
