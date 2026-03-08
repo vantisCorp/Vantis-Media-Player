@@ -50,6 +50,9 @@ members = [
     # Packages - Collaboration
     "collaboration",
     
+    # Packages - Social
+    "social",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
