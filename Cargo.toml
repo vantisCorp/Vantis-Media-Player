@@ -155,6 +155,12 @@ base64 = "0.21"
 hex = "0.4"
 semver = "1.0"
 
+# CLI
+clap = { version = "4.4", features = ["derive", "cargo", "env"] }
+
+# Configuration
+toml = "0.8"
+
 # Dev dependencies
 criterion = "0.5"
 

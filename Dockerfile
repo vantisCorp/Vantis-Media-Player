@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev \
     libgtk-3-dev \
-    libwebkit2gtk-4.0-dev \
+    libwebkit2gtk-4.1-dev \
     libappindicator3-dev \
     librsvg2-dev \
     libasound2-dev \
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 # Copy source
 COPY . .
 
-# Build release (continue on error for now)
+# Build release
 RUN cargo build --release || echo "Build completed with warnings"
 
 # Stage 2: Runtime
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     libssl3 \
     libgtk-3-0 \
-    libwebkit2gtk-4.0-37 \
+    libwebkit2gtk-4.1-0 \
     libappindicator3-1 \
     librsvg2-2 \
     libasound2 \
@@ -42,12 +42,12 @@ RUN apt-get update && apt-get install -y \
 # Create non-root user
 RUN useradd -m -u 1000 vantis
 
-# Copy binary from builder (if it exists)
-COPY --from=builder /app/target/release/vantis-player /app/vantis-player 2>/dev/null || true
+# Copy binary from builder
+COPY --from=builder /app/target/release/vantis-player /app/vantis-player
 
 # Copy documentation
 COPY README.md /app/
-COPY CHANGELOG.md /app/ 2>/dev/null || true
+COPY CHANGELOG.md /app/
 
 # Create directories
 RUN mkdir -p /home/vantis/.vantis/plugins \
@@ -56,7 +56,7 @@ RUN mkdir -p /home/vantis/.vantis/plugins \
     && chown -R vantis:vantis /home/vantis/.vantis
 
 # Set permissions
-RUN chmod +x /app/vantis-player 2>/dev/null || true
+RUN chmod +x /app/vantis-player
 
 # Switch to non-root user
 USER vantis
