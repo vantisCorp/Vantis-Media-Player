@@ -73,6 +73,10 @@ jobs:
           toolchain: stable
           override: true
       
+      - name: Install FFmpeg (macOS)
+        run: |
+          brew install ffmpeg pkg-config
+      
       - name: Cache Cargo
         uses: actions/cache@v3
         with:
@@ -112,6 +116,11 @@ jobs:
           toolchain: stable
           override: true
       
+      - name: Install FFmpeg (Windows)
+        shell: powershell
+        run: |
+          choco install ffmpeg -y
+          
       - name: Cache Cargo
         uses: actions/cache@v3
         with:

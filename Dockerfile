@@ -14,6 +14,13 @@ RUN apt-get update && apt-get install -y \
     libappindicator3-dev \
     librsvg2-dev \
     libasound2-dev \
+    ffmpeg \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libswscale-dev \
+    libavdevice-dev \
+    libavfilter-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy source
