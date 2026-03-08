@@ -24,6 +24,15 @@ pub mod filters;
 pub mod equalizer;
 pub mod spatial;
 pub mod visualization;
+pub mod multi_track;
+
+// Re-export multi-track types
+pub use multi_track::{
+    AudioTrack,
+    AudioTrackBuilder,
+    MultiTrackAudio,
+    language_name,
+};
 
 /// Audio engine - manages all audio processing
 pub struct AudioEngine {
