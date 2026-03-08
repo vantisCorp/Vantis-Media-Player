@@ -14,3 +14,6 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 urlencoding = "2.1"
 chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tokio-test = "0.4"
