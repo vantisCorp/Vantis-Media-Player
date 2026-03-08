@@ -116,9 +116,8 @@ webpki-roots = "0.25"
 wasmtime = "15.0"
 
 # Streaming protocols
-hls = "0.1"
-dash = "0.1"
-rtsp = "0.1"
+# Note: hls, dash, rtsp crates on crates.io are outdated/problematic
+# Using custom implementations or alternative crates
 
 # P2P
 libp2p = { version = "0.53", features = ["tcp", "noise", "yamux", "gossipsub", "mdns", "kad"] }
