@@ -155,6 +155,9 @@ base64 = "0.21"
 hex = "0.4"
 semver = "1.0"
 
+# Dev dependencies
+criterion = "0.5"
+
 [build-dependencies]
 chrono = "0.4"
 
@@ -188,10 +191,7 @@ vantis-devtools = { path = "devtools" }
 vantis-hwaccel = { path = "hwaccel" }
 
 [dev-dependencies]
-criterion = "0.5"
-
-[workspace.dev-dependencies]
-criterion = "0.5"
+criterion = { workspace = true }
 
 [profile.release]
 opt-level = 3
