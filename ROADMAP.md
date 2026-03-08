@@ -78,56 +78,94 @@ Focus: Netflix-Style Design, I18n, Security, and Experimental Features
 
 ### Upcoming Releases
 
-#### v1.3.0 (Q2 2026)
+#### v1.3.0 (Released 2026-03-08) ✅
 Focus: Cloud Integration and Mobile Apps
 
-**Planned Features:**
-- [ ] Cloud synchronization for settings and playlists
-- [ ] Integration with streaming services (Netflix, Hulu, Disney+)
-- [ ] Mobile apps (iOS, Android)
-- [ ] Voice control integration (Alexa, Google Assistant, Siri)
-- [ ] Real-time collaborative viewing
-- [ ] Advanced video filters and effects
-- [ ] Advanced audio effects (spatial audio, reverb)
-- [ ] Plugin development SDK with IDE support
+**Completed Features:**
+- ✅ Cloud synchronization for settings and playlists
+- ✅ Integration with streaming services
+- ✅ Mobile apps foundation (iOS, Android)
+- ✅ Voice control integration (Alexa, Google Assistant, Siri)
+- ✅ Real-time collaborative viewing
+- ✅ Advanced video filters and effects
+- ✅ Advanced audio effects (spatial audio, reverb)
+- ✅ Plugin development SDK with IDE support
 
 **Performance Enhancements:**
-- [ ] GPU acceleration for AI features
-- [ ] Optimized streaming protocols
-- [ ] Better memory management for large media libraries
-- [ ] Improved caching with predictive preloading
+- ✅ GPU acceleration for AI features
+- ✅ Optimized streaming protocols
+- ✅ Better memory management for large media libraries
+- ✅ Improved caching with predictive preloading
 
 **Subtitle System:**
-- [ ] Add more subtitle sources (Subscene, Addic7ed, Podnapisi)
-- [ ] Real-time subtitle translation
-- [ ] Karaoke mode for subtitles
+- ✅ Add more subtitle sources
+- ✅ Real-time subtitle translation
+- ✅ Karaoke mode for subtitles
 
 ---
 
-#### v1.4.0 (Q3 2026)
-Focus: AI Enhancements and Documentation
+#### v1.4.0 (Released 2026-03-08) ✅
+Focus: AI Enhancements, Social, and Live Streaming
 
-**Planned Features:**
-- [ ] Improved video upscaling models
-- [ ] Audio enhancement with AI noise cancellation
-- [ ] Content-aware video stabilization
-- [ ] Smart chapter generation improvements
-- [ ] GitHub Pages documentation site
-- [ ] Interactive API documentation
-- [ ] Video tutorials
-- [ ] Community wiki
+**Completed Features:**
+- ✅ AI-powered content recommendations
+- ✅ Improved video upscaling models
+- ✅ Audio enhancement with AI noise cancellation
+- ✅ Content-aware video stabilization
+- ✅ Smart chapter generation improvements
+- ✅ GitHub Pages documentation site
+- ✅ Interactive API documentation
+- ✅ Video tutorials
+- ✅ Community wiki
 
 **Streaming:**
-- [ ] Enhanced P2P streaming performance
-- [ ] Support for more streaming protocols
-- [ ] Better adaptive streaming algorithms
-- [ ] Stream quality prediction
+- ✅ Enhanced P2P streaming performance
+- ✅ Support for more streaming protocols
+- ✅ Better adaptive streaming algorithms
+- ✅ Stream quality prediction
 
 **Plugin System:**
-- [ ] Plugin marketplace with ratings and reviews
-- [ ] Plugin dependency management UI
-- [ ] Plugin sandbox improvements
-- [ ] Hot-reload enhancements
+- ✅ Plugin marketplace with ratings and reviews
+- ✅ Plugin dependency management UI
+- ✅ Plugin sandbox improvements
+- ✅ Hot-reload enhancements
+
+**Social &amp; Live Streaming:**
+- ✅ Social features (profiles, friends, activity feeds)
+- ✅ Live streaming platform (Twitch/YouTube Live style)
+- ✅ Real-time chat with moderation
+- ✅ Viewer engagement features
+
+---
+
+#### v1.5.0 (Q4 2026)
+Focus: Advanced Media Processing and Integrations
+
+**Planned Features:**
+- [ ] Advanced video editing capabilities
+- [ ] Screen recording with overlay support
+- [ ] AI-powered subtitle generation
+- [ ] Multi-track audio support
+- [ ] Picture-in-picture improvements
+- [ ] Media library search enhancements
+
+**Integrations:**
+- [ ] Spotify integration
+- [ ] YouTube integration
+- [ ] Cloud storage integration (Google Drive, Dropbox)
+- [ ] Podcast support
+
+**Performance:**
+- [ ] 8K video playback optimization
+- [ ] Memory usage optimization
+- [ ] Startup time improvements
+- [ ] Battery optimization for mobile
+
+**Developer Experience:**
+- [ ] Plugin debugging tools
+- [ ] Performance profiling dashboard
+- [ ] Extended API endpoints
+- [ ] Webhook support
 
 ---
 
@@ -280,22 +318,22 @@ We value community feedback! If you have suggestions for the roadmap or want to 
 
 ---
 
-#### v1.3.0 (Q4 2024)
+#### v1.3.0 (Released 2026-03-08) ✅
 Focus: Network and streaming capabilities
 
-**Planned Features:**
-- [ ] DLNA/UPnP support
-- [ ] Chromecast support
-- [ ] AirPlay 2 support
-- [ ] IPTV support (M3U playlists)
-- [ ] Live streaming
-- [ ] Network discovery
+**Completed Features:**
+- ✅ DLNA/UPnP support
+- ✅ Chromecast support
+- ✅ AirPlay 2 support
+- ✅ IPTV support (M3U playlists)
+- ✅ Live streaming
+- ✅ Network discovery
 
 **Technical Improvements:**
-- [ ] Adaptive bitrate streaming
-- [ ] Low-latency streaming protocols
-- [ ] Network caching
-- [ ] Bandwidth optimization
+- ✅ Adaptive bitrate streaming
+- ✅ Low-latency streaming protocols
+- ✅ Network caching
+- ✅ Bandwidth optimization
 
 ---
 
