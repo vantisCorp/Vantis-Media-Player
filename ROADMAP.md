@@ -167,7 +167,7 @@ Focus: Advanced Media Processing and Integrations
 
 ---
 
-#### v1.6.0 (Q2 2026)
+#### v1.6.0 (Released 2026-03-08) ✅
 Focus: AI Enhancements and Performance Optimization
 
 **Completed Features:**
@@ -175,10 +175,8 @@ Focus: AI Enhancements and Performance Optimization
 - ✅ Multi-track audio support
 - ✅ Picture-in-picture improvements
 - ✅ Media library search enhancements
-
-**Planned Features:**
-- [ ] Smart content analysis
-- [ ] Automated video tagging
+- ✅ Smart content analysis
+- ✅ Automated video tagging
 
 **Performance:**
 - [ ] 8K video playback optimization
