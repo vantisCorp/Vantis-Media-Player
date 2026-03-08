@@ -1,7 +1,7 @@
 # Multi-stage Docker build for Vantis Media Player
 
 # Stage 1: Builder
-FROM rust:1.86-slim AS builder
+FROM rust:1.88-slim AS builder
 
 WORKDIR /app
 
