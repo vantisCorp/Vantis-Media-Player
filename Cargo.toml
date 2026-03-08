@@ -190,6 +190,9 @@ vantis-hwaccel = { path = "hwaccel" }
 [dev-dependencies]
 criterion = "0.5"
 
+[workspace.dev-dependencies]
+criterion = "0.5"
+
 [profile.release]
 opt-level = 3
 lto = true
