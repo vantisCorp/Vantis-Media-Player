@@ -1,0 +1,40 @@
+[package]
+name = "vantis-ai-recommendations"
+version = "0.1.0"
+edition = "2021"
+description = "AI-powered content recommendations for Vantis Media Player"
+authors = ["Vantis Team"]
+license = "MIT"
+
+[dependencies]
+# Core
+tokio = { version = "1.35", features = ["rt-multi-thread", "sync", "time", "macros"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+async-trait = "0.1"
+thiserror = "1.0"
+
+# Math and ML
+ndarray = "0.15"
+linfa = "0.7"
+linfa-clustering = "0.7"
+smartcore = "0.3"
+
+# Concurrency and caching
+dashmap = "5.5"
+lru = "0.12"
+rayon = "1.8"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Logging
+tracing = "0.1"
+
+[dev-dependencies]
+tokio-test = "0.4"
+criterion = "0.5"
+
+[[bench]]
+name = "recommendation_benchmark"
+harness = false
