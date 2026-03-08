@@ -14,6 +14,7 @@ pub mod subtitle_timing;
 pub mod recommendation;
 pub mod models;
 pub mod utils;
+pub mod video_tagging;
 
 pub use enhancement::{VideoEnhancer, EnhancementConfig, EnhancementType};
 pub use scene_detection::{SceneDetector, Chapter, Scene};
@@ -22,6 +23,12 @@ pub use subtitle_timing::{SubtitleTimingAdjuster, TimingAdjustment};
 pub use recommendation::{RecommendationEngine, RecommendationConfig, Recommendation};
 pub use models::{AIModel, ModelType, ModelManager};
 pub use utils::{TensorOps, FeatureExtractor};
+
+// Re-export video tagging types
+pub use video_tagging::{
+    TagCategory, VideoTag, TagSource, TaggingResult, TaggingConfig,
+    AutomatedVideoTagger,
+};
 
 use thiserror::Error;
 
