@@ -143,7 +143,6 @@ pub struct AdvancedConfig {
 
 /// Resolution
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Resolution {
     Auto,
     HD(u32, u32),
