@@ -47,6 +47,9 @@ members = [
     # Packages - Streaming Services
     "streaming-services",
     
+    # Packages - Collaboration
+    "collaboration",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
