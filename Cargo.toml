@@ -53,6 +53,9 @@ members = [
     # Packages - Social
     "social",
     
+    # Packages - Live Streaming
+    "live-streaming",
+    
     # Legacy modules (to be migrated)
     "core",
     "video",
