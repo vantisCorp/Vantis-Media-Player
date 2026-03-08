@@ -10,6 +10,7 @@ use tracing::info;
 pub mod omnibar;
 pub mod controls;
 pub mod library;
+pub mod library_search;
 pub mod marketplace;
 pub mod enhanced_marketplace;
 pub mod navigation;
@@ -30,6 +31,21 @@ pub use pip::{
     PiPState,
     PiPShortcuts,
     Corner,
+};
+
+// Re-export library search types
+pub use library_search::{
+    SearchQuery,
+    SearchFilter,
+    SearchResponse,
+    SearchResult,
+    SearchFacets,
+    LibrarySearchEngine,
+    SearchSuggestion,
+    SavedSearch,
+    SortOption,
+    SortField,
+    SortDirection,
 };
 
 /// Vantis UI Application
