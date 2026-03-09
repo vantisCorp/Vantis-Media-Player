@@ -81,7 +81,7 @@ rustflags = ["-C", "target-cpu=apple-a12"]
 rustflags = ["-C", "target-cpu=apple-m1"]
 
 # WebAssembly
-[target.wasm32-wasi]
+[target.wasm32-wasip1]
 rustflags = ["-C", "target-feature=+simd128,+bulk-memory"]
 
 # FreeBSD x86_64
@@ -97,11 +97,10 @@ rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
 # =============================================================================
 
 [registries]
-# Default crates.io registry
-default = "crates-io"
+# Additional registries can be configured here
 
 [source.crates-io]
-# Use sparse registry for faster downloads
+# Use sparse registry for faster downloads (default in Rust 1.70+)
 registry = "sparse+https://index.crates.io/"
 
 # =============================================================================
