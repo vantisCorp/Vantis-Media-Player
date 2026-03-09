@@ -113,15 +113,16 @@ impl VideoFramePool {
         
         // Pre-allocate frames
         for i in 0..max_frames {
+            let id = i as u64;
             let frame = PooledFrame {
-                id: i,
+                id,
                 data: vec![0u8; frame_size],
                 in_use: false,
                 last_used: Instant::now(),
                 use_count: 0,
             };
-            pool.insert(i, frame);
-            available.push(i);
+            pool.insert(id, frame);
+            available.push(id);
         }
         
         Ok(Self {
@@ -205,7 +206,7 @@ impl VideoFramePool {
             removed += 1;
         }
         
-        if removed >  {
+        if removed > 0 {
             info!("🗑️ Shrunk frame pool by {} frames", removed);
         }
         
@@ -228,10 +229,17 @@ impl FrameHandle {
         pool.get(&self.id).map(|f| f.data.clone()).unwrap_or_default()
     }
     
-    /// Get mutable frame data
-    pub fn data_mut(&mut self) -> &mut [u8] {
+    /// Get mutable frame data (requires callback to ensure proper scoping)
+    pub fn with_data_mut<F, R>(&mut self, f: F) -> R
+    where
+        F: FnOnce(&mut [u8]) -> R,
+    {
         let mut pool = self.pool.lock();
-        &mut pool.get_mut(&self.id).unwrap().data
+        if let Some(frame) = pool.get_mut(&self.id) {
+            f(&mut frame.data)
+        } else {
+            panic!("Frame not found in pool")
+        }
     }
 }
 

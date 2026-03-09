@@ -40,9 +40,6 @@ parking_lot = { workspace = true }
 # Property-based testing
 proptest = "1.4"
 
-# Fuzzing
-libfuzzer-sys = "0.4"
-
 # Performance testing
 criterion = { workspace = true }
 
@@ -55,9 +52,6 @@ loom = "0.7"
 # Test utilities
 mockall = "0.12"
 tempfile = "3.8"
-
-# Code coverage
-tarpaulin = "0.27"
 
 [dev-dependencies]
 tokio-test = "0.4"

@@ -1,0 +1,19 @@
+[package]
+name = "vantis-plugin-macros"
+version = "0.1.0"
+edition = "2021"
+description = "Procedural macros for Vantis Plugin SDK"
+license = "MIT"
+authors = ["Vantis Media Team"]
+repository = "https://github.com/vantisCorp/Vantis-Media-Player"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = { version = "2.0", features = ["full", "parsing", "extra-traits"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+
+[dev-dependencies]
+trybuild = "1.0"

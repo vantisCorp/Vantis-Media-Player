@@ -142,7 +142,7 @@ rustflags = ["-C", "target-cpu=cortex-a72", "-C", "link-arg=-Wl,--gc-sections"]
 # REGISTRIES AND ALTERNATIVE SOURCES
 # =============================================================================
 
-[registries]
+[registry]
 # Default crates.io registry
 default = "crates-io"
 

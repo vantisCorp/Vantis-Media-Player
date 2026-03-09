@@ -145,9 +145,9 @@ pub struct AdvancedConfig {
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Resolution {
     Auto,
-    HD(1920, 1080),
-    FullHD(1920, 1080),
-    UHD(3840, 2160),
+    HD(u32, u32),
+    FullHD(u32, u32),
+    UHD(u32, u32),
     Custom(u32, u32),
 }
 

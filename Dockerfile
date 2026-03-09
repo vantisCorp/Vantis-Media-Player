@@ -1,7 +1,7 @@
 # Multi-stage Docker build for Vantis Media Player
 
 # Stage 1: Builder
-FROM rust:1.94-slim as builder
+FROM rust:1.88-slim AS builder
 
 WORKDIR /app
 
@@ -9,10 +9,20 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev \
+    libgtk-3-dev \
+    libwebkit2gtk-4.1-dev \
+    libappindicator3-dev \
+    librsvg2-dev \
+    libasound2-dev \
     ffmpeg \
     libavcodec-dev \
     libavformat-dev \
     libavutil-dev \
+    libswscale-dev \
+    libswresample-dev \
+    libavdevice-dev \
+    libavfilter-dev \
+    clang \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy source
@@ -29,11 +39,12 @@ WORKDIR /app
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
     ffmpeg \
-    libavcodec58 \
-    libavformat58 \
-    libavutil56 \
-    libswscale5 \
     libssl3 \
+    libgtk-3-0 \
+    libwebkit2gtk-4.1-0 \
+    libappindicator3-1 \
+    librsvg2-2 \
+    libasound2 \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 

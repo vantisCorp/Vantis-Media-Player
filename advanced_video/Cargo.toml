@@ -43,6 +43,3 @@ tracing = { workspace = true }
 crossbeam = { workspace = true }
 parking_lot = { workspace = true }
 dashmap = { workspace = true }
-
-# Optical flow
-rust-optical-flow = "0.1"

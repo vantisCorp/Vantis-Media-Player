@@ -24,9 +24,8 @@ rustls = { workspace = true }
 webpki-roots = { workspace = true }
 
 # Streaming protocols
-hls = { workspace = true }
-dash = { workspace = true }
-rtsp = { workspace = true }
+# Using custom implementations for HLS, DASH, RTSP
+# The crates on crates.io are outdated/problematic
 
 # P2P
 libp2p = { workspace = true }
