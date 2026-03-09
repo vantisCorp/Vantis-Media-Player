@@ -129,18 +129,17 @@ impl AudioEngine {
         
         let sample_format = default_config.sample_format();
         
-        self.device = Some(device);
-        self.config = Some(config);
-        self.sample_format = Some(sample_format);
-        
-        // Initialize renderer
-        let device = self.device.as_ref().unwrap();
-        self.renderer = Some(renderer::AudioRenderer::new(device, config, sample_format)?);
+        // Initialize renderer before moving config
+        self.renderer = Some(renderer::AudioRenderer::new(&device, config.clone(), sample_format)?);
         
         info!("✅ Audio device initialized");
         info!("   - Sample Rate: {} Hz", config.sample_rate.0);
         info!("   - Channels: {}", config.channels);
         info!("   - Format: {:?}", sample_format);
+        
+        self.device = Some(device);
+        self.config = Some(config);
+        self.sample_format = Some(sample_format);
         
         Ok(())
     }
