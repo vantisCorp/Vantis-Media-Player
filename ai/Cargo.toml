@@ -15,7 +15,7 @@ vantis-subtitles = { path = "../subtitles" }
 # AI/ML frameworks
 burn = { workspace = true }
 ndarray = { workspace = true }
-tch = { workspace = true }
+# tch removed: conflicts with burn's torch-sys (links conflict), and not used directly in source
 
 # Image processing
 image = { workspace = true }

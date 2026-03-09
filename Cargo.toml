@@ -114,10 +114,10 @@ winit = "0.28"
 raw-window-handle = "0.5"
 
 # AI & ML
-burn = { version = "0.20", features = ["train", "ndarray"] }
+burn = { version = "0.20", default-features = false, features = ["ndarray"] }
 candle-core = "0.3"
 ndarray = "0.15"
-tch = "0.13"
+# tch removed: conflicts with burn's torch-sys dependency (native library links conflict)
 imageproc = "0.23"
 rayon = "1.8"
 num-traits = "0.2"
