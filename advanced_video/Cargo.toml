@@ -45,4 +45,4 @@ parking_lot = { workspace = true }
 dashmap = { workspace = true }
 
 # Optical flow
-rust-optical-flow = "0.1"
+# optical flow implemented natively in frame_interpolation.rs and stabilization.rs
