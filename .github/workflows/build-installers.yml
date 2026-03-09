@@ -33,10 +33,17 @@ jobs:
             libavcodec-dev \
             libavformat-dev \
             libavutil-dev \
+            libavfilter-dev \
+            libavdevice-dev \
             libswscale-dev \
+            libswresample-dev \
+            libpostproc-dev \
             libasound2-dev \
             libssl-dev \
-            pkg-config
+            libgtk-3-dev \
+            pkg-config \
+            cmake \
+            nasm
 
       - name: Cache cargo registry
         uses: actions/cache@v4

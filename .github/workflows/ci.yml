@@ -52,7 +52,11 @@ jobs:
             libavcodec-dev \
             libavformat-dev \
             libavutil-dev \
+            libavfilter-dev \
+            libavdevice-dev \
             libswscale-dev \
+            libswresample-dev \
+            libpostproc-dev \
             libasound2-dev \
             pkg-config \
             libssl-dev \
