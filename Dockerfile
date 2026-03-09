@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     libavcodec-dev \
     libavformat-dev \
     libavutil-dev \
+    libasound2-dev \
+    cmake \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy source
@@ -29,10 +31,6 @@ WORKDIR /app
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y \
     ffmpeg \
-    libavcodec58 \
-    libavformat58 \
-    libavutil56 \
-    libswscale5 \
     libssl3 \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*

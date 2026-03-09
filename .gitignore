@@ -86,7 +86,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 pnpm-debug.log*
-package-lock.json
+# package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
@@ -280,7 +280,7 @@ pnpm-debug.log*
 # ============================================
 # Package Managers
 # ============================================
-package-lock.json
+# package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
@@ -385,4 +385,4 @@ heapdump
 .devcontainer/
 .code-workspace
 launch.json
-tasks.json
+tasks.jsontodo.md
