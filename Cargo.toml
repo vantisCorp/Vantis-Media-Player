@@ -128,7 +128,7 @@ raw-window-handle = "0.5"
 
 # AI & ML
 burn = { version = "0.15", features = ["train", "ndarray"] }
-bincode = "2.0"
+bincode = { version = "2.0.0-rc.3", features = ["alloc", "serde"], default-features = false }
 candle-core = "0.9"
 ndarray = "0.15"
 # Note: tch removed due to LibTorch native library conflicts
