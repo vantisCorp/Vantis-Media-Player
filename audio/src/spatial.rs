@@ -585,9 +585,9 @@ impl RoomSimulator {
             for side in 0..2 {
                 // Distance to wall and back
                 let distance = if side == 0 {
-                    self.dimensions[*axis]
+                    self.dimensions[axis]
                 } else {
-                    self.dimensions[*axis]
+                    self.dimensions[axis]
                 };
                 
                 let delay = (distance * 2.0 / speed_of_sound * self.sample_rate) as usize;
