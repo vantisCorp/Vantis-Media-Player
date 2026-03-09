@@ -142,13 +142,26 @@ pub struct AdvancedConfig {
 }
 
 /// Resolution
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Resolution {
     Auto,
-    HD(1920, 1080),
-    FullHD(1920, 1080),
-    UHD(3840, 2160),
+    HD,
+    FullHD,
+    UHD,
     Custom(u32, u32),
+}
+
+impl Resolution {
+    /// Get the width and height for this resolution
+    pub fn dimensions(&self) -> (u32, u32) {
+        match self {
+            Resolution::Auto => (0, 0),
+            Resolution::HD => (1280, 720),
+            Resolution::FullHD => (1920, 1080),
+            Resolution::UHD => (3840, 2160),
+            Resolution::Custom(w, h) => (*w, *h),
+        }
+    }
 }
 
 /// Renderer backend
@@ -209,7 +222,7 @@ impl Default for VideoConfig {
         Self {
             hardware_acceleration: true,
             ai_upscaling: true,
-            target_resolution: Resolution::UHD(3840, 2160),
+            target_resolution: Resolution::UHD,
             hdr_tone_mapping: true,
             motion_interpolation: true,
             target_fps: 60,

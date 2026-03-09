@@ -114,14 +114,14 @@ impl VideoFramePool {
         // Pre-allocate frames
         for i in 0..max_frames {
             let frame = PooledFrame {
-                id: i,
+                id: i as u64,
                 data: vec![0u8; frame_size],
                 in_use: false,
                 last_used: Instant::now(),
                 use_count: 0,
             };
-            pool.insert(i, frame);
-            available.push(i);
+            pool.insert(i as u64, frame);
+            available.push(i as u64);
         }
         
         Ok(Self {
@@ -228,10 +228,13 @@ impl FrameHandle {
         pool.get(&self.id).map(|f| f.data.clone()).unwrap_or_default()
     }
     
-    /// Get mutable frame data
-    pub fn data_mut(&mut self) -> &mut [u8] {
+    /// Write data into the frame
+    pub fn write_data(&mut self, data: &[u8]) {
         let mut pool = self.pool.lock();
-        &mut pool.get_mut(&self.id).unwrap().data
+        if let Some(frame) = pool.get_mut(&self.id) {
+            let len = data.len().min(frame.data.len());
+            frame.data[..len].copy_from_slice(&data[..len]);
+        }
     }
 }
 
