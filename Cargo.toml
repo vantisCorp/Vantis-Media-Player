@@ -89,17 +89,17 @@ futures = "0.3"
 async-trait = "0.1"
 
 # Network & Scraping
-reqwest = { version = "0.11", features = ["json", "stream", "cookies"] }
+reqwest = { version = "0.12", features = ["json", "stream", "cookies"] }
 scraper = "0.18"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-hyper = { version = "0.14", features = ["full"] }
-hyper-tls = "0.5"
-rustls = "0.21"
-webpki-roots = "0.25"
+hyper = { version = "1.6", features = ["full"] }
+hyper-tls = "0.6"
+rustls = "0.23"
+webpki-roots = "1.0"
 
 # WASM & Plugins
-wasmtime = "15.0"
+wasmtime = "42.0"
 
 # Streaming protocols
 # NOTE: hls, dash, rtsp crates don't exist on crates.io
