@@ -127,8 +127,8 @@ winit = "0.28"
 raw-window-handle = "0.5"
 
 # AI & ML
-burn = { version = "0.13", features = ["train", "ndarray"] }
-candle-core = "0.3"
+burn = { version = "0.15", features = ["train", "ndarray"] }
+candle-core = "0.9"
 ndarray = "0.15"
 # Note: tch removed due to LibTorch native library conflicts
 imageproc = "0.23"
