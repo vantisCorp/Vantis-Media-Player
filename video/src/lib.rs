@@ -5,7 +5,8 @@
 
 use anyhow::Result;
 use tracing::{info, debug};
-use wgpu::{Device, Queue, Surface, SurfaceConfiguration};
+use wgpu::{Device, Queue, SurfaceConfiguration};
+use decoding_optimization::{DecodingOptimizationConfig, VideoDecodingOptimizer};
 
 pub mod decoder;
 pub mod renderer;
@@ -23,7 +24,7 @@ pub struct VideoEngine {
     queue: Queue,
     
     /// Surface
-    surface: Surface,
+    surface: Surface<'static>,
     
     /// Configuration
     config: SurfaceConfiguration,
@@ -99,6 +100,7 @@ impl VideoEngine {
                 height: 1080,
                 present_mode: wgpu::PresentMode::Fifo,
                 alpha_mode: wgpu::CompositeAlphaMode::Auto,
+                desired_maximum_frame_latency: 2,
                 view_formats: vec![],
             },
             decoder,
@@ -109,6 +111,7 @@ impl VideoEngine {
                 height: 1080,
                 present_mode: wgpu::PresentMode::Fifo,
                 alpha_mode: wgpu::CompositeAlphaMode::Auto,
+                desired_maximum_frame_latency: 2,
                 view_formats: vec![],
             })?,
             upscaler: None,
@@ -118,7 +121,7 @@ impl VideoEngine {
     }
     
     /// Create a new video engine with surface
-    pub async fn new_with_surface(surface: Surface) -> Result<Self> {
+    pub async fn new_with_surface(surface: Surface<'static>) -> Result<Self> {
         info!("🎬 Initializing Vantis Video Engine with surface");
         
         // Create WGPU instance
@@ -154,11 +157,12 @@ impl VideoEngine {
         // Configure surface
         let config = wgpu::SurfaceConfiguration {
             usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-            format: surface.get_supported_formats(&adapter)[0],
+            format: surface.get_capabilities(&adapter).formats[0],
             width: 1920,
             height: 1080,
             present_mode: wgpu::PresentMode::Fifo,
             alpha_mode: wgpu::CompositeAlphaMode::Auto,
+            desired_maximum_frame_latency: 2,
             view_formats: vec![],
         };
         
