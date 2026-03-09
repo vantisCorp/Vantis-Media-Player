@@ -19,7 +19,14 @@ yanked = "warn"
 notice = "warn"
 # A list of advisory IDs to ignore. Can be relative to the advisory
 # database path, or absolute.
-ignore = []
+ignore = [
+    # ring 0.16.20 pulled in by libp2p 0.53 → snow → ring 0.16
+    # This is a transitive dependency that cannot be updated without
+    # a major libp2p version bump. The vulnerability (AES panic with
+    # overflow checking) has low practical impact in our use case.
+    # TODO: Remove when libp2p is updated to a version using ring >= 0.17
+    "RUSTSEC-2025-0009",
+]
 
 [licenses]
 # The lint level for crates which do not have a detectable license
