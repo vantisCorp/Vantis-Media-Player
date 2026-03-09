@@ -1,6 +1,6 @@
 [package]
 name = "vantis-player"
-version = "1.2.0"
+version = "1.6.0"
 edition = "2021"
 description = "Advanced media player for VantisOS - The Omni-System Architecture"
 authors = ["Vantis Team"]
@@ -8,76 +8,36 @@ license = "MIT"
 
 [workspace]
 members = [
-    # Apps
-    "apps/cli",
-    
-    # Packages - Core
-    "packages/core",
-    
-    # Packages - Media Processing
-    "packages/media/audio",
-    "packages/media/video",
-    "packages/media/subtitles",
-    "packages/media/streaming",
-    
-    # Packages - UI
-    "packages/ui",
-    
-    # Packages - Plugins
-    "packages/plugins",
-    
-    # Packages - Hardware
-    "packages/hwaccel",
-    
-    # Packages - Integrations
-    "packages/integrations",
-    "packages/ai",
-    "packages/marketplace",
-    "packages/devtools",
-    
-    # Packages - Monitoring
-    "monitoring",
-    
-    # Packages - Cloud
-    "cloud",
-    
-    # Packages - Voice
-    "voice",
-    
-    # Packages - Streaming Services
-    "streaming-services",
-    
-    # Packages - Collaboration
-    "collaboration",
-    
-    # Packages - Social
-    "social",
-    
-    # Packages - Live Streaming
-    "live-streaming",
-    
-    # Packages - Video Editing
-    "video-editing",
-    
-    # Packages - Screen Recording
-    "screen-recording",
-    
-    # Legacy modules (to be migrated)
+    # Core modules
     "core",
     "video",
     "audio",
     "ui",
     "subtitles",
     "plugins",
+    "plugin-sdk",
     "integrations",
     "ai",
+    "ai-recommendations",
     "streaming",
     "cli",
     "marketplace",
     "devtools",
     "hwaccel",
-    
-    # Advanced modules (to be consolidated)
+    "monitoring",
+    "cloud",
+    "voice",
+    "voice-assistant",
+    "streaming-services",
+    "collaboration",
+    "social",
+    "live-streaming",
+    "video-editing",
+    "video-filters",
+    "screen-recording",
+    "spatial-audio",
+
+    # Advanced modules
     "advanced_audio",
     "advanced_video",
     "advanced_ui",
@@ -86,13 +46,16 @@ members = [
     "advanced_docs",
     "advanced_build",
     "advanced_analytics",
+
+    # Packages (new architecture)
+    "packages/core",
 ]
 
 [workspace.package]
-version = "1.2.0"
+version = "1.6.0"
 edition = "2021"
 rust-version = "1.75.0"
-repository = "https://github.com/vantisLab/Vantis-Media-Player"
+repository = "https://github.com/vantisCorp/Vantis-Media-Player"
 homepage = "https://vantis.media"
 documentation = "https://docs.vantis.media"
 license = "MIT"
@@ -139,9 +102,9 @@ webpki-roots = "0.25"
 wasmtime = "15.0"
 
 # Streaming protocols
-hls = "0.1"
-dash = "0.1"
-rtsp = "0.1"
+# NOTE: hls, dash, rtsp crates don't exist on crates.io
+# Streaming protocol support is implemented in the streaming/ crate
+# using reqwest, hyper, and custom protocol handlers
 
 # P2P
 libp2p = { version = "0.53", features = ["tcp", "noise", "yamux", "gossipsub", "mdns", "kad"] }
@@ -151,7 +114,7 @@ winit = "0.28"
 raw-window-handle = "0.5"
 
 # AI & ML
-burn = { version = "0.13", features = ["train", "ndarray"] }
+burn = { version = "0.20", features = ["train", "ndarray"] }
 candle-core = "0.3"
 ndarray = "0.15"
 tch = "0.13"
@@ -215,14 +178,33 @@ criterion = "0.5"
 
 [profile.release]
 opt-level = 3
-lto = true
+lto = "thin"
 codegen-units = 1
-panic = "abort"
 strip = true
+debug = false
+debug-assertions = false
+overflow-checks = false
+panic = "abort"
+
+[profile.release-with-debug]
+inherits = "release"
+debug = true
+strip = false
 
 [profile.dev]
 opt-level = 0
 debug = true
+debug-assertions = true
+overflow-checks = true
+lto = false
+incremental = true
 
 [profile.test]
+inherits = "dev"
+debug = true
 opt-level = 2
+
+[profile.bench]
+inherits = "release"
+debug = true
+strip = false

@@ -3,6 +3,9 @@
 # =============================================================================
 # This configuration enables reproducible builds and optimized compilation
 # across all supported platforms.
+#
+# NOTE: Compilation profiles ([profile.*]) are defined in Cargo.toml only
+# to avoid conflicts. This file handles env, build, target, and registry config.
 
 # =============================================================================
 # REPRODUCIBLE BUILDS
@@ -24,51 +27,6 @@ incremental = true
 # Always use colors in terminal output
 verbose = false
 color = "auto"
-
-# =============================================================================
-# COMPILATION PROFILES
-# =============================================================================
-
-# Release profile with optimizations and reproducibility
-[profile.release]
-opt-level = 3
-lto = "thin"
-codegen-units = 1
-strip = true
-debug = false
-debug-assertions = false
-overflow-checks = false
-panic = "abort"
-rpath = false
-
-# Release profile with debug symbols for profiling
-[profile.release-with-debug]
-inherits = "release"
-debug = true
-strip = false
-
-# Development profile with fast compile times
-[profile.dev]
-opt-level = 0
-debug = true
-debug-assertions = true
-overflow-checks = true
-lto = false
-codegen-units = 256
-incremental = true
-
-# Test profile
-[profile.test]
-inherits = "dev"
-debug = true
-debug-assertions = true
-overflow-checks = true
-
-# Benchmark profile
-[profile.bench]
-inherits = "release"
-debug = true
-strip = false
 
 # =============================================================================
 # TARGET-SPECIFIC CONFIGURATIONS
@@ -125,10 +83,6 @@ rustflags = ["-C", "target-cpu=apple-m1"]
 # WebAssembly
 [target.wasm32-wasi]
 rustflags = ["-C", "target-feature=+simd128,+bulk-memory"]
-
-# =============================================================================
-# FREEBSD SUPPORT (NEW)
-# =============================================================================
 
 # FreeBSD x86_64
 [target.x86_64-unknown-freebsd]

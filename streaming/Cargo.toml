@@ -24,9 +24,7 @@ rustls = { workspace = true }
 webpki-roots = { workspace = true }
 
 # Streaming protocols
-hls = { workspace = true }
-dash = { workspace = true }
-rtsp = { workspace = true }
+# Protocol support implemented natively in src/protocols/
 
 # P2P
 libp2p = { workspace = true }
