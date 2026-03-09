@@ -205,7 +205,7 @@ impl VideoFramePool {
             removed += 1;
         }
         
-        if removed >  {
+        if removed > 0 {
             info!("🗑️ Shrunk frame pool by {} frames", removed);
         }
         

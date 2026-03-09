@@ -151,7 +151,6 @@ jobs:
 
       - name: Socket Security Scan
         uses: SocketDev/socket-security-action@v0
-        if: ${{ secrets.SOCKET_SECURITY_API_KEY != '' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

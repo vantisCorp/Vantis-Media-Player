@@ -178,9 +178,10 @@ impl EventBus {
         
         // Start listening for events
         let receiver = self.receiver.clone();
+        let tx_clone = tx.clone();
         tokio::spawn(async move {
             while let Some(event) = receiver.lock().await.recv().await {
-                let _ = tx.send(event);
+                let _ = tx_clone.send(event);
             }
         });
         
