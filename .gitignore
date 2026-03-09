@@ -30,7 +30,7 @@ vendor/
 third_party/
 
 # Rust
-Cargo.lock
+# Cargo.lock
 target/
 **/*.rs.bk
 *.pdb

@@ -1,31 +1,23 @@
 # Cargo Deny Configuration
-# Inspired by VideoLAN's dependency management
 # Checks for unapproved licenses, advisories, and duplicate dependencies
 
+[graph]
+# Targets to check
+all-features = true
+
 [advisories]
-# The path where the advisory database is cloned/fetched into
-db-path = "~/.cargo/advisory-db"
-# The url(s) of the advisory databases to use
-db-urls = ["https://github.com/rustsec/advisory-db"]
 # The lint level for security vulnerabilities
 vulnerability = "deny"
-# The lint level for unmaintained crates
-unmaintained = "warn"
 # The lint level for crates that have been yanked from their source registry
 yanked = "warn"
-# The lint level for crates with security notices. Note that as of
-# 2019-02-13 there are no security notice advisories in
-# https://github.com/rustsec/advisory-db
-notice = "warn"
-# A list of advisory IDs to ignore. Can be relative to the advisory
-# database path, or absolute.
+# A list of advisory IDs to ignore
 ignore = [
     # ring 0.16.20 pulled in by libp2p 0.53 → snow → ring 0.16
     # This is a transitive dependency that cannot be updated without
     # a major libp2p version bump. The vulnerability (AES panic with
     # overflow checking) has low practical impact in our use case.
     # TODO: Remove when libp2p is updated to a version using ring >= 0.17
-    "RUSTSEC-2025-0009",
+    { id = "RUSTSEC-2025-0009", reason = "transitive dep from libp2p, low impact" },
 ]
 
 [licenses]
@@ -44,21 +36,20 @@ allow = [
     "MPL-2.0",
     "Unicode-DFS-2016",
     "Unicode-3.0",
+    "Zlib",
+    "OpenSSL",
 ]
-# List of explicitly disallowed licenses
-deny = [
-    "GPL-2.0",
-    "GPL-3.0",
-    "AGPL-3.0",
-]
-# Lint level used when no other predicates are matched
-copyleft = "warn"
-# Blanket approval or denial for OSI-approved or FSF Free/Libre licenses
-allow-osi-fsf-free = "both"
 # Lint level used when the license cannot be classified
 default = "deny"
 # Confidence threshold for detecting licenses from license text
 confidence-threshold = 0.8
+
+# Some crates don't have easily machine-readable licensing, so we need
+# to manually specify them
+[[licenses.clarify]]
+name = "ring"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
 
 [bans]
 # Lint level for when multiple versions of the same crate are detected
@@ -67,22 +58,6 @@ multiple-versions = "warn"
 wildcards = "allow"
 # The graph highlighting used when creating dotgraphs for crates
 highlight = "all"
-# List of crates that are allowed to have multiple versions
-allow = [
-    # Common dependencies that often have multiple versions
-    { name = "syn", version = "=1.0.109" },
-    { name = "proc-macro2", version = "=1.0.79" },
-]
-# Certain crates/versions that will be skipped when doing duplicate detection
-skip = [
-    # Skip duplicates from the same workspace
-    { name = "vantis-player", glob = "*/Cargo.toml" },
-]
-# Similarly named crates that should be treated as equivalent
-# This is useful when a crate is renamed but the API is compatible
-aliases = [
-    { name = "time", version = "0.1", alias = "time-0-1" },
-]
 
 [sources]
 # Lint level for what to happen when a crate from a crate registry that is
@@ -91,9 +66,7 @@ unknown-registry = "warn"
 # Lint level for what to happen when a crate from a git repository that is not
 # in the allow list is encountered
 unknown-git = "warn"
-# List of URLs for allowed crate registries. Defaults to the crates.io index
-# if not specified. If it is specified but empty, then registries are
-# not checked at all.
+# List of URLs for allowed crate registries
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
 # List of URLs for allowed Git repositories
 allow-git = []
