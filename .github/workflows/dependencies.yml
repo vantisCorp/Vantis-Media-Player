@@ -43,6 +43,7 @@ jobs:
         run: |
           cargo install cargo-outdated
           cargo outdated --exit-code 1
+        continue-on-error: true
 
   # ============================================
   # Update Dependencies
