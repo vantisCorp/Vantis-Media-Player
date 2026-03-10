@@ -84,6 +84,19 @@ impl VideoEngine {
         let decoder = decoder::VideoDecoder::new()?;
         let tonemap = tonemap::ToneMapper::new(&device)?;
         
+        let config = wgpu::SurfaceConfiguration {
+            usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
+            format: wgpu::TextureFormat::Bgra8UnormSrgb,
+            width: 1920,
+            height: 1080,
+            present_mode: wgpu::PresentMode::Fifo,
+            alpha_mode: wgpu::CompositeAlphaMode::Auto,
+            desired_maximum_frame_latency: 2,
+            view_formats: vec![],
+        };
+        
+        let renderer = renderer::VideoRenderer::new(&device, &config)?;
+        
         info!("✅ Video Engine initialized");
         info!("   - Hardware acceleration: Enabled");
         info!("   - HDR support: Enabled");
@@ -93,27 +106,9 @@ impl VideoEngine {
             device,
             queue,
             surface: unsafe { std::mem::zeroed() }, // Placeholder, will be set later
-            config: wgpu::SurfaceConfiguration {
-                usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-                format: wgpu::TextureFormat::Bgra8UnormSrgb,
-                width: 1920,
-                height: 1080,
-                present_mode: wgpu::PresentMode::Fifo,
-                alpha_mode: wgpu::CompositeAlphaMode::Auto,
-                desired_maximum_frame_latency: 2,
-                view_formats: vec![],
-            },
+            config,
             decoder,
-            renderer: renderer::VideoRenderer::new(&device, &wgpu::SurfaceConfiguration {
-                usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-                format: wgpu::TextureFormat::Bgra8UnormSrgb,
-                width: 1920,
-                height: 1080,
-                present_mode: wgpu::PresentMode::Fifo,
-                alpha_mode: wgpu::CompositeAlphaMode::Auto,
-                desired_maximum_frame_latency: 2,
-                view_formats: vec![],
-            })?,
+            renderer,
             upscaler: None,
             tonemap,
             decoding_optimizer: None,
