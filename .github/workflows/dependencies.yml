@@ -107,6 +107,7 @@ jobs:
         run: cargo test
 
       - name: Create Pull Request
+        if: github.event_name != 'pull_request'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -125,4 +126,5 @@ jobs:
             - [ ] All tests pass
             - [ ] No breaking changes detected
           branch: update/dependencies
+          base: main
           delete-branch: true

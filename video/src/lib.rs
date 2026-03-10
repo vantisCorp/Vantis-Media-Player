@@ -5,7 +5,7 @@
 
 use anyhow::Result;
 use tracing::{info, debug};
-use wgpu::{Device, Queue, SurfaceConfiguration};
+use wgpu::{Device, Queue, Surface, SurfaceConfiguration};
 use decoding_optimization::{DecodingOptimizationConfig, VideoDecodingOptimizer};
 
 pub mod decoder;

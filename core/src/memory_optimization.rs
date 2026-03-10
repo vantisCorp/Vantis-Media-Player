@@ -54,6 +54,7 @@ impl Default for MemoryOptimizationConfig {
 }
 
 /// Memory pool for video frames
+#[allow(dead_code)]
 pub struct VideoFramePool {
     /// Pool of pre-allocated frames
     pool: Arc<Mutex<HashMap<u64, PooledFrame>>>,
@@ -75,6 +76,7 @@ pub struct VideoFramePool {
 }
 
 /// Pooled video frame
+#[allow(dead_code)]
 struct PooledFrame {
     id: u64,
     data: Vec<u8>,
@@ -344,6 +346,7 @@ enum SizeClass {
 }
 
 /// Buffer handle
+#[allow(dead_code)]
 pub struct BufferHandle {
     data: Vec<u8>,
     size_class: SizeClass,
@@ -492,6 +495,7 @@ impl<T: Clone + Send + Sync + 'static> LazyLoader<T> {
 }
 
 /// Memory optimizer
+#[allow(dead_code)]
 pub struct MemoryOptimizer {
     /// Configuration
     config: MemoryOptimizationConfig,
