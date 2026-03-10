@@ -8,7 +8,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use tracing::{info, debug, warn, error};
-use wasmtime::{Engine, Module, Store, Linker, Config, Instance, ResourceLimiter};
+use wasmtime::{Engine, Module, Store, Linker, Config, StoreLimits, StoreLimitsBuilder};
 
 /// Enhanced sandbox
 pub struct EnhancedSandbox {
@@ -37,7 +37,7 @@ pub struct SandboxState {
     plugin_name: String,
     
     /// Resource limiter
-    limiter: ResourceLimiter,
+    limiter: StoreLimits,
     
     /// Permissions
     permissions: Vec<PluginPermission>,
@@ -177,17 +177,17 @@ impl EnhancedSandbox {
     /// Register host functions
     fn register_host_functions(linker: &mut Linker<SandboxState>) -> Result<()> {
         // Logging function
-        linker.func_wrap("vantis", "log", |mut caller: wasmtime::Caller<'_, SandboxState>, level: u32, ptr: u32, len: u32| {
+        linker.func_wrap("vantis", "log", |mut caller: wasmtime::Caller<'_, SandboxState>, level: u32, ptr: u32, len: u32| -> Result<(), anyhow::Error> {
             let state = caller.data();
             
             // Check permission
             if !state.permissions.contains(&PluginPermission::Logging) {
-                return Err(wasmtime::Trap::new("Permission denied: logging"));
+                return Err(anyhow::anyhow!("Permission denied: logging"));
             }
             
             let mem = match caller.get_export("memory") {
                 Some(export) => export.into_memory().unwrap(),
-                None => return Err(wasmtime::Trap::new("failed to find memory export")),
+                None => return Err(anyhow::anyhow!("failed to find memory export")),
             };
             
             let data = mem.data(&caller);
@@ -206,12 +206,12 @@ impl EnhancedSandbox {
         })?;
         
         // File system read function
-        linker.func_wrap("vantis", "fs_read", |mut caller: wasmtime::Caller<'_, SandboxState>, path_ptr: u32, path_len: u32| -> Result<i32, wasmtime::Trap> {
+        linker.func_wrap("vantis", "fs_read", |caller: wasmtime::Caller<'_, SandboxState>, _path_ptr: u32, _path_len: u32| -> Result<i32, anyhow::Error> {
             let state = caller.data();
             
             // Check permission
             if !state.permissions.contains(&PluginPermission::FileSystemRead) {
-                return Err(wasmtime::Trap::new("Permission denied: fs_read"));
+                return Err(anyhow::anyhow!("Permission denied: fs_read"));
             }
             
             // Implementation would read file and return content
@@ -219,12 +219,12 @@ impl EnhancedSandbox {
         })?;
         
         // File system write function
-        linker.func_wrap("vantis", "fs_write", |mut caller: wasmtime::Caller<'_, SandboxState>, path_ptr: u32, path_len: u32, data_ptr: u32, data_len: u32| -> Result<i32, wasmtime::Trap> {
+        linker.func_wrap("vantis", "fs_write", |caller: wasmtime::Caller<'_, SandboxState>, _path_ptr: u32, _path_len: u32, _data_ptr: u32, _data_len: u32| -> Result<i32, anyhow::Error> {
             let state = caller.data();
             
             // Check permission
             if !state.permissions.contains(&PluginPermission::FileSystemWrite) {
-                return Err(wasmtime::Trap::new("Permission denied: fs_write"));
+                return Err(anyhow::anyhow!("Permission denied: fs_write"));
             }
             
             // Implementation would write data to file
@@ -232,12 +232,12 @@ impl EnhancedSandbox {
         })?;
         
         // Network request function
-        linker.func_wrap("vantis", "http_request", |mut caller: wasmtime::Caller<'_, SandboxState>, url_ptr: u32, url_len: u32| -> Result<i32, wasmtime::Trap> {
+        linker.func_wrap("vantis", "http_request", |caller: wasmtime::Caller<'_, SandboxState>, _url_ptr: u32, _url_len: u32| -> Result<i32, anyhow::Error> {
             let state = caller.data();
             
             // Check permission
             if !state.permissions.contains(&PluginPermission::Network) {
-                return Err(wasmtime::Trap::new("Permission denied: http_request"));
+                return Err(anyhow::anyhow!("Permission denied: http_request"));
             }
             
             // Implementation would make HTTP request
@@ -259,9 +259,10 @@ impl EnhancedSandbox {
     
     /// Add permission policy
     pub fn add_policy(&self, policy: PermissionPolicy) {
+        let name = policy.plugin_name.clone();
         let mut policies = self.policies.write();
-        policies.insert(policy.plugin_name.clone(), policy);
-        debug!("✅ Added permission policy for: {}", policy.plugin_name);
+        policies.insert(name.clone(), policy);
+        debug!("✅ Added permission policy for: {}", name);
     }
     
     /// Get permission policy
@@ -279,15 +280,23 @@ impl EnhancedSandbox {
             self.create_policy(name, permissions.clone(), Vec::new())
         });
         
+        // Build store limits
+        let limiter = StoreLimitsBuilder::new()
+            .memory_size(self.max_memory)
+            .build();
+        
         // Create store with state
         let mut store = Store::new(&self.engine, SandboxState {
             plugin_name: name.to_string(),
-            limiter: ResourceLimiter::new(),
+            limiter,
             permissions: policy.allowed.clone(),
         });
         
         // Set fuel limit for timeout
-        store.add_fuel(self.timeout * 1_000_000)?; // 1 million fuel per second
+        store.set_fuel(self.timeout * 1_000_000)?; // 1 million fuel per second
+        
+        // Enable resource limiter
+        store.limiter(|state| &mut state.limiter);
         
         // Compile module
         let module = Module::from_binary(&self.engine, wasm_bytes)?;

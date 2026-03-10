@@ -46,7 +46,7 @@ hex = "0.4"
 chrono = { workspace = true }
 
 # Performance metrics
-prometheus = { version = "0.13", features = ["process"] }
+prometheus = { version = "0.14", features = ["process"] }
 
 # Semver for dependency resolution
 semver = "1.0"

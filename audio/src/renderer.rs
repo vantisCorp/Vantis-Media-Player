@@ -3,7 +3,8 @@
 //! Outputs audio using CPAL (bit-perfect playback).
 
 use anyhow::Result;
-use cpal::{Device, Sample, SampleFormat, Stream, StreamConfig};
+use cpal::traits::{DeviceTrait, StreamTrait};
+use cpal::{Device, FromSample, SampleFormat, Stream, StreamConfig};
 use parking_lot::Mutex;
 use std::sync::Arc;
 use tracing::info;
@@ -37,7 +38,7 @@ impl AudioRenderer {
         })
     }
     
-    fn create_stream<T: Sample>(
+    fn create_stream<T: cpal::Sample + FromSample<f32> + cpal::SizedSample>(
         device: &Device,
         config: StreamConfig,
         playing: Arc<Mutex<bool>>,
@@ -46,11 +47,11 @@ impl AudioRenderer {
         
         let stream = device.build_output_stream(
             &config,
-            move |data: &mut [T], _| {
+            move |data: &mut [T], _: &cpal::OutputCallbackInfo| {
                 if *playing.lock() {
                     // Render audio samples
                     for sample in data.iter_mut() {
-                        *sample = Sample::from(&0.0f32);
+                        *sample = T::from_sample(0.0f32);
                     }
                 }
             },

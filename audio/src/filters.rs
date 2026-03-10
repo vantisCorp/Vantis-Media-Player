@@ -885,7 +885,8 @@ impl PitchShifter {
     /// Process a single sample
     pub fn process(&mut self, input: f32) -> f32 {
         // Write to buffer
-        self.buffer[self.write_pos % self.buffer.len()] = input;
+        let buf_len = self.buffer.len();
+        self.buffer[self.write_pos % buf_len] = input;
         self.write_pos += 1;
 
         // Calculate read positions based on pitch shift

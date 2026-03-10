@@ -4,7 +4,7 @@
 
 use anyhow::Result;
 use tracing::debug;
-use wasmtime::{Caller, Linker, Extern, Func, Memory};
+use wasmtime::{Caller, Linker};
 
 use super::HostState;
 
@@ -120,7 +120,7 @@ fn seek(caller: Caller<HostState>, position_ms: u64) -> Result<(), anyhow::Error
 }
 
 /// Get current time
-fn get_time(caller: Caller<HostState>) -> Result<u64, anyhow::Error> {
+fn get_time(_caller: Caller<HostState>) -> Result<u64, anyhow::Error> {
     let time = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()

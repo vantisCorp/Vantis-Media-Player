@@ -100,18 +100,19 @@ pub struct BufferHandle {
 }
 
 impl BufferHandle {
-    /// Get read-only access to the buffer
-    pub fn as_slice(&self) -> &[u8] {
+    /// Get a copy of the buffer data
+    pub fn to_vec(&self) -> Vec<u8> {
         let pool = self.pool.lock();
         let block = &pool[self.block_id];
-        &block.data[self.offset..self.offset + self.size]
+        block.data[self.offset..self.offset + self.size].to_vec()
     }
     
-    /// Get mutable access to the buffer
-    pub fn as_mut_slice(&mut self) -> &mut [u8] {
+    /// Write data into the buffer
+    pub fn write_data(&self, data: &[u8]) {
         let mut pool = self.pool.lock();
         let block = &mut pool[self.block_id];
-        &mut block.data[self.offset..self.offset + self.size]
+        let end = self.offset + data.len().min(self.size);
+        block.data[self.offset..end].copy_from_slice(&data[..end - self.offset]);
     }
     
     /// Get buffer size

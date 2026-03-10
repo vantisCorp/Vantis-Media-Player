@@ -1,0 +1,60 @@
+# Cargo Deny Configuration
+# Checks for unapproved licenses, advisories, and duplicate dependencies
+# Compatible with cargo-deny 0.16+
+
+[graph]
+all-features = true
+
+[advisories]
+# Only fail on unmaintained crates that are direct workspace dependencies
+unmaintained = "none"
+# Only fail on unsound crates that are direct workspace dependencies
+unsound = "workspace"
+# Don't error on unused ignored advisories
+unused-ignored-advisory = "allow"
+
+# Advisory IDs to ignore
+ignore = []
+
+[licenses]
+# List of explicitly allowed licenses
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "ISC",
+    "MPL-2.0",
+    "Unicode-DFS-2016",
+    "Unicode-3.0",
+    "Zlib",
+    "OpenSSL",
+    "GPL-3.0",
+    "GPL-3.0-only",
+    "GPL-3.0-or-later",
+    "WTFPL",
+    "OFL-1.1",
+    "NCSA",
+    "CDLA-Permissive-2.0",
+]
+confidence-threshold = 0.8
+
+# Some crates don't have easily machine-readable licensing
+[[licenses.clarify]]
+name = "ring"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+highlight = "all"
+
+[sources]
+unknown-registry = "warn"
+unknown-git = "warn"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

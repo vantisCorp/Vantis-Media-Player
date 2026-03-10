@@ -57,7 +57,7 @@ mockall = "0.12"
 tempfile = "3.8"
 
 # Code coverage
-tarpaulin = "0.27"
+# cargo-tarpaulin is a CLI tool, installed via: cargo install cargo-tarpaulin
 
 [dev-dependencies]
 tokio-test = "0.4"

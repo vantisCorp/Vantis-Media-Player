@@ -124,23 +124,22 @@ impl AudioEngine {
         let config = StreamConfig {
             channels: default_config.channels(),
             sample_rate: default_config.sample_rate(),
-            buffer_size: default_config.buffer_size(),
+            buffer_size: cpal::BufferSize::Default,
         };
         
         let sample_format = default_config.sample_format();
         
-        self.device = Some(device);
-        self.config = Some(config);
-        self.sample_format = Some(sample_format);
-        
-        // Initialize renderer
-        let device = self.device.as_ref().unwrap();
-        self.renderer = Some(renderer::AudioRenderer::new(device, config, sample_format)?);
+        // Initialize renderer before moving config
+        self.renderer = Some(renderer::AudioRenderer::new(&device, config.clone(), sample_format)?);
         
         info!("✅ Audio device initialized");
         info!("   - Sample Rate: {} Hz", config.sample_rate.0);
         info!("   - Channels: {}", config.channels);
         info!("   - Format: {:?}", sample_format);
+        
+        self.device = Some(device);
+        self.config = Some(config);
+        self.sample_format = Some(sample_format);
         
         Ok(())
     }
@@ -159,7 +158,7 @@ impl AudioEngine {
         let probed = symphonia::default::get_probe()
             .format(&hint, mss, &format_opts, &metadata_opts)?;
         
-        let format = probed.format;
+        let mut format = probed.format;
         
         let track = format
             .tracks()
@@ -167,15 +166,18 @@ impl AudioEngine {
             .find(|t| t.codec_params.codec != CODEC_TYPE_NULL)
             .ok_or_else(|| anyhow::anyhow!("No valid audio track found"))?;
         
+        let track_id = track.id;
+        let codec_params = track.codec_params.clone();
+        
         let decoder_opts = DecoderOptions {
             verify: false,
             ..Default::default()
         };
         
         let decoder = symphonia::default::get_codecs()
-            .make(&track.codec_params, &decoder_opts)?;
+            .make(&codec_params, &decoder_opts)?;
         
-        self.decoder = Some(decoder::AudioDecoder::new(format, decoder, track.id));
+        self.decoder = Some(decoder::AudioDecoder::new(format, decoder, track_id));
         
         info!("✅ Audio loaded successfully");
         

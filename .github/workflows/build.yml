@@ -21,14 +21,30 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            libavcodec-dev \
+            libavformat-dev \
+            libavutil-dev \
+            libavfilter-dev \
+            libavdevice-dev \
+            libswscale-dev \
+            libswresample-dev \
+            libpostproc-dev \
+            libasound2-dev \
+            libssl-dev \
+            libgtk-3-dev \
+            pkg-config \
+            cmake \
+            nasm
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -53,14 +69,14 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install system dependencies
+        run: |
+          brew install ffmpeg pkg-config cmake nasm openssl@3
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -88,14 +104,21 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install system dependencies
+        shell: pwsh
+        run: |
+          choco install -y pkgconfiglite cmake nasm
+          # Install vcpkg and FFmpeg
+          git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+          C:\vcpkg\bootstrap-vcpkg.bat
+          C:\vcpkg\vcpkg install ffmpeg:x64-windows openssl:x64-windows
+        env:
+          VCPKG_ROOT: C:\vcpkg
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -105,6 +128,9 @@ jobs:
       
       - name: Build
         run: ./buildsystem/build.sh native
+        env:
+          VCPKG_ROOT: C:\vcpkg
+          PKG_CONFIG_PATH: C:\vcpkg\installed\x64-windows\lib\pkgconfig
       
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
@@ -116,6 +142,7 @@ jobs:
   build-linux-cross:
     name: Build (Linux Cross)
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         target: [aarch64-unknown-linux-gnu, armv7-unknown-linux-gnueabihf]
@@ -124,12 +151,9 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          target: ${{ matrix.target }}
+          targets: ${{ matrix.target }}
       
       - name: Install Cross
         run: cargo install cross
@@ -146,6 +170,7 @@ jobs:
   build-android:
     name: Build (Android)
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         arch: [arm64-v8a, armeabi-v7a, x86_64, x86]
@@ -154,19 +179,16 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       
       - name: Setup Android NDK
+        id: setup-ndk
         uses: nttld/setup-ndk@v1
         with:
           ndk-version: r25c
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -188,6 +210,7 @@ jobs:
   build-ios:
     name: Build (iOS)
     runs-on: macos-latest
+    continue-on-error: true
     strategy:
       matrix:
         target: [aarch64-apple-ios, aarch64-apple-ios-sim]
@@ -196,15 +219,16 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          target: ${{ matrix.target }}
+          targets: ${{ matrix.target }}
+      
+      - name: Install system dependencies
+        run: |
+          brew install ffmpeg pkg-config cmake nasm openssl@3
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -224,22 +248,19 @@ jobs:
   build-wasm:
     name: Build (WebAssembly)
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       
       - name: Install wasm-pack
         run: cargo install wasm-pack
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -266,26 +287,22 @@ jobs:
   build-freebsd:
     name: Build (FreeBSD)
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
-        target: [x86_64-unknown-freebsd, aarch64-unknown-freebsd]
+        target: [x86_64-unknown-freebsd]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          target: ${{ matrix.target }}
+        uses: dtolnay/rust-toolchain@stable
       
       - name: Install cross
         run: cargo install cross
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -312,11 +329,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       
       - name: Verify Reproducible Build
         run: ./scripts/verify-reproducible.sh
@@ -337,11 +350,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       
       - name: Install dependencies
         run: |

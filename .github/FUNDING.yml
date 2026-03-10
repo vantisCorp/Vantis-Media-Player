@@ -1,12 +1,10 @@
-# These are supported funding model platforms
-
-github: [vantisCorp]
-patreon: vantis
+github: vantisCorp
+patreon: vantisplayer
 open_collective: vantis
 ko_fi: vantis
-tidelift: # Replace with your Tidelift package name
-community_bridge: # Replace with your Community Bridge project name
+tidelift: npm/vantis-player
+community_bridge: vantis-media-player
 liberapay: vantis
-issuehunt: vantis
+issuehunt: vantisCorp/Vantis-Media-Player
 otechie: vantis
-custom: ['https://paypal.me/vantis', 'https://vantis.ai/donate']
+custom: ['https://paypal.me/vantisplayer', 'https://buymeacoffee.com/vantis']

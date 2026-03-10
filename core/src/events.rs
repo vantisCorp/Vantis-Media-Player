@@ -140,6 +140,7 @@ impl std::fmt::Display for PlaybackState {
 }
 
 /// Event subscription handle
+#[allow(dead_code)]
 pub struct Subscription {
     _id: uuid::Uuid,
     sender: mpsc::UnboundedSender<Event>,
@@ -171,16 +172,17 @@ impl EventBus {
     
     /// Subscribe to all events
     pub fn subscribe(&self) -> Subscription {
-        let (tx, rx) = mpsc::unbounded_channel();
+        let (tx, _rx) = mpsc::unbounded_channel();
         
         let mut subscribers = self.subscribers.write();
         subscribers.push(tx.clone());
         
         // Start listening for events
         let receiver = self.receiver.clone();
+        let tx_clone = tx.clone();
         tokio::spawn(async move {
-            while let Ok(event) = receiver.lock().await.recv().await {
-                let _ = tx.send(event);
+            while let Some(event) = receiver.lock().await.recv().await {
+                let _ = tx_clone.send(event);
             }
         });
         

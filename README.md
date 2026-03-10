@@ -27,9 +27,9 @@
 <!-- Badges Row 1 -->
 [![Rust](https://img.shields.io/badge/Rust-1.75+-000000?style=for-the-badge&logo=rust&logoColor=DC143C)](https://www.rust-lang.org)
 [![License](https://img.shields.io/badge/License-Dual_000000?style=for-the-badge&logoColor=DC143C)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-v2.0.0-000000?style=for-the-badge&logoColor=DC143C)](https://github.com/vantisCorp/VantisMedia/releases)
-[![Build Status](https://img.shields.io/badge/Build-Passing-000000?style=for-the-badge&logoColor=00FF00&logo=github-actions)](https://github.com/vantisCorp/VantisMedia/actions)
-[![Coverage](https://img.shields.io/badge/Coverage-94%25-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/VantisMedia)
+[![Version](https://img.shields.io/badge/Version-v1.6.0-000000?style=for-the-badge&logoColor=DC143C)](https://github.com/vantisCorp/Vantis-Media-Player/releases)
+[![Build Status](https://img.shields.io/badge/Build-Passing-000000?style=for-the-badge&logoColor=00FF00&logo=github-actions)](https://github.com/vantisCorp/Vantis-Media-Player/actions)
+[![Coverage](https://img.shields.io/badge/Coverage-94%25-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/Vantis-Media-Player)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Rustfmt-000000?style=for-the-badge&logoColor=DC143C)](https://github.com/rust-lang/rustfmt)
 
 <!-- Badges Row 2 -->
@@ -38,15 +38,15 @@
 [![Reddit](https://img.shields.io/badge/Reddit-Join-000000?style=for-the-badge&logo=reddit&logoColor=FF4500)](https://reddit.com/r/VantisPlayer)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-000000?style=for-the-badge&logo=linkedin&logoColor=0077B5)](https://linkedin.com/company/vantis)
 [![YouTube](https://img.shields.io/badge/YouTube-Subscribe-000000?style=for-the-badge&logo=youtube&logoColor=FF0000)](https://youtube.com/@VantisPlayer)
-[![GitLab](https://img.shields.io/badge/GitLab-Mirror-000000?style=for-the-badge&logo=gitlab&logoColor=FC6D26)](https://gitlab.com/vantisCorp/VantisMedia)
+[![GitLab](https://img.shields.io/badge/GitLab-Mirror-000000?style=for-the-badge&logo=gitlab&logoColor=FC6D26)](https://gitlab.com/vantisCorp/Vantis-Media-Player)
 
 <!-- Badges Row 3 -->
-[![GitHub Stars](https://img.shields.io/badge/Stars-⭐-000000?style=for-the-badge&logoColor=FFD700)](https://github.com/vantisCorp/VantisMedia/stargazers)
-[![GitHub Forks](https://img.shields.io/badge/Forks-🍴-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/VantisMedia/network/members)
-[![GitHub Issues](https://img.shields.io/badge/Issues-🐛-000000?style=for-the-badge&logoColor=FFA500)](https://github.com/vantisCorp/VantisMedia/issues)
-[![GitHub PRs](https://img.shields.io/badge/PRs-Welcome-000000?style=for-the-badge&logoColor=00BFFF)](https://github.com/vantisCorp/VantisMedia/pulls)
-[![Hits](https://hits.dwyl.com/vantisCorp/VantisMedia.svg)](https://hits.dwyl.com/vantisCorp/VantisMedia)
-[![Visitors](https://visitor-badge.laobi.icu/badge?page_id=vantisCorp.VantisMedia)](https://visitor-badge.laobi.icu/badge?page_id=vantisCorp.VantisMedia)
+[![GitHub Stars](https://img.shields.io/badge/Stars-⭐-000000?style=for-the-badge&logoColor=FFD700)](https://github.com/vantisCorp/Vantis-Media-Player/stargazers)
+[![GitHub Forks](https://img.shields.io/badge/Forks-🍴-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/Vantis-Media-Player/network/members)
+[![GitHub Issues](https://img.shields.io/badge/Issues-🐛-000000?style=for-the-badge&logoColor=FFA500)](https://github.com/vantisCorp/Vantis-Media-Player/issues)
+[![GitHub PRs](https://img.shields.io/badge/PRs-Welcome-000000?style=for-the-badge&logoColor=00BFFF)](https://github.com/vantisCorp/Vantis-Media-Player/pulls)
+[![Hits](https://hits.dwyl.com/vantisCorp/Vantis-Media-Player.svg)](https://hits.dwyl.com/vantisCorp/Vantis-Media-Player)
+[![Visitors](https://visitor-badge.laobi.icu/badge?page_id=vantisCorp.Vantis-Media-Player)](https://visitor-badge.laobi.icu/badge?page_id=vantisCorp.Vantis-Media-Player)
 
 <!-- Main Banner -->
 # 🎬 Vantis Media Player: The Last Interface
@@ -107,8 +107,8 @@
 
 ```bash
 # Three steps to get started
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -251,8 +251,8 @@ void main() {
 
 **From Source**
 ```bash
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player
 cargo build --release
 cargo run --release
 ```
@@ -271,11 +271,11 @@ docker run -it vantis/player
 **From Pre-built Binaries**
 ```bash
 # Linux
-wget https://github.com/vantisCorp/VantisMedia/releases/latest/download/vantis-linux.tar.gz
+wget https://github.com/vantisCorp/Vantis-Media-Player/releases/latest/download/vantis-linux.tar.gz
 tar -xzf vantis-linux.tar.gz
 
 # Windows
-wget https://github.com/vantisCorp/VantisMedia/releases/latest/download/vantis-windows.zip
+wget https://github.com/vantisCorp/Vantis-Media-Player/releases/latest/download/vantis-windows.zip
 unzip vantis-windows.zip
 ```
 
@@ -464,7 +464,7 @@ Phase 5:         ███████████████████░░
 <summary>🎬 Try our interactive demo (Click to expand)</summary>
 
 <video width="100%" controls>
-  <source src="https://github.com/vantisCorp/VantisMedia/raw/main/assets/demo.mp4" type="video/mp4">
+  <source src="https://github.com/vantisCorp/Vantis-Media-Player/raw/main/assets/demo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -507,15 +507,15 @@ We offer rewards for security vulnerabilities:
 - **Medium**: $2,000
 - **Low**: $500
 
-[Submit a vulnerability](https://github.com/vantisCorp/VantisMedia/security/advisories)
+[Submit a vulnerability](https://github.com/vantisCorp/Vantis-Media-Player/security/advisories)
 
 ### 🔗 Links
 - **Website**: [vantis.ai](https://vantis.ai)
 - **Documentation**: [docs.vantis.ai](https://docs.vantis.ai)
 - **Blog**: [blog.vantis.ai](https://blog.vantis.ai)
-- **GitHub**: [vantisCorp/VantisMedia](https://github.com/vantisCorp/VantisMedia)
-- **GitLab**: [vantisCorp/VantisMedia](https://gitlab.com/vantisCorp/VantisMedia)
-- **CodeSpace**: [Open in CodeSpace](https://github.com/codespaces/new?repo=vantisCorp/VantisMedia)
+- **GitHub**: [vantisCorp/Vantis-Media-Player](https://github.com/vantisCorp/Vantis-Media-Player)
+- **GitLab**: [vantisCorp/Vantis-Media-Player](https://gitlab.com/vantisCorp/Vantis-Media-Player)
+- **CodeSpace**: [Open in CodeSpace](https://github.com/codespaces/new?repo=vantisCorp/Vantis-Media-Player)
 
 ### 📜 Citation
 If you use Vantis Media Player in your research, please cite it:
@@ -525,7 +525,7 @@ If you use Vantis Media Player in your research, please cite it:
   author       = {Vantis Corp},
   year         = 2026,
   version      = {2.0.0},
-  url          = {https://github.com/vantisCorp/VantisMedia},
+  url          = {https://github.com/vantisCorp/Vantis-Media-Player},
   license      = {MIT + AGPL-3.0}
 }
 ```
@@ -543,14 +543,14 @@ If you use Vantis Media Player in your research, please cite it:
 </details>
 
 ### 🗺️ Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=vantisCorp/VantisMedia&type=Date)](https://star-history.com/#vantisCorp/VantisMedia&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=vantisCorp/Vantis-Media-Player&type=Date)](https://star-history.com/#vantisCorp/Vantis-Media-Player&Date)
 
 ### 🏆 Trophies
 [![Trophies](https://github-profile-trophy.vercel.app/?username=vantisCorp&title=Stars,Followers,Repositories,Issues,PullRequests)](https://github.com/vantisCorp)
 
 ### 📊 Statistics
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=vantisCorp&repo=VantisMedia&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=DC143C&icon_color=DC143C)
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=vantisCorp&repo=VantisMedia&theme=dark&hide_border=true&background=000000&stroke=DC143C&ring=DC143C&fire=DC143C)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=vantisCorp&repo=Vantis-Media-Player&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=DC143C&icon_color=DC143C)
+![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=vantisCorp&repo=Vantis-Media-Player&theme=dark&hide_border=true&background=000000&stroke=DC143C&ring=DC143C&fire=DC143C)
 
 ---
 
@@ -580,8 +580,8 @@ Zaawansowany odtwarzacz mediów zbudowany w całości w języku Rust z abstrakcj
 ### ⚡ Szybki Start
 ```bash
 # Trzy kroki, aby rozpocząć
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -620,8 +620,8 @@ Ein fortschrittlicher Mediaplayer, vollständig in Rust mit Zero-Cost-Abstraktio
 ### ⚡ Schneller Start
 ```bash
 # Drei Schritte zum Starten
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -660,8 +660,8 @@ cargo run --release
 ### ⚡ 快速开始
 ```bash
 # 三步开始
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -700,8 +700,8 @@ cargo run --release
 ### ⚡ Быстрый старт
 ```bash
 # Три шага для начала
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -740,8 +740,8 @@ cargo run --release
 ### ⚡ 빠른 시작
 ```bash
 # 3단계로 시작
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -780,8 +780,8 @@ Un reproductor multimedia avanzado construido completamente en Rust con abstracc
 ### ⚡ Inicio Rápido
 ```bash
 # Tres pasos para comenzar
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -820,8 +820,8 @@ Un lecteur multimédia avancé entièrement construit en Rust avec des abstracti
 ### ⚡ Démarrage Rapide
 ```bash
 # Trois étapes pour commencer
-git clone https://github.com/vantisCorp/VantisMedia.git
-cd VantisMedia/vantis-player && cargo build --release
+git clone https://github.com/vantisCorp/Vantis-Media-Player.git
+cd Vantis-Media-Player && cargo build --release
 cargo run --release
 ```
 
@@ -898,9 +898,9 @@ cargo run --release
 
 ### Star the Repo ⭐
 [![License](https://img.shields.io/badge/License-Dual_000000?style=for-the-badge&logo=mit&logoColor=DC143C)](LICENSE)
-[![GitHub Stars](https://img.shields.io/badge/Stars-⭐-000000?style=for-the-badge&logoColor=FFD700)](https://github.com/vantisCorp/VantisMedia/stargazers)
-[![GitHub Forks](https://img.shields.io/badge/Forks-🍴-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/VantisMedia/network/members)
-[![GitHub Issues](https://img.shields.io/badge/Issues-🐛-000000?style=for-the-badge&logoColor=FFA500)](https://github.com/vantisCorp/VantisMedia/issues)
+[![GitHub Stars](https://img.shields.io/badge/Stars-⭐-000000?style=for-the-badge&logoColor=FFD700)](https://github.com/vantisCorp/Vantis-Media-Player/stargazers)
+[![GitHub Forks](https://img.shields.io/badge/Forks-🍴-000000?style=for-the-badge&logoColor=00FF00)](https://github.com/vantisCorp/Vantis-Media-Player/network/members)
+[![GitHub Issues](https://img.shields.io/badge/Issues-🐛-000000?style=for-the-badge&logoColor=FFA500)](https://github.com/vantisCorp/Vantis-Media-Player/issues)
 
 ---
 
@@ -934,14 +934,14 @@ cargo run --release
 ## 📊 Project Statistics
 
 ### Code Statistics
-![GitHub language stats](https://github-readme-stats.vercel.app/api/top-langs/?username=vantisCorp&repo=VantisMedia&layout=compact&theme=dark&hide_border=true&bg_color=000000&title_color=DC143C)
+![GitHub language stats](https://github-readme-stats.vercel.app/api/top-langs/?username=vantisCorp&repo=Vantis-Media-Player&layout=compact&theme=dark&hide_border=true&bg_color=000000&title_color=DC143C)
 
 ### Activity Graph
-[![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=vantisCorp&repo=VantisMedia&theme=react-dark&hide_border=true&bg_color=000000&line=DC143C&point=FF0000)](https://github.com/ashutosh00710/github-readme-activity-graph)
+[![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=vantisCorp&repo=Vantis-Media-Player&theme=react-dark&hide_border=true&bg_color=000000&line=DC143C&point=FF0000)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
 ### Repository Size
-![GitHub repo size](https://img.shields.io/github/repo-size/vantisCorp/VantisMedia?style=flat-square&logo=github&labelColor=000000&color=DC143C)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/vantisCorp/VantisMedia?style=flat-square&logo=github&labelColor=000000&color=DC143C)
+![GitHub repo size](https://img.shields.io/github/repo-size/vantisCorp/Vantis-Media-Player?style=flat-square&logo=github&labelColor=000000&color=DC143C)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/vantisCorp/Vantis-Media-Player?style=flat-square&logo=github&labelColor=000000&color=DC143C)
 
 </div>
 
@@ -961,9 +961,9 @@ cargo run --release
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@VantisPlayer)
 
 ### Development Platforms
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vantisCorp/VantisMedia)
-[![GitLab](https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white)](https://gitlab.com/vantisCorp/VantisMedia)
-[![CodeSpace](https://img.shields.io/badge/CodeSpace-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://github.com/codespaces/new?repo=vantisCorp/VantisMedia)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vantisCorp/Vantis-Media-Player)
+[![GitLab](https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white)](https://gitlab.com/vantisCorp/Vantis-Media-Player)
+[![CodeSpace](https://img.shields.io/badge/CodeSpace-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://github.com/codespaces/new?repo=vantisCorp/Vantis-Media-Player)
 
 ### Support Us
 [![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-EA4AAA?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/vantisCorp)
@@ -1014,9 +1014,9 @@ See [LICENSE](LICENSE) for details.
 
 ## 🔒 Security
 
-- [Security Policy](https://github.com/vantisCorp/VantisMedia/security/policy)
-- [Vulnerability Reporting](https://github.com/vantisCorp/VantisMedia/security/advisories)
-- [SBOM](https://github.com/vantisCorp/VantisMedia/blob/main/SBOM.json)
+- [Security Policy](https://github.com/vantisCorp/Vantis-Media-Player/security/policy)
+- [Vulnerability Reporting](https://github.com/vantisCorp/Vantis-Media-Player/security/advisories)
+- [SBOM](https://github.com/vantisCorp/Vantis-Media-Player/blob/main/SBOM.json)
 
 ---
 

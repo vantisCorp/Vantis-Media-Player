@@ -191,13 +191,15 @@ impl FrameBufferManager {
             }
         }
         
+        let entry_size = entry.size;
+        let entry_index = entry.index;
         self.buffer.push_back(entry);
-        self.total_size.fetch_add(entry.size, Ordering::SeqCst);
+        self.total_size.fetch_add(entry_size, Ordering::SeqCst);
         self.current_usage.store(self.buffer.len(), Ordering::SeqCst);
         
         debug!(
             "Frame added to buffer: index={}, buffer_size={}, total_size={} bytes",
-            entry.index,
+            entry_index,
             self.buffer.len(),
             self.total_size.load(Ordering::SeqCst)
         );
@@ -216,10 +218,13 @@ impl FrameBufferManager {
     /// Remove a frame from the buffer
     pub fn remove_frame(&mut self, index: usize) -> Option<FrameBufferEntry> {
         if let Some(pos) = self.buffer.iter().position(|entry| entry.index == index) {
-            let entry = self.buffer.remove(pos);
-            self.total_size.fetch_sub(entry.size, Ordering::SeqCst);
-            self.current_usage.store(self.buffer.len(), Ordering::SeqCst);
-            Some(entry)
+            if let Some(entry) = self.buffer.remove(pos) {
+                self.total_size.fetch_sub(entry.size, Ordering::SeqCst);
+                self.current_usage.store(self.buffer.len(), Ordering::SeqCst);
+                Some(entry)
+            } else {
+                None
+            }
         } else {
             None
         }
@@ -253,7 +258,7 @@ impl FrameBufferManager {
 }
 
 /// Frame skipping strategy
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum FrameSkippingStrategy {
     /// No frame skipping
     None,

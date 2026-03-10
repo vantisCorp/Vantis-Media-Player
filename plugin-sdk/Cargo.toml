@@ -22,9 +22,10 @@ libloading = "0.8"
 dashmap = "5.5"
 parking_lot = "0.12"
 
-[dependencies.vantis-plugin-macros]
-path = "../plugin-macros"
-optional = true
+# [dependencies.vantis-plugin-macros]
+# path = "../plugin-macros"
+# optional = true
+# NOTE: plugin-macros crate not yet implemented
 
 [dev-dependencies]
 tokio = { version = "1.0", features = ["full"] }
@@ -34,7 +35,7 @@ tempfile = "3.0"
 default = ["host", "plugin"]
 host = []
 plugin = []
-macros = ["vantis-plugin-macros"]
+# macros = ["vantis-plugin-macros"]  # Not yet implemented
 dynamic-loading = []
 sandbox = []
 

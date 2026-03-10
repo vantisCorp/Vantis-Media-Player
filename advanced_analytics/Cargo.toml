@@ -16,7 +16,7 @@ uuid = { workspace = true }
 async-trait = "0.1"
 thiserror = "1.0"
 reqwest = { workspace = true, features = ["json"] }
-prometheus = "0.13"
+prometheus = "0.14"
 metrics = "0.21"
 metrics-exporter-prometheus = "0.12"
 sentry = "0.32"

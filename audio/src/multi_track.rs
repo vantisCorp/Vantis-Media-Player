@@ -256,8 +256,12 @@ impl MultiTrackAudio {
     
     /// Select a track by ID
     pub fn select_track(&mut self, id: u32) -> Result<()> {
-        let track = self.get_track(id)
-            .ok_or_else(|| anyhow::anyhow!("Audio track {} not found", id))?;
+        // Validate track exists and get display info before mutating
+        let (display_name, codec, channels, sample_rate) = {
+            let track = self.get_track(id)
+                .ok_or_else(|| anyhow::anyhow!("Audio track {} not found", id))?;
+            (track.display_name().to_string(), track.codec.clone(), track.channels, track.sample_rate)
+        };
         
         // Update selection state
         for t in &mut self.tracks {
@@ -267,9 +271,9 @@ impl MultiTrackAudio {
         let prev_id = self.selected_track_id;
         self.selected_track_id = Some(id);
         
-        info!("🔊 Selected audio track: {}", track.display_name());
+        info!("🔊 Selected audio track: {}", display_name);
         debug!("   Codec: {}, Channels: {}, Rate: {} Hz", 
-               track.codec, track.channels, track.sample_rate);
+               codec, channels, sample_rate);
         
         // Call callback if set
         if let Some(callback) = &self.on_track_change {

@@ -8,7 +8,7 @@ use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::sync::Arc;
 use tracing::{info, debug, error};
-use wasmtime::{Engine, Module, Store, Linker, Config};
+use wasmtime::{Engine, Module, Store, Linker, Config, StoreLimits, StoreLimitsBuilder};
 
 pub mod host;
 pub mod analytics;

@@ -15,7 +15,7 @@ uuid = { version = "1.6", features = ["v4", "serde"] }
 thiserror = "1.0"
 tracing = "0.1"
 num-complex = "0.4"
-rustfft = "0.13"
+rustfft = "6.1"
 ndarray = "0.15"
 nalgebra = "0.32"
 rubato = "0.14"

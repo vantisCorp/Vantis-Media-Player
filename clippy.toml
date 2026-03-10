@@ -1,0 +1,20 @@
+# Vantis Media Player - Clippy Configuration
+# https://doc.rust-lang.org/clippy/
+
+# Maximum cognitive complexity allowed for functions
+cognitive-complexity-threshold = 30
+
+# Maximum number of lines in a function body
+too-many-lines-threshold = 200
+
+# Maximum number of arguments a function can have
+too-many-arguments-threshold = 8
+
+# Type complexity threshold
+type-complexity-threshold = 350
+
+# Maximum number of struct fields
+max-struct-bools = 3
+
+# Allowed wildcard imports
+allowed-wildcard-imports = []

@@ -215,14 +215,14 @@ build_wasm() {
     log_info "Building for WebAssembly..."
     
     # Install wasm32 target
-    rustup target add wasm32-wasi 2>&1 | tee -a "$LOG_FILE"
+    rustup target add wasm32-wasip1 2>&1 | tee -a "$LOG_FILE"
     
     # Build wasm
-    cargo build --release --target=wasm32-wasi --target-dir="$BUILD_DIR" 2>&1 | tee -a "$LOG_FILE"
+    cargo build --release --target=wasm32-wasip1 --target-dir="$BUILD_DIR" 2>&1 | tee -a "$LOG_FILE"
     
     # Copy artifacts
     mkdir -p "$DIST_DIR/wasm"
-    cp "$BUILD_DIR/wasm32-wasi/release/$PROJECT_NAME.wasm" "$DIST_DIR/wasm/"
+    cp "$BUILD_DIR/wasm32-wasip1/release/$PROJECT_NAME.wasm" "$DIST_DIR/wasm/"
     
     # Optimize wasm with wasm-opt if available
     if command -v wasm-opt &> /dev/null; then

@@ -194,7 +194,7 @@ impl VantisCore {
         info!("Starting event loop...");
         
         // Create event channels
-        let (event_tx, mut event_rx) = mpsc::channel(1000);
+        let (_event_tx, mut event_rx) = mpsc::channel(1000);
         
         // Subscribe to event bus
         let _subscription = self.event_bus.subscribe();

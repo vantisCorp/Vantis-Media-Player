@@ -21,7 +21,7 @@ rand = "0.8"
 futures = "0.3"
 
 # GPU acceleration (optional)
-wgpu = { version = "0.18", optional = true }
+wgpu = { version = "0.19", features = ["webgl"], optional = true }
 bytemuck = { version = "1.14", features = ["derive"], optional = true }
 
 [dev-dependencies]
