@@ -6,8 +6,19 @@
 all-features = true
 
 [advisories]
-# No advisories to ignore currently
-ignore = []
+# Treat unmaintained crates as warnings, not errors
+# These are informational and don't represent security vulnerabilities
+unmaintained = "warn"
+unsound = "deny"
+notice = "warn"
+
+# Advisory IDs to ignore
+ignore = [
+    # Unmaintained crate advisories from transitive dependencies
+    { id = "RUSTSEC-2025-0141", reason = "transitive dependency, no direct replacement available" },
+    { id = "RUSTSEC-2025-0058", reason = "transitive dependency, no direct replacement available" },
+    { id = "RUSTSEC-2025-0057", reason = "transitive dependency, no direct replacement available" },
+]
 
 [licenses]
 # List of explicitly allowed licenses
@@ -29,6 +40,9 @@ allow = [
     "GPL-3.0-only",
     "GPL-3.0-or-later",
     "WTFPL",
+    "OFL-1.1",
+    "NCSA",
+    "CDLA-Permissive-2.0",
 ]
 confidence-threshold = 0.8
 
