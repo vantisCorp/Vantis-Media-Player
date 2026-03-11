@@ -28,7 +28,7 @@ jobs:
           override: true
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -60,7 +60,7 @@ jobs:
           override: true
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -95,7 +95,7 @@ jobs:
           override: true
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -166,7 +166,7 @@ jobs:
           ndk-version: r25c
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -204,7 +204,7 @@ jobs:
           target: ${{ matrix.target }}
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -239,7 +239,7 @@ jobs:
         run: cargo install wasm-pack
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
@@ -285,7 +285,7 @@ jobs:
         run: cargo install cross
       
       - name: Cache Cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/registry
